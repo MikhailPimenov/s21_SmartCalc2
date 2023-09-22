@@ -21,8 +21,9 @@ GTEST_LFLAGS=-lgtest -lgtest_main
 
 HEADERS=SmartCalc.h
 
-SOURCES=tests_main.c
-SOURCES+=test.c
+SOURCES=tests/tests_main.c
+SOURCES+=tests/test.c
+SOURCES+=main_c.c
 SOURCES+=stack.c
 SOURCES+=shunting_yard.c
 SOURCES+=parcer.c
@@ -30,7 +31,7 @@ SOURCES+=calc_rpn.c
 SOURCES+=bonus_part.c
 
 
-BINARIES=$(patsubst %.c,%.o,$(SOURSE_FILE))
+BINARIES=$(patsubst %.c,%.o,$(SOURCES))
 
 azaza:
 	$(wildcard SOURSE_FILE)
@@ -56,13 +57,17 @@ run:
 # 	$(CC) $(CFLAGS) $(ASAN) $(CCOV) $(SOURSE_FILE) -o test $(TFLAGS)
 # 	-./test
 
-test: run_tests gcov_report
+test: run_tests 
+# gcov_report
 
 run_tests: tests/tests_main.exe
 		./tests/tests_main.exe
 
 
 %.o: %.cc $(HEADERS)
+		$(CC) -c $(CFLAGS) $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS)
+
+%.o: %.c $(HEADERS)
 		$(CC) -c $(CFLAGS) $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS)
 
 
@@ -88,6 +93,7 @@ leakscheck: test
 
 clean:
 	rm -rf *.o *.a *.css index.html *.gcno *.gcda *.out *.info test report *.dSYM *.gcov build *.gch SmartCalc_dist SmartCalc_arch.tar.gz tests/*.exe
+	rm -rf *.gcda *.gcno tests/*.gcda tests/*.gcno
 
 rebuild: clean all
 

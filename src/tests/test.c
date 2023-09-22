@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 
-#include "SmartCalc.h"
+#include "../SmartCalc.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2
@@ -13,18 +13,8 @@
 namespace {
 
 
-// START_TEST(test_case_1) {
-//   char *input_str = "1+2*3";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 7, EPS);
-// }
-// END_TEST
 
-TEST(ExpressionComputation, T0OperatorSubscript) {
+TEST(ExpressionComputation, T0Simple) {
   const char *input_str = "1+2*3";
 
 
@@ -37,82 +27,97 @@ TEST(ExpressionComputation, T0OperatorSubscript) {
   EXPECT_NEAR(result, expected, EPS);
 }
 
-// START_TEST(test_case_2) {
-//   char *input_str = "2.0/(3.0+2.0)*5.0";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 2, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T1Simple) {
+  const char *input_str = "2.0/(3.0+2.0)*5.0";
 
-// START_TEST(test_case_3) {
-//   char *input_str = "1+2+(3*4)+(5.1+6.8)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 26.9, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_4) {
-//   char *input_str = "10.0+10.0*10.0";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 110, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const double expected = 2.0;
+  const int ex_expected = 0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_5) {
-//   char *input_str = "5.0mod3.0";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 2, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T2SimpleBraces) {
+  const char *input_str = "1+2+(3*4)+(5.1+6.8)";
 
-// START_TEST(test_case_6) {
-//   char *input_str = "1.0/2.0*(2.0-1.0)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0.5, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_7) {
-//   char *input_str = "(1-2-(0-3)-4)-5-(0-6)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, -1, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const double expected = 26.9;
+  const int ex_expected = 0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_8) {
-//   char *input_str = "(1+2)*((3-4)+1+(5-6+7))";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 18, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T3Simple) {
+  const char *input_str = "10.0+10.0*10.0";
+
+
+  double result = 0.0;
+  double x_value = 0.0;
+  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const double expected = 110.0;
+  const int ex_expected = 0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+
+TEST(ExpressionComputation, T4SimpleMod) {
+  const char *input_str = "5.0mod3.0";
+
+
+  double result = 0.0;
+  double x_value = 0.0;
+  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const double expected = 2.0;
+  const int ex_expected = 0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T5SimpleBraces) {
+  const char *input_str = "1.0/2.0*(2.0-1.0)";
+
+
+  double result = 0.0;
+  double x_value = 0.0;
+  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const double expected = 0.5;
+  const int ex_expected = 0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T6MoreBraces) {
+  const char *input_str = "(1-2-(0-3)-4)-5-(0-6)";
+
+
+  double result = 0.0;
+  double x_value = 0.0;
+  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const double expected = -1.0;
+  const int ex_expected = 0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T7MoreBraces) {
+  const char *input_str = "(1+2)*((3-4)+1+(5-6+7))";
+
+
+  double result = 0.0;
+  double x_value = 0.0;
+  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const double expected = 18.0;
+  const int ex_expected = 0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
 // START_TEST(test_case_9) {
 //   char *input_str = "sqrt(4)-1/2*sin(3^2-2)";
@@ -124,6 +129,7 @@ TEST(ExpressionComputation, T0OperatorSubscript) {
 //   ck_assert_double_eq_tol(result, 1.6715067, EPS);
 // }
 // END_TEST
+
 
 // START_TEST(test_case_10) {
 //   char *input_str = "2^3^2";
