@@ -3,7 +3,7 @@
 #include <math.h>
 
 #include "./ui_mainwindow.h"
-#include "SmartCalc.h"
+#include "model/SmartCalc.h"
 #include "credit_calc.h"
 #include "deposit_calc.h"
 

@@ -4,6 +4,7 @@
 
 #include "QtWidgets/qtableview.h"
 #include "ui_credit_calc.h"
+#include "model/SmartCalc.h"
 
 credit_calc::credit_calc(QWidget *parent)
     : QDialog(parent), ui(new Ui::credit_calc) {
@@ -17,6 +18,8 @@ void credit_calc::on_make_calc_clicked() {
   ui->monthly_payment->setText("");
   ui->overpayment->setText("");
   ui->total_sum->setText("");
+
+  azaza();
 
   credit_sum = ui->credit_sum->text().toDouble();
   credit_term = ui->credit_term->text().toInt();

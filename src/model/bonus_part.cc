@@ -65,3 +65,8 @@ int deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
   }
   return ex_code;
 }
+
+
+void azaza() {
+  
+}

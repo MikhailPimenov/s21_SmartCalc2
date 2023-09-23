@@ -4,7 +4,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "SmartCalc.h"
 #ifdef __cplusplus
 }
 #endif

@@ -3,13 +3,13 @@
 
 #include <QDialog>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include "SmartCalc.h"
-#ifdef __cplusplus
-}
-#endif
+// #ifdef __cplusplus
+// extern "C" {
+// #endif
+// #include "model/SmartCalc.h"
+// #ifdef __cplusplus
+// }
+// #endif
 
 namespace Ui {
 class deposit_calc;

@@ -1,10 +1,10 @@
-#ifndef SmartCalc_h
-#define SmartCalc_h
+#ifndef MODEL_SMARTCALC_H
+#define MODEL_SMARTCALC_H
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 typedef struct token {
   double value;
@@ -56,4 +56,6 @@ int deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
                     const double *add_sum, double *interest_income,
                     double *total_deposit_sum, double *tax_sum);
 
-#endif /* SmartCalc_h */
+void azaza();
+
+#endif  //  MODEL_SMARTCALC_H

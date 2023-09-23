@@ -33,8 +33,6 @@ SOURCES+=model/bonus_part.c
 
 BINARIES=$(patsubst %.c,%.o,$(SOURCES))
 
-azaza:
-	$(wildcard SOURSE_FILE)
 
 all: clean install run	
 
