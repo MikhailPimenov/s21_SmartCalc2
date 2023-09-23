@@ -19,16 +19,16 @@ GCOVR_LFLAGS=--coverage
 
 GTEST_LFLAGS=-lgtest -lgtest_main
 
-HEADERS=SmartCalc.h
+HEADERS=model/SmartCalc.h
 
 SOURCES=tests/tests_main.c
 SOURCES+=tests/test.c
-SOURCES+=main_c.c
-SOURCES+=stack.c
-SOURCES+=shunting_yard.c
-SOURCES+=parcer.c
-SOURCES+=calc_rpn.c
-SOURCES+=bonus_part.c
+SOURCES+=model/main_c.c
+SOURCES+=model/stack.c
+SOURCES+=model/shunting_yard.c
+SOURCES+=model/parcer.c
+SOURCES+=model/calc_rpn.c
+SOURCES+=model/bonus_part.c
 
 
 BINARIES=$(patsubst %.c,%.o,$(SOURCES))
@@ -93,7 +93,8 @@ leakscheck: test
 
 clean:
 	rm -rf *.o *.a *.css index.html *.gcno *.gcda *.out *.info test report *.dSYM *.gcov build *.gch SmartCalc_dist SmartCalc_arch.tar.gz tests/*.exe
-	rm -rf *.gcda *.gcno tests/*.gcda tests/*.gcno
+	rm -rf *.gcda *.gcno tests/*.o tests/*.gcda tests/*.gcno
+	rm -rf *.gcda *.gcno model/*.o model/*.gcda model/*.gcno
 
 rebuild: clean all
 
