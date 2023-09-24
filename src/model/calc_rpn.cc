@@ -1,33 +1,58 @@
 #include "model.h"
 
-double calc_rpn(token **input, double x_value) {
+// double calc_rpn(token **input, double x_value) {
+double calc_rpn(std::stack<token>& input, double x_value) {
   double result = 0;
-  token *stack = NULL;
-  while (*input != NULL) {
-    if ((*input)->type == type_number) {
-      copy_token(input, &stack);
-      pop(input);
-    } else if ((*input)->type == type_x) {
-      (*input)->value = x_value;
-      copy_token(input, &stack);
-      pop(input);
-    } else if ((*input)->type >= type_sum && (*input)->type <= type_mod &&
-               stack != NULL) {
-      double number2 = stack->value;
-      pop(&stack);
-      result = binary_fn_calc(stack->value, number2, (*input)->type);
-      pop(&stack);
-      pop(input);
-      push(&stack, result, type_number, 1);
-    } else if ((*input)->type >= type_cos && stack != NULL) {
-      result = unary_fn_calc(stack->value, (*input)->type);
-      pop(&stack);
-      pop(input);
-      push(&stack, result, type_number, 1);
+  // token *stack = NULL;
+  std::stack<token> stack;
+  // while (*input != NULL) {
+  while (!input.empty()) {
+    // if ((*input)->type == type_number) {
+    if (input.top().type == type_number) {
+      // copy_token(input, &stack);
+      stack.push(input.top());
+      // pop(input);
+      input.pop();
+    // } else if ((*input)->type == type_x) {
+    } else if (input.top().type == type_x) {
+      // (*input)->value = x_value;
+      input.top().value = x_value;
+      // copy_token(input, &stack);
+      stack.push(input.top());
+      // pop(input);
+      input.pop();
+    // } else if ((*input)->type >= type_sum && (*input)->type <= type_mod &&
+    } else if (input.top().type >= type_sum && input.top().type <= type_mod &&
+              //  stack != NULL) {
+               !stack.empty()) {
+      // double number2 = stack->value;
+      double number2 = stack.top().value;
+      // pop(&stack);
+      stack.pop();
+      // result = binary_fn_calc(stack->value, number2, (*input)->type);
+      result = binary_fn_calc(stack.top().value, number2, input.top().type);
+      // pop(&stack);
+      stack.pop();
+      // pop(input);
+      input.pop();
+      // push(&stack, result, type_number, 1);
+      stack.push(token(result, type_number, 1));
+    // } else if ((*input)->type >= type_cos && stack != NULL) {
+    } else if (input.top().type >= type_cos && !stack.empty()) {
+      // result = unary_fn_calc(stack->value, (*input)->type);
+      result = unary_fn_calc(stack.top().value, input.top().type);
+      // pop(&stack);
+      stack.pop();
+      // pop(input);
+      input.pop();
+      // push(&stack, result, type_number, 1);
+      stack.push(token(result, type_number, 1));
     }
   }
-  if (stack != NULL) result = stack->value;
-  pop(&stack);
+  // if (stack != NULL) result = stack->value;
+  if (!stack.empty()) result = stack.top().value;
+  // pop(&stack);
+  stack.pop();
   return result;
 }
 

@@ -10,9 +10,9 @@ deposit_calc::deposit_calc(QWidget *parent)
 deposit_calc::~deposit_calc() { delete ui; }
 
 void deposit_calc::on_pushButton_clicked() {
-  double deposit_sum;
-  float deposit_percent;
-  float tax_percent;
+  double deposit_sum = 0.0;
+  float deposit_percent = 0.0f;
+  float tax_percent = 0.0f;
   int type_cap = 0;
   int type_pay = 0;
 

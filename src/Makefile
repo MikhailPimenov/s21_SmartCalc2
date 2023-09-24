@@ -3,7 +3,7 @@ CFLAGS=-Wall -Werror -Wextra
 CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g -Werror
 # STRICT_CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g -Werror
 CCOV = -fprofile-arcs -ftest-coverage
-SOURSE_FILE = *.c SmartCalc.h
+# SOURSE_FILE = *.c SmartCalc.h
 # COVFLAGS = --coverage
 COVFLAGS=$(shell pkg-config --cflags --libs gcovr)
 LDFLAGS = -lgcov
@@ -21,14 +21,14 @@ GTEST_LFLAGS=-lgtest -lgtest_main
 
 HEADERS=model/SmartCalc.h
 
-SOURCES=tests/tests_main.c
-SOURCES+=tests/test.c
-SOURCES+=model/main_c.c
-SOURCES+=model/stack.c
-SOURCES+=model/shunting_yard.c
-SOURCES+=model/parcer.c
-SOURCES+=model/calc_rpn.c
-SOURCES+=model/bonus_part.c
+SOURCES=tests/tests_main.cc
+SOURCES+=tests/test.cc
+SOURCES+=model/main_c.cc
+SOURCES+=model/stack.cc
+SOURCES+=model/shunting_yard.cc
+SOURCES+=model/parcer.cc
+SOURCES+=model/calc_rpn.cc
+SOURCES+=model/bonus_part.cc
 
 
 BINARIES=$(patsubst %.c,%.o,$(SOURCES))

@@ -8,12 +8,13 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# TODO: do it in CMakeLists.txt for view but not here
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS PrintSupport)
 
 set(PROJECT_SOURCES
-    entry_point.cpp
+entry_point.cpp
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/model)
@@ -24,27 +25,28 @@ include_directories(${PROJECT_SOURCE_DIR}/view)
 link_directories(${PROJECT_SOURCE_DIR}/view)
 add_subdirectory(${PROJECT_SOURCE_DIR}/view)
 
+# TODO: do it in CMakeLists.txt for view but not here
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(SmartCalc_1_0
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
+qt_add_executable(SmartCalc_1_0
+MANUAL_FINALIZATION
+${PROJECT_SOURCES}
+)
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SmartCalc_1_0 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
-    if(ANDROID)
-        add_library(SmartCalc_1_0 SHARED
-            ${PROJECT_SOURCES}
-        )
+if(ANDROID)
+add_library(SmartCalc_1_0 SHARED
+${PROJECT_SOURCES}
+)
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(SmartCalc_1_0
-            ${PROJECT_SOURCES}
-        )
-    endif()
+else()
+add_executable(SmartCalc_1_0
+${PROJECT_SOURCES}
+)
+endif()
 endif()
 # add_executable(SmartCalc_1_0 ${PROJECT_SOURCES})
 target_link_libraries(SmartCalc_1_0 PUBLIC view_target)
@@ -52,10 +54,10 @@ target_link_libraries(SmartCalc_1_0 PUBLIC model_target)
 
 
 set_target_properties(SmartCalc_1_0 PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
+MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+MACOSX_BUNDLE TRUE
+WIN32_EXECUTABLE TRUE
 )
 

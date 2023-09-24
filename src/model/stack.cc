@@ -26,9 +26,13 @@ void copy_token(token **input, token **output) {
   push(output, (*input)->value, (*input)->type, (*input)->precedence);
 }
 
-void flip_stack(token **input, token **output) {
-  while (*input != NULL) {
-    copy_token(input, output);
-    pop(input);
+// void flip_stack(token **input, token **output) {
+void flip_stack(std::stack<token>& input, std::stack<token>& output) {
+  // while (*input != NULL) {
+  while (!input.empty()) {
+    // copy_token(input, output);
+    output.push(input.top());
+    // pop(input);
+    input.pop();
   }
 }

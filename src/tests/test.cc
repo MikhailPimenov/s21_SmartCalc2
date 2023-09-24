@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 
-#include "../model/SmartCalc.h"
+#include "../model/model.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2
