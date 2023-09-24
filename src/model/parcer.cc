@@ -1,7 +1,6 @@
 #include "model.h"
 
-// int parcer(const char *input_str, token **head) {
-int parcer(const char *input_str, std::stack<token>& head) {
+int Model::parcer(const char *input_str, std::stack<token>& head) {
   int ex_code = 0;
   int len = (int)strlen(input_str);
   if (len == 0) ex_code = 1;
@@ -37,29 +36,24 @@ int parcer(const char *input_str, std::stack<token>& head) {
         }
         i++;
         number = strtod(&input_str[i], NULL);
-        // push(head, number, type_number, 1);
         head.push(token(number, type_number, 1));
         ++operand_qty;
         i--;
         break;
       case '(':
         open_bracket_qty += 1;
-        // push(head, 0, type_open_bracket, 0);
         head.push(token(0, type_open_bracket, 0));
         i--;
         break;
       case ')':
         close_bracket_qty += 1;
-        // push(head, 0, type_close_bracket, 0);
         head.push(token(0, type_close_bracket, 0));
         i--;
         break;
       case '+':
         if (i == 0 || input_str[i - 1] == '(') {
-          // push(head, 0, type_number, 1);
           head.push(token(0, type_number, 1));
         }
-        // push(head, 0, type_sum, 6);
         head.push(token(0, type_sum, 6));
         use_double_operand_operator = 1;  // true
         i--;
@@ -68,85 +62,70 @@ int parcer(const char *input_str, std::stack<token>& head) {
         if (i == 0 || input_str[i - 1] == '(') {
           head.push(token(0, type_number, 1));
         }
-        // push(head, 0, type_minus, 6);
         head.push(token(0, type_minus, 6));
         use_double_operand_operator = 1;  // true
         i--;
         break;
       case '*':
-        // push(head, 0, type_mult, 8);
         head.push(token(0, type_mult, 8));
         use_double_operand_operator = 1;  // true
         i--;
         break;
       case '/':
-        // push(head, 0, type_div, 8);
         head.push(token(0, type_div, 8));
         use_double_operand_operator = 1;  // true
         i--;
         break;
       case '^':
-        // push(head, 0, type_power, 9);
         head.push(token(0, type_power, 9));
         use_double_operand_operator = 1;  // true
         i--;
         break;
       case 'd':
-        // push(head, 0, type_mod, 8);
         head.push(token(0, type_mod, 8));
         use_double_operand_operator = 1;  // true
         i = i - 3;
         break;
       case 's':
         if (i > 2 && input_str[i - 3] == 'a') {
-          // push(head, 0, type_acos, 8);
           head.push(token(0, type_acos, 8));
           i = i - 4;
         } else {
-          // push(head, 0, type_cos, 8);
           head.push(token(0, type_cos, 8));
           i = i - 3;
         }
         break;
       case 'n':
         if (i > 0 && input_str[i - 1] == 'l') {
-          // push(head, 0, type_ln, 8);
           head.push(token(0, type_ln, 8));
           i = i - 2;
         } else if (i > 0 && input_str[i - 1] == 'a') {
           if (i > 2 && input_str[i - 3] == 'a') {
-            // push(head, 0, type_atan, 8);
             head.push(token(0, type_atan, 8));
             i = i - 4;
           } else {
-            // push(head, 0, type_tan, 8);
             head.push(token(0, type_tan, 8));
             i = i - 3;
           }
         } else if (i > 0 && input_str[i - 1] == 'i') {
           if (i > 2 && input_str[i - 3] == 'a') {
-            // push(head, 0, type_asin, 8);
             head.push(token(0, type_asin, 8));
             i = i - 4;
           } else {
-            // push(head, 0, type_sin, 8);
             head.push(token(0, type_sin, 8));
             i = i - 3;
           }
         }
         break;
       case 't':
-        // push(head, 0, type_sqrt, 8);
         head.push(token(0, type_sqrt, 8));
         i = i - 4;
         break;
       case 'g':
-        // push(head, 0, type_log, 8);
         head.push(token(0, type_log, 8));
         i = i - 3;
         break;
       case 'x':
-        // push(head, 0, type_x, 1);
         head.push(token(0, type_x, 1));
         i--;
         break;

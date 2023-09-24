@@ -9,8 +9,8 @@
 
 QString input_str;
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QWidget *parent, ExampleController* controller)
+    : QMainWindow(parent), ui(new Ui::MainWindow), controller_(controller) {
   ui->setupUi(this);
 
   connect(ui->pushButton_0, SIGNAL(clicked()), this, SLOT(push_button()));
@@ -177,8 +177,8 @@ void MainWindow::on_pushButton_equal_clicked() {
     char *str = ba.data();
     double result = 0;
     double x_value = ui->x_value->text().toDouble();
-    int ex_code = 0;
-    ex_code = main_for_calc(str, &result, x_value);
+    int ex_code = main_for_calc(str, &result, x_value);
+    // int ex_code = controller->main_for_calc(str, &result, x_value);
     input_str.clear();
     ui->label->clear();
 

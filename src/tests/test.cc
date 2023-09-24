@@ -20,7 +20,7 @@ TEST(ExpressionComputation, T0Simple) {
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
   const double expected = 7.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -33,7 +33,7 @@ TEST(ExpressionComputation, T1Simple) {
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
   const double expected = 2.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -46,7 +46,7 @@ TEST(ExpressionComputation, T2SimpleBraces) {
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
   const double expected = 26.9;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -59,7 +59,7 @@ TEST(ExpressionComputation, T3Simple) {
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
   const double expected = 110.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -73,7 +73,7 @@ TEST(ExpressionComputation, T4SimpleMod) {
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
   const double expected = 2.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -86,7 +86,7 @@ TEST(ExpressionComputation, T5SimpleBraces) {
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
   const double expected = 0.5;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -99,7 +99,7 @@ TEST(ExpressionComputation, T6MoreBraces) {
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
   const double expected = -1.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -112,7 +112,7 @@ TEST(ExpressionComputation, T7MoreBraces) {
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = main_for_calc(input_str, &result, x_value);
+  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
   const double expected = 18.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);

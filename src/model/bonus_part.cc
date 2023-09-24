@@ -1,14 +1,16 @@
+#include <cmath>
 #include "model.h"
 
-int credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
+
+int Model::credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
                    int type, double *monthlty_payment, double *overpayment,
                    double *total_sum) {
   int ex_code = 0;
   if (type == 1) {
     credit_percent = credit_percent / 100 / 12;
     *monthlty_payment = credit_sum * credit_percent *
-                        pow(1. + credit_percent, credit_term) /
-                        (pow(1. + credit_percent, credit_term) - 1.);
+                        std::pow(1. + credit_percent, credit_term) /
+                        (std::pow(1. + credit_percent, credit_term) - 1.);
     *total_sum = *monthlty_payment * credit_term;
     *overpayment = *total_sum - credit_sum;
   } else if (type == 2) {
@@ -64,9 +66,4 @@ int deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
     *tax_sum = *interest_income * tax_percent / 100;
   }
   return ex_code;
-}
-
-
-void azaza() {
-  
 }
