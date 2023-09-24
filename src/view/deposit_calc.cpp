@@ -1,5 +1,5 @@
 #include "deposit_calc.h"
-#include "model/SmartCalc.h"
+#include "../model/model.h"
 #include "ui_deposit_calc.h"
 
 deposit_calc::deposit_calc(QWidget *parent)

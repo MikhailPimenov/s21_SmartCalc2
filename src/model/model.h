@@ -1,5 +1,5 @@
-#ifndef MODEL_SMARTCALC_H
-#define MODEL_SMARTCALC_H
+#ifndef SRC_MODEL_MODEL_H
+#define SRC_MODEL_MODEL_H
 
 #include <cmath>
 #include <cstdio>
@@ -56,6 +56,4 @@ int deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
                     const double *add_sum, double *interest_income,
                     double *total_deposit_sum, double *tax_sum);
 
-void azaza();
-
-#endif  //  MODEL_SMARTCALC_H
+#endif  //  SRC_MODEL_MODEL_H

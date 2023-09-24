@@ -3,13 +3,6 @@
 
 #include <QDialog>
 
-// #ifdef __cplusplus
-// extern "C" {
-// #endif
-// #include "model/SmartCalc.h"
-// #ifdef __cplusplus
-// }
-// #endif
 
 namespace Ui {
 class credit_calc;

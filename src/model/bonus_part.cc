@@ -1,4 +1,4 @@
-#include "SmartCalc.h"
+#include "model.h"
 
 int credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
                    int type, double *monthlty_payment, double *overpayment,

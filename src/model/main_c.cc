@@ -1,4 +1,4 @@
-#include "SmartCalc.h"
+#include "model.h"
 
 int main_for_calc(const char *input_str, double *result, double x_value) {
   printf("main_for_calc...\n");

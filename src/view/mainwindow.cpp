@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 
-#include <math.h>
+#include <cmath>
 
 #include "./ui_mainwindow.h"
-#include "model/SmartCalc.h"
+#include "../model/model.h"
 #include "credit_calc.h"
 #include "deposit_calc.h"
 

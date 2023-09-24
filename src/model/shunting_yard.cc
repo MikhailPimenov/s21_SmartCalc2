@@ -1,4 +1,4 @@
-#include "SmartCalc.h"
+#include "model.h"
 
 void shunting_yard(token **head, token **output) {
   token *stack = NULL;

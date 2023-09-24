@@ -13,16 +13,16 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS PrintSupport)
 
 set(PROJECT_SOURCES
-    entry_point.cpp
+        main.cpp
+        mainwindow.cpp
+        qcustomplot.cpp
+        credit_calc.cpp
+        deposit_calc.cpp
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/model)
 link_directories(${PROJECT_SOURCE_DIR}/model)
 add_subdirectory(${PROJECT_SOURCE_DIR}/model)
-
-include_directories(${PROJECT_SOURCE_DIR}/view)
-link_directories(${PROJECT_SOURCE_DIR}/view)
-add_subdirectory(${PROJECT_SOURCE_DIR}/view)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(SmartCalc_1_0
@@ -46,8 +46,8 @@ else()
         )
     endif()
 endif()
-# add_executable(SmartCalc_1_0 ${PROJECT_SOURCES})
-target_link_libraries(SmartCalc_1_0 PUBLIC view_target)
+target_link_libraries(SmartCalc_1_0 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(SmartCalc_1_0 PRIVATE Qt${QT_VERSION_MAJOR}::PrintSupport)
 target_link_libraries(SmartCalc_1_0 PUBLIC model_target)
 
 
@@ -59,3 +59,7 @@ set_target_properties(SmartCalc_1_0 PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(SmartCalc_1_0)
+endif()

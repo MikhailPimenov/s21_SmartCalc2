@@ -1,4 +1,4 @@
-#include "SmartCalc.h"
+#include "model.h"
 
 double calc_rpn(token **input, double x_value) {
   double result = 0;

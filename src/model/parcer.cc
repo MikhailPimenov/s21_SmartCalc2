@@ -1,4 +1,4 @@
-#include "SmartCalc.h"
+#include "model.h"
 
 int parcer(const char *input_str, token **head) {
   int ex_code = 0;

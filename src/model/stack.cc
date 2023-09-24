@@ -1,4 +1,4 @@
-#include "SmartCalc.h"
+#include "model.h"
 
 void push(token **head, double value, int type, int precedence) {
   token *tmp = (token *)malloc(sizeof(token));

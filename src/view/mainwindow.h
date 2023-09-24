@@ -1,13 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-#ifdef __cplusplus
-}
-#endif
-
 #include <QMainWindow>
 #include <cmath>
 
