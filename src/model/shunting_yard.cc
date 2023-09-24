@@ -1,7 +1,7 @@
 #include "model.h"
 
-void Model::shunting_yard(std::stack<token>& head, std::stack<token>& output) {
-  std::stack<token> stack;
+void Model::shunting_yard(std::stack<Token>& head, std::stack<Token>& output) {
+  std::stack<Token> stack;
   while (!head.empty()) {
     if (head.top().type == type_number || head.top().type == type_x) {
       output.push(head.top());

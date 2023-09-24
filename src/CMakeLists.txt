@@ -16,6 +16,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS PrintSupport)
 set(PROJECT_SOURCES
     entry_point.cpp
 )
+add_compile_options(-g)
 
 include_directories(${PROJECT_SOURCE_DIR}/model)
 link_directories(${PROJECT_SOURCE_DIR}/model)

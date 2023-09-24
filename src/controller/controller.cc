@@ -2,6 +2,7 @@
 #include "../model/model.h"
 
 Controller::Controller() {}
+
 int Controller::main_for_calc(const char *input_str, double *result, double x_value) {
     return Model::main_for_calc(input_str, result, x_value);
 }

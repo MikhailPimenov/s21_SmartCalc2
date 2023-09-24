@@ -8,6 +8,8 @@
 #include "deposit_calc.h"
 #include "../controller/controller.h"
 
+#include <iostream>
+
 MainWindow::MainWindow(QWidget *parent, Controller* controller)
     : QMainWindow(parent), ui(new Ui::MainWindow), controller_(controller) {
   ui->setupUi(this);
@@ -242,9 +244,11 @@ void MainWindow::on_pushButton_graph_clicked() {
   char *str = ba.data();
 
   for (int i = 0; i < x_range && ex_code == 0; ++i) {
+    std::cout << "controller_->main_for_calc()\n";
     x[i] = x_min + x_step * i;
     double result = 0;
     ex_code = controller_->main_for_calc(str, &result, x[i]);
+    std::cout << "ex_code = " << ex_code << '\n';
     y[i] = result;
   }
 

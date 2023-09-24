@@ -9,6 +9,7 @@ set(VIEW_SOURCES
         credit_calc.cpp
         deposit_calc.cpp
 )
+add_compile_options(-g)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_library(view_target STATIC

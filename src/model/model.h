@@ -10,13 +10,13 @@
 
 class Model {
 private:
-  struct token {
+  struct Token {
     double value;
     int type;
     int precedence;
 
   public:
-    token(double v, int t, int p) : value(v), type(t), precedence(p) {}
+    Token(double v, int t, int p) : value(v), type(t), precedence(p) {}
   };
 
   enum fn_type {
@@ -53,13 +53,13 @@ public:
 
 
 private:
-  static int parcer(const char *input_str, std::stack<token>& head);
-  static void shunting_yard(std::stack<token>& head, std::stack<token>& output);
-  static double calc_rpn(std::stack<token>& output, double x_value);
+  static int parcer(const char *input_str, std::stack<Token>& head);
+  static void shunting_yard(std::stack<Token>& head, std::stack<Token>& output);
+  static double calc_rpn(std::stack<Token>& output, double x_value);
   static double unary_fn_calc(double number1, int type);
   static double binary_fn_calc(double number1, double number2, int type);
 
-  static void flip_stack(std::stack<token>& input, std::stack<token>& output);
+  static void flip_stack(std::stack<Token>& input, std::stack<Token>& output);
 };
 
 #endif  //  SRC_MODEL_MODEL_H

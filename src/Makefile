@@ -2,7 +2,7 @@ CC=g++
 CFLAGS=-Wall -Werror -Wextra
 CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g -Werror
 # STRICT_CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g -Werror
-CCOV = -fprofile-arcs -ftest-coverage
+CCOV=-fprofile-arcs -ftest-coverage
 # SOURSE_FILE = *.c SmartCalc.h
 # COVFLAGS = --coverage
 COVFLAGS=$(shell pkg-config --cflags --libs gcovr)

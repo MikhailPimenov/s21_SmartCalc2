@@ -1,9 +1,9 @@
 #include <cmath>
 #include "model.h"
 
-double Model::calc_rpn(std::stack<token>& input, double x_value) {
+double Model::calc_rpn(std::stack<Token>& input, double x_value) {
   double result = 0;
-  std::stack<token> stack;
+  std::stack<Token> stack;
   while (!input.empty()) {
     if (input.top().type == type_number) {
       stack.push(input.top());
@@ -19,12 +19,12 @@ double Model::calc_rpn(std::stack<token>& input, double x_value) {
       result = binary_fn_calc(stack.top().value, number2, input.top().type);
       stack.pop();
       input.pop();
-      stack.push(token(result, type_number, 1));
+      stack.push(Token(result, type_number, 1));
     } else if (input.top().type >= type_cos && !stack.empty()) {
       result = unary_fn_calc(stack.top().value, input.top().type);
       stack.pop();
       input.pop();
-      stack.push(token(result, type_number, 1));
+      stack.push(Token(result, type_number, 1));
     }
   }
   if (!stack.empty()) result = stack.top().value;
