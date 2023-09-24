@@ -26,7 +26,7 @@ int Model::credit_calc_fn(double credit_sum, int credit_term, float credit_perce
   return ex_code;
 }
 
-int deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
+int Model::deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
                     float tax_percent, int type_cap, int type_pay,
                     const double *add_sum, double *interest_income,
                     double *total_deposit_sum, double *tax_sum) {
