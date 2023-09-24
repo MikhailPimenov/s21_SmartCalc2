@@ -61,9 +61,7 @@ void credit_calc::on_make_table_clicked() {
     }
   } else if (type == 2) {
     for (int i = 0; i < credit_term; i++) {
-      double month_pay_count;
-      month_pay_count =
-          credit_sum / credit_term +
+      double month_pay_count = credit_sum / credit_term +
           (credit_sum - monthly_payment * i) * credit_percent / 1200;
       QTableWidgetItem *itm =
           new QTableWidgetItem(QString::number(month_pay_count));
