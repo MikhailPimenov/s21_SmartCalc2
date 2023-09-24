@@ -4,9 +4,9 @@
 
 #include "QtWidgets/qtableview.h"
 #include "ui_credit_calc.h"
-#include "../model/model.h"
+#include "../controller/controller.h"
 
-credit_calc::credit_calc(QWidget *parent)
+credit_calc::credit_calc(QWidget *parent, Controller* controller_)
     : QDialog(parent), ui(new Ui::credit_calc) {
   ui->setupUi(this);
 }
@@ -37,7 +37,7 @@ void credit_calc::on_make_calc_clicked() {
     double overpayment;
     double total_sum;
 
-    credit_calc_fn(credit_sum, credit_term, credit_percent, type,
+    controller_->credit_calc_fn(credit_sum, credit_term, credit_percent, type,
                    &monthly_payment, &overpayment, &total_sum);
 
     QString mon_pay = QString::number(monthly_payment, 'f', 2);

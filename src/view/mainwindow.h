@@ -14,12 +14,13 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(QWidget *parent = nullptr, class ExampleController* controller = nullptr);
+  MainWindow(QWidget *parent = nullptr, class Controller* controller = nullptr);
   ~MainWindow();
 
  private:
   Ui::MainWindow *ui;
-  ExampleController* controller_ = nullptr;
+  Controller* controller_ = nullptr;
+  QString string_;
   
 
  private slots:

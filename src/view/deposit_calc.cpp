@@ -1,8 +1,8 @@
 #include "deposit_calc.h"
-#include "../model/model.h"
 #include "ui_deposit_calc.h"
+#include "../controller/controller.h"
 
-deposit_calc::deposit_calc(QWidget *parent)
+deposit_calc::deposit_calc(QWidget *parent, Controller* controller_)
     : QDialog(parent), ui(new Ui::deposit_calc) {
   ui->setupUi(this);
 }
@@ -61,7 +61,7 @@ void deposit_calc::on_pushButton_clicked() {
     double tax_sum = 0;
     int ex_code = 0;
 
-    ex_code = deposit_calc_fn(deposit_sum, deposit_term, deposit_percent,
+    ex_code = controller_->deposit_calc_fn(deposit_sum, deposit_term, deposit_percent,
                               tax_percent, type_cap, type_pay, add_sum,
                               &interest_income, &total_deposit_sum, &tax_sum);
     if (interest_income >= 0 && total_deposit_sum >= 0 && ex_code == 0) {

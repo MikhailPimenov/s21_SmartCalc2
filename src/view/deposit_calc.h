@@ -3,13 +3,6 @@
 
 #include <QDialog>
 
-// #ifdef __cplusplus
-// extern "C" {
-// #endif
-// #include "model/SmartCalc.h"
-// #ifdef __cplusplus
-// }
-// #endif
 
 namespace Ui {
 class deposit_calc;
@@ -19,7 +12,7 @@ class deposit_calc : public QDialog {
   Q_OBJECT
 
  public:
-  explicit deposit_calc(QWidget *parent = nullptr);
+  explicit deposit_calc(QWidget *parent = nullptr, class Controller* controller = nullptr);
   ~deposit_calc();
   int deposit_term;
 
@@ -29,6 +22,7 @@ class deposit_calc : public QDialog {
 
  private:
   Ui::deposit_calc *ui;
+  Controller* controller_ = nullptr;
 };
 
 #endif  // DEPOSIT_CALC_H

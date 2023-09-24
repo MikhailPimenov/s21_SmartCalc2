@@ -12,7 +12,7 @@ class credit_calc : public QDialog {
   Q_OBJECT
 
  public:
-  explicit credit_calc(QWidget *parent = nullptr);
+  explicit credit_calc(QWidget *parent = nullptr, class Controller* controller = nullptr);
   ~credit_calc();
 
   double credit_sum;
@@ -27,6 +27,7 @@ class credit_calc : public QDialog {
 
  private:
   Ui::credit_calc *ui;
+  Controller* controller_ = nullptr;
 };
 
 #endif  // CREDIT_CALC_H

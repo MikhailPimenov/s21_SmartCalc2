@@ -14,7 +14,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS PrintSupport)
 
 set(PROJECT_SOURCES
-entry_point.cpp
+    entry_point.cpp
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/model)
@@ -24,6 +24,10 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/model)
 include_directories(${PROJECT_SOURCE_DIR}/view)
 link_directories(${PROJECT_SOURCE_DIR}/view)
 add_subdirectory(${PROJECT_SOURCE_DIR}/view)
+
+include_directories(${PROJECT_SOURCE_DIR}/controller)
+link_directories(${PROJECT_SOURCE_DIR}/controller)
+add_subdirectory(${PROJECT_SOURCE_DIR}/controller)
 
 # TODO: do it in CMakeLists.txt for view but not here
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -49,6 +53,7 @@ ${PROJECT_SOURCES}
 endif()
 endif()
 # add_executable(SmartCalc_1_0 ${PROJECT_SOURCES})
+target_link_libraries(SmartCalc_1_0 PUBLIC controller_target)
 target_link_libraries(SmartCalc_1_0 PUBLIC view_target)
 target_link_libraries(SmartCalc_1_0 PUBLIC model_target)
 

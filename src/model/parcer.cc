@@ -2,7 +2,7 @@
 
 int Model::parcer(const char *input_str, std::stack<token>& head) {
   int ex_code = 0;
-  int len = (int)strlen(input_str);
+  int len = static_cast<int>(strlen(input_str));
   if (len == 0) ex_code = 1;
   double number = 0;
   int dot_qty = 0;

@@ -6,10 +6,9 @@
 #include "../model/model.h"
 #include "credit_calc.h"
 #include "deposit_calc.h"
+#include "../controller/controller.h"
 
-QString input_str;
-
-MainWindow::MainWindow(QWidget *parent, ExampleController* controller)
+MainWindow::MainWindow(QWidget *parent, Controller* controller)
     : QMainWindow(parent), ui(new Ui::MainWindow), controller_(controller) {
   ui->setupUi(this);
 
@@ -71,115 +70,115 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::push_button() {
   QPushButton *button = (QPushButton *)sender();
-  if (input_str.isEmpty() == 0) {
-    if (input_str.back() != ')' || input_str.back() != 'x') {
-      input_str = (ui->label->text() + button->text());
+  if (string_.isEmpty() == 0) {
+    if (string_.back() != ')' || string_.back() != 'x') {
+      string_ = (ui->label->text() + button->text());
     }
   } else {
-    input_str = (ui->label->text() + button->text());
+    string_ = (ui->label->text() + button->text());
   }
-  ui->label->setText(input_str);
+  ui->label->setText(string_);
 }
 
 void MainWindow::push_dot_button() {
   QPushButton *button = (QPushButton *)sender();
-  if (input_str.isEmpty() == 0) {
-    if (input_str.back() >= '0' && input_str.back() <= '9') {
-      input_str = (ui->label->text() + button->text());
+  if (string_.isEmpty() == 0) {
+    if (string_.back() >= '0' && string_.back() <= '9') {
+      string_ = (ui->label->text() + button->text());
     }
   }
-  ui->label->setText(input_str);
+  ui->label->setText(string_);
 }
 
 void MainWindow::push_x_button() {
   QPushButton *button = (QPushButton *)sender();
-  if (input_str.isEmpty() == 0) {
-    if (input_str.back() == ')' || input_str.back() == 'x' ||
-        (input_str.back() >= '0' && input_str.back() <= '9') ||
-        input_str == '.') {
+  if (string_.isEmpty() == 0) {
+    if (string_.back() == ')' || string_.back() == 'x' ||
+        (string_.back() >= '0' && string_.back() <= '9') ||
+        string_ == '.') {
     } else {
-      input_str = (ui->label->text() + button->text());
+      string_ = (ui->label->text() + button->text());
     }
   } else {
-    input_str = (ui->label->text() + button->text());
+    string_ = (ui->label->text() + button->text());
   }
-  ui->label->setText(input_str);
+  ui->label->setText(string_);
 }
 
 void MainWindow::push_button_operation() {
   QPushButton *button = (QPushButton *)sender();
-  if (input_str.isEmpty() == 0) {
-    if ((input_str.back() >= '0' && input_str.back() <= '9') ||
-        input_str.back() == ')' || input_str.back() == 'x') {
-      input_str = (ui->label->text() + button->text());
-      ui->label->setText(input_str);
+  if (string_.isEmpty() == 0) {
+    if ((string_.back() >= '0' && string_.back() <= '9') ||
+        string_.back() == ')' || string_.back() == 'x') {
+      string_ = (ui->label->text() + button->text());
+      ui->label->setText(string_);
     }
   }
 }
 
 void MainWindow::push_button_operation_un() {
   QPushButton *button = (QPushButton *)sender();
-  if (input_str.isEmpty() == 0) {
-    if ((input_str.back() >= '0' && input_str.back() <= '9') ||
-        input_str.back() == ')' || input_str.back() == '(' ||
-        input_str.back() == 'x') {
-      input_str = (ui->label->text() + button->text());
+  if (string_.isEmpty() == 0) {
+    if ((string_.back() >= '0' && string_.back() <= '9') ||
+        string_.back() == ')' || string_.back() == '(' ||
+        string_.back() == 'x') {
+      string_ = (ui->label->text() + button->text());
     }
   } else {
-    input_str = (ui->label->text() + button->text());
+    string_ = (ui->label->text() + button->text());
   }
-  ui->label->setText(input_str);
+  ui->label->setText(string_);
 }
 
 void MainWindow::push_button_close_bracket() {
   QPushButton *button = (QPushButton *)sender();
-  if (input_str.isEmpty() == 0) {
-    if ((input_str.back() >= '0' && input_str.back() <= '9') ||
-        input_str.back() == ')' || input_str.back() == 'x') {
-      input_str = (ui->label->text() + button->text());
+  if (string_.isEmpty() == 0) {
+    if ((string_.back() >= '0' && string_.back() <= '9') ||
+        string_.back() == ')' || string_.back() == 'x') {
+      string_ = (ui->label->text() + button->text());
     }
   }
-  ui->label->setText(input_str);
+  ui->label->setText(string_);
 }
 
 void MainWindow::push_button_open_bracket() {
   QPushButton *button = (QPushButton *)sender();
-  if (input_str.isEmpty() == 0) {
-    if (!(input_str.back() >= '0' && input_str.back() <= '9' ||
-          input_str.back() == '.' || input_str.back() == 'x')) {
-      input_str = (ui->label->text() + button->text());
+  if (string_.isEmpty() == 0) {
+    if (!(string_.back() >= '0' && string_.back() <= '9' ||
+          string_.back() == '.' || string_.back() == 'x')) {
+      string_ = (ui->label->text() + button->text());
     }
   } else {
-    input_str = (ui->label->text() + button->text());
+    string_ = (ui->label->text() + button->text());
   }
-  ui->label->setText(input_str);
+  ui->label->setText(string_);
 }
 
 void MainWindow::push_button_operation_fn() {
   QPushButton *button = (QPushButton *)sender();
-  if (input_str.isEmpty() == 0) {
-    if (input_str.back() == '+' || input_str.back() == '-' ||
-        input_str.back() == '(' || input_str.back() == '*' ||
-        input_str.back() == '/' || input_str.back() == 'd' ||
-        input_str.back() == '^') {
-      input_str = (ui->label->text() + button->text());
+  if (string_.isEmpty() == 0) {
+    if (string_.back() == '+' || string_.back() == '-' ||
+        string_.back() == '(' || string_.back() == '*' ||
+        string_.back() == '/' || string_.back() == 'd' ||
+        string_.back() == '^') {
+      string_ = (ui->label->text() + button->text());
     }
   } else {
-    input_str = (ui->label->text() + button->text());
+    string_ = (ui->label->text() + button->text());
   }
-  ui->label->setText(input_str);
+  ui->label->setText(string_);
 }
 
 void MainWindow::on_pushButton_equal_clicked() {
-  int len = input_str.size();
+  int len = string_.size();
   if (len < 256) {
-    QByteArray ba = input_str.toLocal8Bit();
+    QByteArray ba = string_.toLocal8Bit();
     char *str = ba.data();
     double result = 0;
     double x_value = ui->x_value->text().toDouble();
-    int ex_code = main_for_calc(str, &result, x_value);
-    // int ex_code = controller->main_for_calc(str, &result, x_value);
-    input_str.clear();
+    // int ex_code = main_for_calc(str, &result, x_value);
+    int ex_code = controller_->main_for_calc(str, &result, x_value);
+    string_.clear();
     ui->label->clear();
 
     if (ex_code == 0) {
@@ -194,35 +193,35 @@ void MainWindow::on_pushButton_equal_clicked() {
 }
 
 void MainWindow::on_pushButton_all_clean_clicked() {
-  input_str.clear();
+  string_.clear();
   ui->label->clear();
   ui->widget->clearGraphs();
 }
 
 void MainWindow::on_pushButton_clean_clicked() {
-  if (input_str.isEmpty() == 0) {
-    if (input_str.back() == 'd' || input_str.back() == 'g') {
-      input_str.chop(3);
-    } else if (input_str.back() == 't') {
-      input_str.chop(4);
-    } else if (input_str.back() == 's') {
-      input_str.chop(3);
-      if (input_str.isEmpty() == 0 && input_str.back() == 'a') {
-        input_str.chop(1);
+  if (string_.isEmpty() == 0) {
+    if (string_.back() == 'd' || string_.back() == 'g') {
+      string_.chop(3);
+    } else if (string_.back() == 't') {
+      string_.chop(4);
+    } else if (string_.back() == 's') {
+      string_.chop(3);
+      if (string_.isEmpty() == 0 && string_.back() == 'a') {
+        string_.chop(1);
       }
-    } else if (input_str.back() == 'n') {
-      input_str.chop(2);
-      if (input_str.isEmpty() == 0 &&
-          (input_str.back() == 's' || input_str.back() == 't')) {
-        input_str.chop(1);
-        if (input_str.isEmpty() == 0 && input_str.back() == 'a') {
-          input_str.chop(1);
+    } else if (string_.back() == 'n') {
+      string_.chop(2);
+      if (string_.isEmpty() == 0 &&
+          (string_.back() == 's' || string_.back() == 't')) {
+        string_.chop(1);
+        if (string_.isEmpty() == 0 && string_.back() == 'a') {
+          string_.chop(1);
         }
       }
     } else {
-      input_str.chop(1);
+      string_.chop(1);
     }
-    ui->label->setText(input_str);
+    ui->label->setText(string_);
   }
 }
 
@@ -239,13 +238,13 @@ void MainWindow::on_pushButton_graph_clicked() {
   QVector<double> x(x_range), y(x_range);
 
   int ex_code = 0;
-  QByteArray ba = input_str.toLocal8Bit();
+  QByteArray ba = string_.toLocal8Bit();
   char *str = ba.data();
 
   for (int i = 0; i < x_range && ex_code == 0; ++i) {
     x[i] = x_min + x_step * i;
     double result = 0;
-    ex_code = main_for_calc(str, &result, x[i]);
+    ex_code = controller_->main_for_calc(str, &result, x[i]);
     y[i] = result;
   }
 
