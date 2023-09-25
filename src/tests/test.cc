@@ -119,28 +119,32 @@ TEST(ExpressionComputation, T7MoreBraces) {
   EXPECT_NEAR(result, expected, EPS);
 }
 
-// START_TEST(test_case_9) {
-//   char *input_str = "sqrt(4)-1/2*sin(3^2-2)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 1.6715067, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T8MoreBraces) {
+  const char *input_str = "sqrt(4)-1/2*sin(3^2-2)";
+
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 1.6715067;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
 
-// START_TEST(test_case_10) {
-//   char *input_str = "2^3^2";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 512, EPS);
-// }
-// END_TEST
+
+TEST(ExpressionComputation, T1Pows)  {
+  const char *input_str = "2^3^2";
+
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 512.0;
+
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
 
 // // DON'T!!!!!!!!!!!!!!!!!!!!!
@@ -157,431 +161,479 @@ TEST(ExpressionComputation, T7MoreBraces) {
 // // }
 // // END_TEST
 
-// START_TEST(test_case_12) {
-//   char *input_str = "-1+8";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 7, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T4Simple) {
+  const char *input_str = "-1+8";
 
-// START_TEST(test_case_13) {
-//   char *input_str = "-5.0mod(-3.0)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, -2, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 7.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_14) {
-//   char *input_str = "4+4*2/(1-5)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 2, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_15) {
-//   char *input_str = "4+4*2/1-5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 7, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T1Mod) {
+  const char *input_str = "-5.0mod(-3.0)";
 
-// START_TEST(test_case_16) {
-//   char *input_str = "4+4*(2/1-5)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, -8, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = -2.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_17) {
-//   char *input_str = "4+(4*2/1-5)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 7, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_18) {
-//   char *input_str = "4+4*(2/1)-5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 7, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T1LongEpression) {
+  const char *input_str = "4+4*2/(1-5)";
 
-// START_TEST(test_case_19) {
-//   char *input_str = "4+(4*2/1)-5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 7, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 2.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_20) {
-//   char *input_str = "(4+4*2/1)-5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 7, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_21) {
-//   char *input_str = "4+(4*2)/1-5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 7, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T2LongEpression) {
+  const char *input_str = "4+4*2/1-5";
 
-// START_TEST(test_case_22) {
-//   char *input_str = "(4+4*2)/1-5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 7, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 7.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_23) {
-//   char *input_str = "8*(7+6*4)+3";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 251, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_24) {
-//   char *input_str = "2/(3+2)*5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 2, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T3LongEpression) {
+  const char *input_str = "4+4*(2/1-5)";
 
-// START_TEST(test_case_25) {
-//   char *input_str = "2+9.3-8^3/4+56.2";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, -60.5, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = -8.0;
 
-// START_TEST(test_case_26) {
-//   char *input_str = "2+9.3-8^3/(4+56.2)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 2.7950166, EPS);
-// }
-// END_TEST
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_27) {
-//   char *input_str = "2^(3^2)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 512, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_28) {
-//   char *input_str = "(2^3)^2";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 64, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T4LongEpression) {
+  const char *input_str = "4+(4*2/1-5)";
 
-// START_TEST(test_case_29) {
-//   char *input_str = "cos(431.2*2^2/8)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, -0.3902501, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 7.0;
 
-// START_TEST(test_case_30) {
-//   char *input_str = "3*sin(4+5)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 1.2363555, EPS);
-// }
-// END_TEST
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_31) {
-//   char *input_str = "431.2*2^2/8";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 215.6, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_32) {
-//   char *input_str = "cos(sin(2+9*6^1.2-tan(1)))";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0.7421823, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T5LongEpression) {
+  const char *input_str = "4+4*(2/1)-5";
 
-// START_TEST(test_case_33) {
-//   char *input_str = "sqrt(cos(sin(2+9*6^1.2-tan(1))))";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0.8615000, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 7.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_34) {
-//   char *input_str = "sqrt(cos(sin(2+9*6^1.2-tan(1))))mod0.1";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0.0615000, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_35) {
-//   char *input_str = "sqrt(2^2)*5/(4-3mod2)*(4-sqrt(81))";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, -16.6666667, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T6LongEpression) {
+  const char *input_str = "4+(4*2/1)-5";
 
-// START_TEST(test_case_36) {
-//   char *input_str = "cos(1/3)*sin(1.352^9/(4+3))";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0.7876032, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 7.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_37) {
-//   char *input_str = "(cos(1/3)*sin(1.352^9/(4+3))/76.56)*log(150)";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0.0223863, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_38) {
-//   char *input_str = "2+(-(-(-(-1))))";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 3, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T7LongEpression) {
+  const char *input_str = "(4+4*2/1)-5";
 
-// START_TEST(test_case_39) {
-//   char *input_str = "cos(6*3)/5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0.1320633, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 7.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_40) {
-//   char *input_str = "12.6.9+8";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 1);
-// }
-// END_TEST
 
-// START_TEST(test_case_41) {
-//   char *input_str = "(12+6";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 1);
-// }
-// END_TEST
+TEST(ExpressionComputation, T8LongEpression) {
+  const char *input_str = "4+(4*2)/1-5";
 
-// START_TEST(test_case_42) {
-//   char *input_str = "(12+6))8*3(";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 1);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 7.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_43) {
-//   char *input_str = "acos1";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_44) {
-//   char *input_str = "acos0.5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 1.0471975, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T9LongEpression) {
+  const char *input_str = "(4+4*2)/1-5";
+  
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 7.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_45) {
-//   char *input_str = "atan1";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0.7853981, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_46) {
-//   char *input_str = "atan15";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 1.5042281, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T10LongEpression) {
+  const char *input_str = "8*(7+6*4)+3";
 
-// START_TEST(test_case_47) {
-//   char *input_str = "asin1";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 1.5707963, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 251.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
-// START_TEST(test_case_48) {
-//   char *input_str = "asin0.5";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0.5235987, EPS);
-// }
-// END_TEST
 
-// START_TEST(test_case_49) {
-//   char *input_str = "ln1";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 0, EPS);
-// }
-// END_TEST
+TEST(ExpressionComputation, T11LongEpression) {
+  const char *input_str = "2/(3+2)*5";
 
-// START_TEST(test_case_50) {
-//   char *input_str = "ln15";
-//   double result = 0;
-//   double x_value = 0;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 2.7080502, EPS);
-// }
-// END_TEST
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 2.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+  
+}
+
+
+TEST(ExpressionComputation, T12LongEpression) {
+  const char *input_str = "2+9.3-8^3/4+56.2";
+
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = -60.5;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+
+TEST(ExpressionComputation, T13LongEpression) {
+  const char *input_str = "2+9.3-8^3/(4+56.2)";
+
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 2.7950166;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+
+TEST(ExpressionComputation, T14LongEpression) {
+  const char *input_str = "2^(3^2)";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 512.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T15LongEpression) {
+  const char *input_str = "(2^3)^2";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 64.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T16LongEpression) {
+  const char *input_str = "cos(431.2*2^2/8)";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = -0.3902501;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T17LongEpression) {
+  const char *input_str = "3*sin(4+5)";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 1.2363555;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T18LongEpression) {
+  const char *input_str = "431.2*2^2/8";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 215.6;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T19LongEpression) {
+  const char *input_str = "cos(sin(2+9*6^1.2-tan(1)))";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.7421823;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+TEST(ExpressionComputation, T20LongEpression) {
+  const char *input_str = "sqrt(cos(sin(2+9*6^1.2-tan(1))))";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.8615000;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+TEST(ExpressionComputation, T21LongEpression) {
+  const char *input_str = "sqrt(cos(sin(2+9*6^1.2-tan(1))))mod0.1";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.0615000;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T22LongEpression) {
+  const char *input_str = "sqrt(2^2)*5/(4-3mod2)*(4-sqrt(81))";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = -16.6666667;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+TEST(ExpressionComputation, T23LongEpression) {
+  const char *input_str = "cos(1/3)*sin(1.352^9/(4+3))";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.7876032;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T24LongEpression) {
+  const char *input_str = "(cos(1/3)*sin(1.352^9/(4+3))/76.56)*log(150)";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.0223863;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+TEST(ExpressionComputation, T25LongEpression) {
+  const char *input_str = "2+(-(-(-(-1))))";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 3.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+TEST(ExpressionComputation, T26LongEpression) {
+  const char *input_str = "cos(6*3)/5";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.1320633;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+TEST(ExpressionComputation, T1EpressionError) {
+  const char *input_str = "12.6.9+8";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 1;
+  EXPECT_EQ(ex_code, ex_expected);
+}
+
+TEST(ExpressionComputation, T2EpressionError) {
+  const char *input_str = "(12+6";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 1;
+  EXPECT_EQ(ex_code, ex_expected);
+}
+
+TEST(ExpressionComputation, T3EpressionError) {
+  const char *input_str = "(12+6))8*3(";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 1;
+  EXPECT_EQ(ex_code, ex_expected);
+}
+
+TEST(ExpressionComputation, T4ExpressionCos) {
+  const char *input_str = "acos1";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T5ExpressionAcos) {
+  const char *input_str = "acos0.5";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 1.0471975;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T1ExpressionAtan) {
+  const char *input_str = "atan1";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.7853981;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T2ExpressionAtan) {
+  const char *input_str = "atan15";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 1.5042281;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T3ExpressionAsin) {
+  const char *input_str = "asin1";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 1.5707963;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T4ExpressionAsin) {
+  const char *input_str = "asin0.5";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.5235987;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T5ExpressionLen) {
+  const char *input_str = "ln1";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 0.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
+TEST(ExpressionComputation, T6ExpressionLen) {
+  const char *input_str = "ln15";
+ 
+  double result = 0.0;
+  double x_value = 0.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 2.7080502;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
 
 
 // // DON'T!!!!!!!!!!!!!!!!!
@@ -598,16 +650,19 @@ TEST(ExpressionComputation, T7MoreBraces) {
 // // }
 // // END_TEST
 
-// START_TEST(test_case_52) {
-//   char *input_str = "x^2+x*2";
-//   double result = 0;
-//   double x_value = 3;
-//   int ex_code;
-//   ex_code = main_for_calc(input_str, &result, x_value);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(result, 15, EPS);
-// }
-// END_TEST
+
+TEST(ExpressionComputation, T7ExpressionPow) {
+  const char *input_str = "x^2+x*2";
+ 
+  double result = 0.0;
+  double x_value = 3.0;
+  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_expected = 0;
+  const double expected = 15.0;
+  EXPECT_EQ(ex_code, ex_expected);
+  EXPECT_NEAR(result, expected, EPS);
+}
+
 
 // START_TEST(test_case_53) {
 //   double credit_sum = 100000;

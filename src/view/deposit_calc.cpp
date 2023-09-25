@@ -1,6 +1,7 @@
 #include "deposit_calc.h"
 #include "ui_deposit_calc.h"
 #include "../controller/controller.h"
+#include <array>
 
 deposit_calc::deposit_calc(QWidget *parent, Controller* controller_)
     : QDialog(parent), ui(new Ui::deposit_calc) {
@@ -75,6 +76,48 @@ void deposit_calc::on_pushButton_clicked() {
       ui->error_label->setText("INCORRECT INPUT");
     }
   }
+
+
+
+  ui->tableWidget->setRowCount(deposit_term);
+  ui->tableWidget->setColumnCount(1);
+  std::array<int, 12> daysPerMonth { 
+    31, // jan 
+    28, // feb
+    31, // mar
+    30, // apr
+    31, // may
+    30, // jun 
+    31, // jul
+    31, // aug
+    30, // sep
+    31, // oct
+    30, // nov
+    31, // dec
+  };
+
+// Общая формула: доход по вкладу 
+// = сумма вклада / 100% * % ставку / количество дней в году * количество дней действия вклада.
+
+// Доход по вкладу = 100 000 / 100 * 4 = 4 000 (рублей) — потенциальный доход за 12 месяцев.
+double initial_sum = deposit_sum;
+int days = 0;
+  // if (type == 1) {
+    // for (int i = 0; i < credit_term; i++) {
+    for (int i = 0; i < deposit_term; i++) {
+      days += daysPerMonth[i % 12];
+      const int daysDelta = daysPerMonth[i % 12];
+      // initial_sum = deposit_sum / 100.0 * (deposit_percent - tax_percent) / 365.0 * days;
+
+      const double deltaSum = deposit_sum / 100.0 * (deposit_percent - tax_percent) / 365.0 * daysDelta;
+      deposit_sum += deltaSum;
+      QTableWidgetItem *itm =
+          // new QTableWidgetItem(QString::number(monthly_payment));
+          new QTableWidgetItem(QString::number(deltaSum));
+      ui->tableWidget->setItem(i, 0, itm);
+    }
+
+
 }
 
 void deposit_calc::on_checkBox_add_stateChanged(int arg1) {
@@ -85,4 +128,28 @@ void deposit_calc::on_checkBox_add_stateChanged(int arg1) {
   } else {
     ui->tableWidget->clear();
   }
+}
+
+void deposit_calc::on_make_table_clicked() {
+  // ui->tableWidget->setRowCount(credit_term);
+  ui->tableWidget->setRowCount(3);
+  ui->tableWidget->setColumnCount(1);
+
+  // if (type == 1) {
+    // for (int i = 0; i < credit_term; i++) {
+    for (int i = 0; i < 3; i++) {
+      QTableWidgetItem *itm =
+          // new QTableWidgetItem(QString::number(monthly_payment));
+          new QTableWidgetItem(QString::number(100 * i + 13));
+      ui->tableWidget->setItem(i, 0, itm);
+    }
+  // } else if (type == 2) {
+    // for (int i = 0; i < credit_term; i++) {
+      // double month_pay_count = credit_sum / credit_term +
+          // (credit_sum - monthly_payment * i) * credit_percent / 1200;
+      // QTableWidgetItem *itm =
+          // new QTableWidgetItem(QString::number(month_pay_count));
+      // ui->tableWidget->setItem(i, 0, itm);
+    // }
+  // }
 }

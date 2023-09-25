@@ -19,6 +19,7 @@ class deposit_calc : public QDialog {
  private slots:
   void on_pushButton_clicked();
   void on_checkBox_add_stateChanged(int arg1);
+  void on_make_table_clicked();
 
  private:
   Ui::deposit_calc *ui;
