@@ -14,11 +14,9 @@ class deposit_calc : public QDialog {
  public:
   explicit deposit_calc(QWidget *parent = nullptr, class Controller* controller = nullptr);
   ~deposit_calc();
-  int deposit_term;
 
  private slots:
   void on_pushButton_clicked();
-  void on_checkBox_add_stateChanged(int arg1);
 
  private:
   Ui::deposit_calc *ui;

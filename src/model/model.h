@@ -7,8 +7,39 @@
 #include <cstring>
 
 #include <stack>
+#include <vector>
 
 class Model {
+public:
+  struct DepositResult {
+    double accruedTotal_;
+    double taxTotal_;
+    double amountTotal_;
+
+    std::vector<double> list_;
+  };
+
+  struct DepositParameters {
+      double amount_ = 0.0;
+      int period_ = 0;
+      double interest_ = 0.0;
+      double tax_ = 0.0;
+
+      enum class Capitalization {
+          Undefined,
+          Total,
+          Monthly,
+      };
+      enum class PaymentFrequency {
+          Undefined,
+          Total,
+          Monthly,
+      };
+
+      Capitalization capitalization_ = Capitalization::Undefined;
+      PaymentFrequency frequency_ = PaymentFrequency::Undefined;
+  };
+
 private:
   struct Token {
     double value;
@@ -46,11 +77,12 @@ public:
   static int credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
                     int type, double *monthlty_payment, double *overpayment,
                     double *total_sum);
-  static int deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
-                      float tax_percent, int type_cap, int type_pay,
-                      const double *add_sum, double *interest_income,
-                      double *total_deposit_sum, double *tax_sum);
+  // static int deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
+  //                     float tax_percent, int type_cap, int type_pay,
+  //                     const double *add_sum, double *interest_income,
+  //                     double *total_deposit_sum, double *tax_sum);
 
+  static bool CalculateDeposit(const DepositParameters& parameters, DepositResult& result);
 
 private:
   static int parcer(const char *input_str, std::stack<Token>& head);
