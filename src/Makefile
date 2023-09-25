@@ -34,7 +34,8 @@ SOURCES+=model/bonus_part.cc
 BINARIES=$(patsubst %.c,%.o,$(SOURCES))
 
 
-all: clean install run	
+all: install run	
+# all: clean install run	
 
 install:
 	sh install_script.sh
