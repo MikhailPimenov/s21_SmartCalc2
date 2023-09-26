@@ -11,6 +11,28 @@
 
 class Model {
 public:
+  struct CreditParameters {
+        double credit_sum_ = 0.0;
+        int credit_term_ = 0;
+        float credit_percent_ = 0.0f;
+        
+        enum class RepainmentOrder {
+            Undefined,
+            Annuity,
+            Differentiated
+        };
+
+        RepainmentOrder order_ = RepainmentOrder::Undefined;
+    };
+
+    struct CreditResult {
+        double monthlty_payment_ = 0.0;
+        double overpayment_ = 0.0;
+        double total_sum_ = 0.0;
+
+        std::vector<double> list_;
+    };
+
   struct DepositResult {
     double accruedTotal_;
     double taxTotal_;
@@ -83,6 +105,7 @@ public:
   //                     double *total_deposit_sum, double *tax_sum);
 
   static bool CalculateDeposit(const DepositParameters& parameters, DepositResult& result);
+  static bool CalculateCredit(const CreditParameters& cp, CreditResult& cr);
 
 private:
   static int parcer(const char *input_str, std::stack<Token>& head);

@@ -7,6 +7,25 @@ int Controller::main_for_calc(const char *input_str, double *result, double x_va
     return Model::main_for_calc(input_str, result, x_value);
 }
 
+bool Controller::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
+    Model::CreditParameters mcp;
+    mcp.credit_sum_ = cp.credit_sum_;
+    mcp.credit_term_ = cp.credit_term_;
+    mcp.credit_percent_= cp.credit_percent_;
+    mcp.order_ = static_cast<Model::CreditParameters::RepainmentOrder>(cp.order_);
+
+    Model::CreditResult mcr;
+    const bool result = Model::CalculateCredit(mcp, mcr);
+
+    cr.monthlty_payment_  = mcr.monthlty_payment_ ;
+    cr.overpayment_ = mcr.overpayment_;
+    cr.list_ = std::move(mcr.list_);
+    cr.total_sum_ = mcr.total_sum_;
+
+    return result;
+}
+    
+
 int Controller::credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
                     int type, double *monthlty_payment, double *overpayment,
                     double *total_sum) {
@@ -26,6 +45,7 @@ bool Controller::CalculateDeposit(const DepositParameters& dp, DepositResult& dr
     Model::DepositParameters mdp;
     mdp.amount_ = dp.amount_;
     mdp.interest_ = dp.interest_;
+    mdp.tax_ = dp.tax_;
     mdp.period_ = dp.period_;
     mdp.capitalization_ = static_cast<Model::DepositParameters::Capitalization>(dp.capitalization_);
     mdp.frequency_ = static_cast<Model::DepositParameters::PaymentFrequency>(dp.frequency_);

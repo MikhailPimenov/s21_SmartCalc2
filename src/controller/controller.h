@@ -2,10 +2,32 @@
 #define SRC_CONTROLLER_CONTROLLER_H
 
 #include <vector>
-#include "../protocol/protocol.h"
+
 class Controller 
 {
 public:
+    struct CreditParameters {
+        double credit_sum_ = 0.0;
+        int credit_term_ = 0;
+        float credit_percent_ = 0.0f;
+        
+        enum class RepainmentOrder {
+            Undefined,
+            Annuity,
+            Differentiated
+        };
+
+        RepainmentOrder order_ = RepainmentOrder::Undefined;
+    };
+
+    struct CreditResult {
+        double monthlty_payment_ = 0.0;
+        double overpayment_ = 0.0;
+        double total_sum_ = 0.0;
+
+        std::vector<double> list_;
+    };
+
     struct DepositResult {
         double accruedTotal_ = 0.0;
         double taxTotal_ = 0.0;
@@ -28,11 +50,12 @@ public:
         enum class PaymentFrequency {
             Undefined,
             Total,
-            Monthly,
+            Monthly
         };
 
         Capitalization capitalization_ = Capitalization::Undefined;
         PaymentFrequency frequency_ = PaymentFrequency::Undefined;
+        
     };
 
 
@@ -48,6 +71,7 @@ public:
         //               double *total_deposit_sum, double *tax_sum);
 
         static bool CalculateDeposit(const DepositParameters& dp, DepositResult& dr);
+        static bool CalculateCredit(const CreditParameters& cp, CreditResult& cr);
 
 };
 
