@@ -41,14 +41,17 @@ bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
     cr.monthlty_payment_ = cp.credit_sum_ * credit_percent *
                         std::pow(1. + credit_percent, cp.credit_term_) /
                         (std::pow(1. + credit_percent, cp.credit_term_) - 1.);
+    for(int i = 0; i < cp.credit_term_; i++)
+      cr.list_.push_back(cr.monthlty_payment_);
     cr.total_sum_ = cr.monthlty_payment_ * cp.credit_term_;
     cr.overpayment_ = cr.total_sum_ - cp.credit_sum_;
   } else if (cp.order_ == CreditParameters::RepainmentOrder::Differentiated) {
     double mon_loan = cp.credit_sum_ / cp.credit_term_;
     cr.total_sum_ = 0;
     for (int i = 0; i < cp.credit_term_; i++) {
-      cr.total_sum_ +=
-          mon_loan + (cp.credit_sum_ - mon_loan * i) * cp.credit_percent_ / 1200;
+      const double delta = mon_loan + (cp.credit_sum_ - mon_loan * i) * cp.credit_percent_ / 1200;
+      cr.total_sum_ += delta;
+      cr.list_.push_back(delta);
     }
     cr.overpayment_ = cr.total_sum_ - cp.credit_sum_;
     cr.monthlty_payment_= mon_loan + cp.credit_sum_ * cp.credit_percent_ / 1200;

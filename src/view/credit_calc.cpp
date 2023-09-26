@@ -53,25 +53,43 @@ void credit_calc::on_make_calc_clicked() {
     QString tot_sum = QString::number(cr.total_sum_, 'f', 2);
     ui->total_sum->setText(tot_sum);
   
-}
-
-void credit_calc::on_make_table_clicked() {
-  ui->tableWidget->setRowCount(credit_term);
+  ui->tableWidget->setRowCount(cp.credit_term_);
   ui->tableWidget->setColumnCount(1);
 
-  if (type == 1) {
-    for (int i = 0; i < credit_term; i++) {
+  // if (type == 1) {
+     for (int i = 0; i < cp.credit_term_; i++) {
       QTableWidgetItem *itm =
-          new QTableWidgetItem(QString::number(monthly_payment));
+          new QTableWidgetItem(QString::number(cr.list_.at(i)));
       ui->tableWidget->setItem(i, 0, itm);
     }
-  } else if (type == 2) {
-    for (int i = 0; i < credit_term; i++) {
-      double month_pay_count = credit_sum / credit_term +
-          (credit_sum - monthly_payment * i) * credit_percent / 1200;
-      QTableWidgetItem *itm =
-          new QTableWidgetItem(QString::number(month_pay_count));
-      ui->tableWidget->setItem(i, 0, itm);
-    }
-  }
+  // } else if (type == 2) {
+  //   for (int i = 0; i < credit_term; i++) {
+  //     double month_pay_count = credit_sum / credit_term +
+  //         (credit_sum - monthly_payment * i) * credit_percent / 1200;
+  //     QTableWidgetItem *itm =
+  //         new QTableWidgetItem(QString::number(month_pay_count));
+  //     ui->tableWidget->setItem(i, 0, itm);
+  //   }
+  // }
 }
+
+// void credit_calc::on_make_table_clicked() {
+//   ui->tableWidget->setRowCount(credit_term);
+//   ui->tableWidget->setColumnCount(1);
+
+//   if (type == 1) {
+//     for (int i = 0; i < credit_term; i++) {
+//       QTableWidgetItem *itm =
+//           new QTableWidgetItem(QString::number(monthly_payment));
+//       ui->tableWidget->setItem(i, 0, itm);
+//     }
+//   } else if (type == 2) {
+//     for (int i = 0; i < credit_term; i++) {
+//       double month_pay_count = credit_sum / credit_term +
+//           (credit_sum - monthly_payment * i) * credit_percent / 1200;
+//       QTableWidgetItem *itm =
+//           new QTableWidgetItem(QString::number(month_pay_count));
+//       ui->tableWidget->setItem(i, 0, itm);
+//     }
+//   }
+// }

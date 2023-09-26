@@ -167,7 +167,7 @@
     <string>Loan overpayment</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="make_table">
+  <!-- <widget class="QPushButton" name="make_table">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -178,8 +178,8 @@
    </property>
    <property name="text">
     <string>Show graph</string>
-   </property>
-  </widget>
+   </property> -->
+  <!-- </widget> -->
   <widget class="QLabel" name="monthly_payment">
    <property name="geometry">
     <rect>
