@@ -26,12 +26,12 @@ bool Controller::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
 }
     
 
-int Controller::credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
-                    int type, double *monthlty_payment, double *overpayment,
-                    double *total_sum) {
-    return Model::credit_calc_fn(credit_sum, credit_term, credit_percent,
-                    type, monthlty_payment, overpayment, total_sum);
-}
+// int Controller::credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
+//                     int type, double *monthlty_payment, double *overpayment,
+//                     double *total_sum) {
+//     return Model::credit_calc_fn(credit_sum, credit_term, credit_percent,
+//                     type, monthlty_payment, overpayment, total_sum);
+// }
 // int Controller::deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
 //                       float tax_percent, int type_cap, int type_pay,
 //                       const double *add_sum, double *interest_income,

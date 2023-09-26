@@ -3,75 +3,58 @@
 #include "model.h"
 #include "../controller/controller.h"
 
-int Model::credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
-                   int type, double *monthlty_payment, double *overpayment,
-                   double *total_sum) {
-  int ex_code = 0;
-  if (type == 1) {
-    credit_percent = credit_percent / 100 / 12;
-    *monthlty_payment = credit_sum * credit_percent *
-                        std::pow(1. + credit_percent, credit_term) /
-                        (std::pow(1. + credit_percent, credit_term) - 1.);
-    *total_sum = *monthlty_payment * credit_term;
-    *overpayment = *total_sum - credit_sum;
-  } else if (type == 2) {
-    double mon_loan = credit_sum / credit_term;
-    *total_sum = 0;
-    for (int i = 0; i < credit_term; i++) {
-      *total_sum +=
-          mon_loan + (credit_sum - mon_loan * i) * credit_percent / 1200;
-    }
-    *overpayment = *total_sum - credit_sum;
-    *monthlty_payment = mon_loan + credit_sum * credit_percent / 1200;
-  }
-  return ex_code;
-}
-
-// int Model::deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
-//                     float tax_percent, int type_cap, int type_pay,
-//                     const double *add_sum, double *interest_income,
-//                     double *total_deposit_sum, double *tax_sum) {
+// int Model::credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
+//                    int type, double *monthlty_payment, double *overpayment,
+//                    double *total_sum) {
 //   int ex_code = 0;
-//   if (type_cap == 2) {
-//     *interest_income = 0;
-//     for (int i = 0; i < deposit_term && ex_code == 0; i++) {
-//       deposit_sum = deposit_sum + add_sum[i];
-//       if (deposit_sum < 0) ex_code = 1;
-//       double monthly_percent = deposit_sum * deposit_percent / 1200;
-//       *interest_income = *interest_income + monthly_percent;
+//   if (type == 1) {
+//     credit_percent = credit_percent / 100 / 12;
+//     *monthlty_payment = credit_sum * credit_percent *
+//                         std::pow(1. + credit_percent, credit_term) /
+//                         (std::pow(1. + credit_percent, credit_term) - 1.);
+//     *total_sum = *monthlty_payment * credit_term;
+//     *overpayment = *total_sum - credit_sum;
+//   } else if (type == 2) {
+//     double mon_loan = credit_sum / credit_term;
+//     *total_sum = 0;
+//     for (int i = 0; i < credit_term; i++) {
+//       *total_sum +=
+//           mon_loan + (credit_sum - mon_loan * i) * credit_percent / 1200;
 //     }
-//     *total_deposit_sum = deposit_sum + *interest_income;
-//     *tax_sum = *interest_income * tax_percent / 100;
-
-//   } else if (type_cap == 1 && type_pay == 2) {
-//     *interest_income = 0;
-//     double monthly_percent = 0;
-//     for (int i = 0; i < deposit_term && ex_code == 0; i++) {
-//       deposit_sum = deposit_sum + add_sum[i] + monthly_percent;
-//       if (deposit_sum < 0) ex_code = 1;
-//       monthly_percent = deposit_sum * deposit_percent / 1200;
-//       *interest_income = *interest_income + monthly_percent;
-//     }
-//     *total_deposit_sum = deposit_sum + monthly_percent;
-//     *tax_sum = *interest_income * tax_percent / 100;
-
-//   } else if (type_cap == 1 && type_pay == 1) {
-//     *interest_income = 0;
-//     for (int i = 0; i < deposit_term && ex_code == 0; i++) {
-//       deposit_sum = deposit_sum + add_sum[i];
-//       if (deposit_sum < 0) ex_code = 1;
-//       double monthly_percent = deposit_sum * deposit_percent / 1200;
-//       *interest_income = *interest_income + monthly_percent;
-//     }
-//     *total_deposit_sum = deposit_sum + *interest_income;
-//     *tax_sum = *interest_income * tax_percent / 100;
+//     *overpayment = *total_sum - credit_sum;
+//     *monthlty_payment = mon_loan + credit_sum * credit_percent / 1200;
 //   }
 //   return ex_code;
 // }
 
-
-
-
+bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
+  if (cp.order_ == CreditParameters::RepainmentOrder::Undefined)
+    return false;
+  if (cp.credit_sum_ < 0.0)
+    return false;
+  if (cp.credit_term_ < 1)
+    return false;
+  if (cp.credit_percent_ < 0.0)
+    return false;
+  if (cp.order_ == CreditParameters::RepainmentOrder::Annuity) {
+    const double credit_percent = cp.credit_percent_ / 100 / 12;
+    cr.monthlty_payment_ = cp.credit_sum_ * credit_percent *
+                        std::pow(1. + credit_percent, cp.credit_term_) /
+                        (std::pow(1. + credit_percent, cp.credit_term_) - 1.);
+    cr.total_sum_ = cr.monthlty_payment_ * cp.credit_term_;
+    cr.overpayment_ = cr.total_sum_ - cp.credit_sum_;
+  } else if (cp.order_ == CreditParameters::RepainmentOrder::Differentiated) {
+    double mon_loan = cp.credit_sum_ / cp.credit_term_;
+    cr.total_sum_ = 0;
+    for (int i = 0; i < cp.credit_term_; i++) {
+      cr.total_sum_ +=
+          mon_loan + (cp.credit_sum_ - mon_loan * i) * cp.credit_percent_ / 1200;
+    }
+    cr.overpayment_ = cr.total_sum_ - cp.credit_sum_;
+    cr.monthlty_payment_= mon_loan + cp.credit_sum_ * cp.credit_percent_ / 1200;
+  }
+  return true;
+}
 
 bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult& result) {
   static constexpr std::array<int, 12> daysPerMonth { 

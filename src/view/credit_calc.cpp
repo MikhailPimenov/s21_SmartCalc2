@@ -19,34 +19,40 @@ void credit_calc::on_make_calc_clicked() {
   ui->overpayment->setText("");
   ui->total_sum->setText("");
 
-  credit_sum = ui->credit_sum->text().toDouble();
-  credit_term = ui->credit_term->text().toInt();
-  credit_percent = ui->credit_percent->text().toFloat();
+  Controller::CreditParameters cp;
+
+  cp.credit_sum_ = ui->credit_sum->text().toDouble();
+  cp.credit_term_ = ui->credit_term->text().toInt();
+  cp.credit_percent_ = ui->credit_percent->text().toFloat();
 
   if (ui->radioButton->isChecked()) {
-    type = 1;
+    cp.order_ = Controller::CreditParameters::RepainmentOrder::Annuity;
   } else if (ui->radioButton_2->isChecked()) {
-    type = 2;
+    cp.order_= Controller::CreditParameters::RepainmentOrder::Differentiated;
   }
 
-  if (type == 0 || credit_sum < 10000 || credit_sum > 100000000 ||
-      credit_term < 1 || credit_term > 600 || credit_percent < 0.01 ||
-      credit_percent > 100) {
+  Controller::CreditResult cr;
+
+  // if (type == 0 || credit_sum < 10000 || credit_sum > 100000000 ||
+  //     credit_term < 1 || credit_term > 600 || credit_percent < 0.01 ||
+  //     credit_percent > 100) {
+  if (!Controller::CalculateCredit(cp, cr)) {
     ui->label_error->setText("Incorrect input");
-  } else {
+    return;
+  } 
     double overpayment;
     double total_sum;
 
-    controller_->credit_calc_fn(credit_sum, credit_term, credit_percent, type,
-                   &monthly_payment, &overpayment, &total_sum);
+    // controller_->credit_calc_fn(credit_sum, credit_term, credit_percent, type,
+    //                &monthly_payment, &overpayment, &total_sum);
 
-    QString mon_pay = QString::number(monthly_payment, 'f', 2);
+    QString mon_pay = QString::number(cr.monthlty_payment_, 'f', 2);
     ui->monthly_payment->setText(mon_pay);
-    QString overpay = QString::number(overpayment, 'f', 2);
+    QString overpay = QString::number(cr.overpayment_, 'f', 2);
     ui->overpayment->setText(overpay);
-    QString tot_sum = QString::number(total_sum, 'f', 2);
+    QString tot_sum = QString::number(cr.total_sum_, 'f', 2);
     ui->total_sum->setText(tot_sum);
-  }
+  
 }
 
 void credit_calc::on_make_table_clicked() {
