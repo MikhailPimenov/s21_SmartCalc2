@@ -9,9 +9,9 @@ int Controller::main_for_calc(const char *input_str, double *result, double x_va
 
 bool Controller::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
     Model::CreditParameters mcp;
-    mcp.credit_sum_ = cp.credit_sum_;
-    mcp.credit_term_ = cp.credit_term_;
-    mcp.credit_percent_= cp.credit_percent_;
+    mcp.creditSum_ = cp.credit_sum_;
+    mcp.creditTerm_ = cp.credit_term_;
+    mcp.creditPercent_= cp.credit_percent_;
     mcp.order_ = static_cast<Model::CreditParameters::RepainmentOrder>(cp.order_);
 
     Model::CreditResult mcr;

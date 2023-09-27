@@ -3,7 +3,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS PrintSupport)
 
 set(VIEW_SOURCES
-        main.cpp
+        main_view.cpp
         mainwindow.cpp
         qcustomplot.cpp
         credit_calc.cpp

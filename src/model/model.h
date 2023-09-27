@@ -12,9 +12,9 @@
 class Model {
 public:
   struct CreditParameters {
-        double credit_sum_ = 0.0;
-        int credit_term_ = 0;
-        float credit_percent_ = 0.0f;
+        double creditSum_ = 0.0;
+        int creditTerm_ = 0;
+        float creditPercent_ = 0.0f;
         
         enum class RepainmentOrder {
             Undefined,

@@ -44,7 +44,10 @@ uninstall:
 	rm -rf build
 
 dvi:
-	open ../README.md
+# open ../README.md
+	doxygen -g doxygen.config
+	doxygen doxygen.config
+	open html/index.html
 
 dist:
 	sh dist_script.sh
@@ -91,6 +94,9 @@ clean:
 	rm -rf *.o *.a *.css index.html *.gcno *.gcda *.out *.info test report *.dSYM *.gcov build *.gch SmartCalc_dist SmartCalc_arch.tar.gz tests/*.exe
 	rm -rf *.gcda *.gcno tests/*.o tests/*.gcda tests/*.gcno
 	rm -rf *.gcda *.gcno model/*.o model/*.gcda model/*.gcno
+	rm -rf html
+	rm -rf latex
+	rm -rf doxygen.config
 
 rebuild: clean all
 

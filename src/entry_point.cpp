@@ -1,37 +1,24 @@
 #include "view/view.h"
 
 /**
-*@mainpage  MYPROJECT
-* Fucking cocksuckers
-*
+*@mainpage  Smart Calc
+* Smart Calc using C++, Qt and MVC pattern
 *
 */
-
-
 
 
 /*!
 \file
-\brief Заголовочный файл с описанием классов
+\brief Entry point to calculator. This file contains main function
 
-Данный файл содержит в себе определения основных 
-классов, используемых в демонстрационной программе
 */
-#ifndef CLASSES_H
-#define CLASSES_H
-
-// ...
-
-#endif // CLASSES_H
-
-
 
 /**
  * @brief 
  * The first function to be executed
- * @param argc Cocksucker
- * @param argv Yeah
- * @return ** int 
+ * @param argc Number of command line arguments (not used)
+ * @param argv Command line arguments (not used)
+ * @return int Error code (not used)
  */
 int main(int argc, char *argv[]) {
     return main_view(argc, argv);

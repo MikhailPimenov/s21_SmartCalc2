@@ -6,33 +6,33 @@
 bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
   if (cp.order_ == CreditParameters::RepainmentOrder::Undefined)
     return false;
-  if (cp.credit_sum_ < 0.0)
+  if (cp.creditSum_ < 0.0)
     return false;
-  if (cp.credit_term_ < 1)
+  if (cp.creditTerm_ < 1)
     return false;
-  if (cp.credit_percent_ < 0.0)
+  if (cp.creditPercent_ < 0.0)
     return false;
   
   static constexpr int months = 12;
   if (cp.order_ == CreditParameters::RepainmentOrder::Annuity) {
-    const double credit_percent = cp.credit_percent_ / 100.0 / months;
-    cr.monthlty_payment_ = cp.credit_sum_ * credit_percent *
-                        std::pow(1. + credit_percent, cp.credit_term_) /
-                        (std::pow(1. + credit_percent, cp.credit_term_) - 1.);
-    for(int i = 0; i < cp.credit_term_; i++)
+    const double credit_percent = cp.creditPercent_ / 100.0 / months;
+    cr.monthlty_payment_ = cp.creditSum_ * credit_percent *
+                        std::pow(1. + credit_percent, cp.creditTerm_) /
+                        (std::pow(1. + credit_percent, cp.creditTerm_) - 1.);
+    for(int i = 0; i < cp.creditTerm_; i++)
       cr.list_.push_back(cr.monthlty_payment_);
-    cr.total_sum_ = cr.monthlty_payment_ * cp.credit_term_;
-    cr.overpayment_ = cr.total_sum_ - cp.credit_sum_;
+    cr.total_sum_ = cr.monthlty_payment_ * cp.creditTerm_;
+    cr.overpayment_ = cr.total_sum_ - cp.creditSum_;
   } else if (cp.order_ == CreditParameters::RepainmentOrder::Differentiated) {
-    double mon_loan = cp.credit_sum_ / cp.credit_term_;
+    double mon_loan = cp.creditSum_ / cp.creditTerm_;
     cr.total_sum_ = 0;
-    for (int i = 0; i < cp.credit_term_; i++) {
-      const double delta = mon_loan + (cp.credit_sum_ - mon_loan * i) * cp.credit_percent_ / 100.0 / months;
+    for (int i = 0; i < cp.creditTerm_; i++) {
+      const double delta = mon_loan + (cp.creditSum_ - mon_loan * i) * cp.creditPercent_ / 100.0 / months;
       cr.total_sum_ += delta;
       cr.list_.push_back(delta);
     }
-    cr.overpayment_ = cr.total_sum_ - cp.credit_sum_;
-    cr.monthlty_payment_= mon_loan + cp.credit_sum_ * cp.credit_percent_ / 100.0 / months;
+    cr.overpayment_ = cr.total_sum_ - cp.creditSum_;
+    cr.monthlty_payment_= mon_loan + cp.creditSum_ * cp.creditPercent_ / 100.0 / months;
   }
   return true;
 }
