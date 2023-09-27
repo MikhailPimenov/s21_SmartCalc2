@@ -66,9 +66,6 @@ run_tests: tests/tests_main.exe
 %.o: %.cc $(HEADERS)
 		$(CC) -c $(CFLAGS) $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS)
 
-%.o: %.c $(HEADERS)
-		$(CC) -c $(CFLAGS) $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS)
-
 
 
 tests/tests_main.exe: $(BINARIES)

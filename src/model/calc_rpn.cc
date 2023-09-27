@@ -1,6 +1,19 @@
 #include <cmath>
 #include "model.h"
 
+
+
+
+
+
+
+/**
+ * @brief 
+ * calculates
+ * @param input string 
+ * @param x_value value to substitute
+ * @return ** double calculated result
+ */
 double Model::calc_rpn(std::stack<Token>& input, double x_value) {
   double result = 0;
   std::stack<Token> stack;
