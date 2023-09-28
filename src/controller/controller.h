@@ -1,6 +1,7 @@
 #ifndef SRC_CONTROLLER_CONTROLLER_H
 #define SRC_CONTROLLER_CONTROLLER_H
 
+#include <string>
 #include <vector>
 
 class Controller 
@@ -58,20 +59,25 @@ public:
         
     };
 
+    struct GraphParameters {
+  double x_max = 30.0;
+  double x_min = -30.0;
+  std::string input_string;
+  };
+struct GraphResult {
+  std::vector<double> x;
+  std::vector<double> y;
+};
+
 
     public:
         Controller();
-        static int main_for_calc(const char *input_str, double *result, double x_value);
-        static int credit_calc_fn(double credit_sum, int credit_term, float credit_percent,
-                    int type, double *monthlty_payment, double *overpayment,
-                    double *total_sum);
-        // static int deposit_calc_fn(double deposit_sum, int deposit_term, float deposit_percent,
-        //               float tax_percent, int type_cap, int type_pay,
-        //               const double *add_sum, double *interest_income,
-        //               double *total_deposit_sum, double *tax_sum);
 
+        static int Calculate(const std::string& input_str, double *result, double x_value);
         static bool CalculateDeposit(const DepositParameters& dp, DepositResult& dr);
         static bool CalculateCredit(const CreditParameters& cp, CreditResult& cr);
+
+        static int CalculateGraph(const GraphParameters& gp, GraphResult& gr);
 
 };
 

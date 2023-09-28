@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <cmath>
+#include <vector>
 
 #include "./ui_mainwindow.h"
 #include "../model/model.h"
@@ -71,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent, Controller* controller)
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::push_button() {
-  QPushButton *button = (QPushButton *)sender();
+  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
   if (string_.isEmpty() == 0) {
     if (string_.back() != ')' || string_.back() != 'x') {
       string_ = (ui->label->text() + button->text());
@@ -83,7 +84,7 @@ void MainWindow::push_button() {
 }
 
 void MainWindow::push_dot_button() {
-  QPushButton *button = (QPushButton *)sender();
+  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
   if (string_.isEmpty() == 0) {
     if (string_.back() >= '0' && string_.back() <= '9') {
       string_ = (ui->label->text() + button->text());
@@ -93,7 +94,7 @@ void MainWindow::push_dot_button() {
 }
 
 void MainWindow::push_x_button() {
-  QPushButton *button = (QPushButton *)sender();
+  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
   if (string_.isEmpty() == 0) {
     if (string_.back() == ')' || string_.back() == 'x' ||
         (string_.back() >= '0' && string_.back() <= '9') ||
@@ -108,7 +109,7 @@ void MainWindow::push_x_button() {
 }
 
 void MainWindow::push_button_operation() {
-  QPushButton *button = (QPushButton *)sender();
+  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
   if (string_.isEmpty() == 0) {
     if ((string_.back() >= '0' && string_.back() <= '9') ||
         string_.back() == ')' || string_.back() == 'x') {
@@ -119,7 +120,7 @@ void MainWindow::push_button_operation() {
 }
 
 void MainWindow::push_button_operation_un() {
-  QPushButton *button = (QPushButton *)sender();
+  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
   if (string_.isEmpty() == 0) {
     if ((string_.back() >= '0' && string_.back() <= '9') ||
         string_.back() == ')' || string_.back() == '(' ||
@@ -133,7 +134,7 @@ void MainWindow::push_button_operation_un() {
 }
 
 void MainWindow::push_button_close_bracket() {
-  QPushButton *button = (QPushButton *)sender();
+  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
   if (string_.isEmpty() == 0) {
     if ((string_.back() >= '0' && string_.back() <= '9') ||
         string_.back() == ')' || string_.back() == 'x') {
@@ -144,7 +145,7 @@ void MainWindow::push_button_close_bracket() {
 }
 
 void MainWindow::push_button_open_bracket() {
-  QPushButton *button = (QPushButton *)sender();
+  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
   if (string_.isEmpty() == 0) {
     if (!(string_.back() >= '0' && string_.back() <= '9' ||
           string_.back() == '.' || string_.back() == 'x')) {
@@ -157,7 +158,7 @@ void MainWindow::push_button_open_bracket() {
 }
 
 void MainWindow::push_button_operation_fn() {
-  QPushButton *button = (QPushButton *)sender();
+  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
   if (string_.isEmpty() == 0) {
     if (string_.back() == '+' || string_.back() == '-' ||
         string_.back() == '(' || string_.back() == '*' ||
@@ -172,14 +173,11 @@ void MainWindow::push_button_operation_fn() {
 }
 
 void MainWindow::on_pushButton_equal_clicked() {
-  int len = string_.size();
+  const int len = static_cast<int>(string_.size());
   if (len < 256) {
-    QByteArray ba = string_.toLocal8Bit();
-    char *str = ba.data();
     double result = 0;
     double x_value = ui->x_value->text().toDouble();
-    // int ex_code = main_for_calc(str, &result, x_value);
-    int ex_code = controller_->main_for_calc(str, &result, x_value);
+    int ex_code = controller_->Calculate(string_.toStdString(), &result, x_value);
     string_.clear();
     ui->label->clear();
 
@@ -227,30 +225,42 @@ void MainWindow::on_pushButton_clean_clicked() {
   }
 }
 
+
+
+
+
 void MainWindow::on_pushButton_graph_clicked() {
   ui->widget->clearGraphs();
-  double x_max = ui->input_xmax->text().toDouble();
-  double x_min = ui->input_xmin->text().toDouble();
-  double y_max = ui->input_ymax->text().toDouble();
-  double y_min = ui->input_ymin->text().toDouble();
+  Controller::GraphParameters gp;
+  gp.x_max = ui->input_xmax->text().toDouble();
+  gp.x_min = ui->input_xmin->text().toDouble();
+  const double y_max = ui->input_ymax->text().toDouble();
+  const double y_min = ui->input_ymin->text().toDouble();
 
-  double x_range = 10000;
-  double x_step = abs(x_max - x_min) / x_range;
+  // double x_range = 10000.0;
+  // double x_step = abs(x_max - x_min) / x_range;
 
-  QVector<double> x(x_range), y(x_range);
+  // QVector<double> x(x_range), y(x_range);
 
-  int ex_code = 0;
-  QByteArray ba = string_.toLocal8Bit();
-  char *str = ba.data();
+  // int ex_code = 0;
 
-  for (int i = 0; i < x_range && ex_code == 0; ++i) {
-    std::cout << "controller_->main_for_calc()\n";
-    x[i] = x_min + x_step * i;
-    double result = 0;
-    ex_code = controller_->main_for_calc(str, &result, x[i]);
-    std::cout << "ex_code = " << ex_code << '\n';
-    y[i] = result;
-  }
+
+
+  // for (int i = 0; i < x_range && ex_code == 0; ++i) {
+  //   x[i] = x_min + x_step * i;
+  //   double result = 0.0;
+  //   ex_code = controller_->Calculate(string_.toStdString(), &result, x[i]);
+  //   y[i] = result;
+  // }
+
+  Controller::GraphResult gr;
+
+  const int ex_code = controller_->CalculateGraph(gp, gr);
+  if (ex_code)
+    return;
+  
+
+  const QVector<double> x(gr.x.begin(), gr.x.end()), y(gr.y.begin(), gr.y.end());
 
   ui->widget->addGraph();
   ui->widget->graph(0)->addData(x, y);
@@ -258,7 +268,7 @@ void MainWindow::on_pushButton_graph_clicked() {
   ui->widget->xAxis->setLabel("x");
   ui->widget->yAxis->setLabel("y");
 
-  ui->widget->xAxis->setRange(x_min, x_max);
+  ui->widget->xAxis->setRange(gp.x_min, gp.x_max);
   ui->widget->yAxis->setRange(y_min, y_max);
 
   ui->widget->replot();
