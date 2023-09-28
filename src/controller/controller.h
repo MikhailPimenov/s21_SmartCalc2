@@ -4,6 +4,13 @@
 #include <string>
 #include <vector>
 
+
+/*!
+\file
+\brief Controller. Mediator between view (interface) and model (calculator)
+
+*/
+
 namespace s21 {
 
 class Controller 

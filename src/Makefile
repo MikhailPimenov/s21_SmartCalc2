@@ -35,9 +35,9 @@ uninstall:
 	rm -rf build
 
 dvi:
-	doxygen -g doxygen.config
 	doxygen doxygen.config
 	open html/index.html
+# doxygen -g doxygen.config
 
 dist:
 	sh dist_script.sh
@@ -83,8 +83,9 @@ clean:
 	rm -rf *.gcda *.gcno model/*.o model/*.gcda model/*.gcno
 	rm -rf html
 	rm -rf latex
-	rm -rf doxygen.config
 	rm -rf report
+	rm -rf doxygen.config.bak
+# rm -rf doxygen.config
 
 rebuild: clean all
 
