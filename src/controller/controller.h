@@ -8,9 +8,9 @@ class Controller
 {
 public:
     struct CreditParameters {
-        double credit_sum_ = 0.0;
-        int credit_term_ = 0;
-        float credit_percent_ = 0.0f;
+        double creditSum_ = 0.0;
+        int creditTerm_ = 0;
+        float creditPercent_ = 0.0f;
         
         enum class RepainmentOrder {
             Undefined,
@@ -22,9 +22,9 @@ public:
     };
 
     struct CreditResult {
-        double monthlty_payment_ = 0.0;
+        double monthltyPayment_ = 0.0;
         double overpayment_ = 0.0;
-        double total_sum_ = 0.0;
+        double totalSum_ = 0.0;
 
         std::vector<double> list_;
     };
@@ -75,9 +75,9 @@ struct GraphResult {
 
         static int Calculate(const std::string& input_str, double *result, double x_value);
         static bool CalculateDeposit(const DepositParameters& dp, DepositResult& dr);
+        static int CalculateGraph(const GraphParameters& gp, GraphResult& gr);
         static bool CalculateCredit(const CreditParameters& cp, CreditResult& cr);
 
-        static int CalculateGraph(const GraphParameters& gp, GraphResult& gr);
 
 };
 

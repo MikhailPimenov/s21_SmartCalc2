@@ -15,24 +15,24 @@ bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
   
   static constexpr int months = 12;
   if (cp.order_ == CreditParameters::RepainmentOrder::Annuity) {
-    const double credit_percent = cp.creditPercent_ / 100.0 / months;
-    cr.monthlty_payment_ = cp.creditSum_ * credit_percent *
-                        std::pow(1. + credit_percent, cp.creditTerm_) /
-                        (std::pow(1. + credit_percent, cp.creditTerm_) - 1.);
+    const double creditPercent = cp.creditPercent_ / 100.0 / months;
+    cr.monthltyPayment_ = cp.creditSum_ * creditPercent *
+                        std::pow(1. + creditPercent, cp.creditTerm_) /
+                        (std::pow(1. + creditPercent, cp.creditTerm_) - 1.);
     for(int i = 0; i < cp.creditTerm_; i++)
-      cr.list_.push_back(cr.monthlty_payment_);
-    cr.total_sum_ = cr.monthlty_payment_ * cp.creditTerm_;
-    cr.overpayment_ = cr.total_sum_ - cp.creditSum_;
+      cr.list_.push_back(cr.monthltyPayment_);
+    cr.totalSum_ = cr.monthltyPayment_ * cp.creditTerm_;
+    cr.overpayment_ = cr.totalSum_ - cp.creditSum_;
   } else if (cp.order_ == CreditParameters::RepainmentOrder::Differentiated) {
-    double mon_loan = cp.creditSum_ / cp.creditTerm_;
-    cr.total_sum_ = 0;
+    double monthlyLoan = cp.creditSum_ / cp.creditTerm_;
+    cr.totalSum_ = 0;
     for (int i = 0; i < cp.creditTerm_; i++) {
-      const double delta = mon_loan + (cp.creditSum_ - mon_loan * i) * cp.creditPercent_ / 100.0 / months;
-      cr.total_sum_ += delta;
+      const double delta = monthlyLoan + (cp.creditSum_ - monthlyLoan * i) * cp.creditPercent_ / 100.0 / months;
+      cr.totalSum_ += delta;
       cr.list_.push_back(delta);
     }
-    cr.overpayment_ = cr.total_sum_ - cp.creditSum_;
-    cr.monthlty_payment_= mon_loan + cp.creditSum_ * cp.creditPercent_ / 100.0 / months;
+    cr.overpayment_ = cr.totalSum_ - cp.creditSum_;
+    cr.monthltyPayment_= monthlyLoan + cp.creditSum_ * cp.creditPercent_ / 100.0 / months;
   }
   return true;
 }

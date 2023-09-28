@@ -25,9 +25,9 @@ public:
     };
 
     struct CreditResult {
-        double monthlty_payment_ = 0.0;
+        double monthltyPayment_ = 0.0;
         double overpayment_ = 0.0;
-        double total_sum_ = 0.0;
+        double totalSum_ = 0.0;
 
         std::vector<double> list_;
     };

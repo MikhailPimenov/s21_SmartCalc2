@@ -23,18 +23,18 @@ int Controller::CalculateGraph(const GraphParameters& gp, GraphResult& gr) {
 
 bool Controller::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
     Model::CreditParameters mcp;
-    mcp.creditSum_ = cp.credit_sum_;
-    mcp.creditTerm_ = cp.credit_term_;
-    mcp.creditPercent_= cp.credit_percent_;
+    mcp.creditSum_ = cp.creditSum_;
+    mcp.creditTerm_ = cp.creditTerm_;
+    mcp.creditPercent_= cp.creditPercent_;
     mcp.order_ = static_cast<Model::CreditParameters::RepainmentOrder>(cp.order_);
 
     Model::CreditResult mcr;
     const bool result = Model::CalculateCredit(mcp, mcr);
 
-    cr.monthlty_payment_  = mcr.monthlty_payment_ ;
+    cr.monthltyPayment_  = mcr.monthltyPayment_ ;
     cr.overpayment_ = mcr.overpayment_;
     cr.list_ = std::move(mcr.list_);
-    cr.total_sum_ = mcr.total_sum_;
+    cr.totalSum_ = mcr.totalSum_;
 
     return result;
 }
