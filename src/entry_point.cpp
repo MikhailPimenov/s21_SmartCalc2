@@ -1,4 +1,6 @@
 #include "view/view.h"
+#include "model/model.h"
+#include "controller/controller.h"
 
 /**
 *@mainpage  Smart Calc
@@ -21,5 +23,8 @@
  * @return int Error code (not used)
  */
 int main(int argc, char *argv[]) {
-    return main_view(argc, argv);
+    Model model;
+    Controller controller(&model);
+
+    return main_view(argc, argv, &controller);
 }

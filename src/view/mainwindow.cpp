@@ -276,13 +276,13 @@ void MainWindow::on_pushButton_graph_clicked() {
 }
 
 void MainWindow::on_credit_calc_clicked() {
-  credit_calc window;
+  CreditWindow window(nullptr, controller_);
   window.setModal(true);
   window.exec();
 }
 
 void MainWindow::on_deposit_calc_clicked() {
-  deposit_calc window;
+  DepositWindow window(nullptr, controller_);
   window.setModal(true);
   window.exec();
 }

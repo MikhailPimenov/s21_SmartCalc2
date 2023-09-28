@@ -3,15 +3,15 @@
 #include "../controller/controller.h"
 
 
-deposit_calc::deposit_calc(QWidget *parent, Controller* controller_)
+DepositWindow::DepositWindow(QWidget *parent, Controller* controller_)
     : QDialog(parent), ui(new Ui::deposit_calc) {
   ui->setupUi(this);
 }
 
-deposit_calc::~deposit_calc() { delete ui; }
+DepositWindow::~DepositWindow() { delete ui; }
 
 
-void deposit_calc::on_pushButton_clicked() {
+void DepositWindow::on_pushButton_clicked() {
   ui->interest_income->setText("");
   ui->total_deposit_sum->setText("");
   ui->tax_sum->setText("");

@@ -1,7 +1,8 @@
 #include "controller.h"
 #include "../model/model.h"
 
-Controller::Controller() {}
+
+Controller::Controller(Model* model) : model_{model} {}
 
 int Controller::Calculate(const std::string& input_str, double *result, double x_value) {
     return Model::Calculate(input_str, result, x_value);
@@ -14,7 +15,7 @@ int Controller::CalculateGraph(const GraphParameters& gp, GraphResult& gr) {
 
     Model::GraphResult mgr;
 
-    const int ex_code = Model::CalculateGraph(mgp, mgr);
+    const int ex_code = model_->CalculateGraph(mgp, mgr);
     gr.x = std::move(mgr.x); 
     gr.y = std::move(mgr.y); 
 

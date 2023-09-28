@@ -8,12 +8,12 @@ namespace Ui {
 class deposit_calc;
 }
 
-class deposit_calc : public QDialog {
+class DepositWindow : public QDialog {
   Q_OBJECT
 
  public:
-  explicit deposit_calc(QWidget *parent = nullptr, class Controller* controller = nullptr);
-  ~deposit_calc();
+  explicit DepositWindow(QWidget *parent = nullptr, class Controller* controller = nullptr);
+  ~DepositWindow();
 
  private slots:
   void on_pushButton_clicked();

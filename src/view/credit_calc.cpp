@@ -6,14 +6,14 @@
 #include "ui_credit_calc.h"
 #include "../controller/controller.h"
 
-credit_calc::credit_calc(QWidget *parent, Controller* controller_)
+CreditWindow::CreditWindow(QWidget *parent, Controller* controller_)
     : QDialog(parent), ui(new Ui::credit_calc) {
   ui->setupUi(this);
 }
 
-credit_calc::~credit_calc() { delete ui; }
+CreditWindow::~CreditWindow() { delete ui; }
 
-void credit_calc::on_make_calc_clicked() {
+void CreditWindow::on_make_calc_clicked() {
   ui->label_error->setText("");
   ui->monthly_payment->setText("");
   ui->overpayment->setText("");
@@ -33,7 +33,7 @@ void credit_calc::on_make_calc_clicked() {
 
   Controller::CreditResult cr;
 
-  if (!Controller::CalculateCredit(cp, cr)) {
+  if (!controller_->CalculateCredit(cp, cr)) {
     ui->label_error->setText("Incorrect input");
     return;
   } 

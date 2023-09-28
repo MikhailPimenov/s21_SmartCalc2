@@ -71,14 +71,16 @@ struct GraphResult {
 
 
     public:
-        Controller();
+        Controller(class Model* model);
 
-        static int Calculate(const std::string& input_str, double *result, double x_value);
-        static bool CalculateDeposit(const DepositParameters& dp, DepositResult& dr);
-        static int CalculateGraph(const GraphParameters& gp, GraphResult& gr);
-        static bool CalculateCredit(const CreditParameters& cp, CreditResult& cr);
+        int Calculate(const std::string& input_str, double *result, double x_value);
+        bool CalculateDeposit(const DepositParameters& dp, DepositResult& dr);
+        int CalculateGraph(const GraphParameters& gp, GraphResult& gr);
+        bool CalculateCredit(const CreditParameters& cp, CreditResult& cr);
 
 
+    private:
+        Model* model_;
 };
 
 #endif  // SRC_CONTROLLER_CONTROLLER_H

@@ -3,10 +3,11 @@
 #include <string>
 
 #include "mainwindow.h"
+#include "../controller/controller.h"
 
-int main_view(int argc, char *argv[]) {
+int main_view(int argc, char *argv[], Controller* controller) {
   QApplication a(argc, argv);
-  MainWindow w;
+  MainWindow w(nullptr, controller);
   w.show();
   return a.exec();
 }
