@@ -15,12 +15,13 @@ namespace {
 
 
 TEST(ExpressionComputation, T0Simple) {
-  const char *input_str = "1+2*3";
+  const std::string input_str("1+2*3");
+Model model;
 
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_code = model.Calculate(input_str, &result, x_value);
   const double expected = 7.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -28,12 +29,13 @@ TEST(ExpressionComputation, T0Simple) {
 }
 
 TEST(ExpressionComputation, T1Simple) {
-  const char *input_str = "2.0/(3.0+2.0)*5.0";
+  const std::string input_str("2.0/(3.0+2.0)*5.0");
+Model model;
 
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_code = model.Calculate(input_str, &result, x_value);
   const double expected = 2.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -41,12 +43,13 @@ TEST(ExpressionComputation, T1Simple) {
 }
 
 TEST(ExpressionComputation, T2SimpleBraces) {
-  const char *input_str = "1+2+(3*4)+(5.1+6.8)";
+  const std::string input_str("1+2+(3*4)+(5.1+6.8)");
+Model model;
 
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_code = model.Calculate(input_str, &result, x_value);
   const double expected = 26.9;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -54,12 +57,13 @@ TEST(ExpressionComputation, T2SimpleBraces) {
 }
 
 TEST(ExpressionComputation, T3Simple) {
-  const char *input_str = "10.0+10.0*10.0";
+  const std::string input_str("10.0+10.0*10.0");
+Model model;
 
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_code = model.Calculate(input_str, &result, x_value);
   const double expected = 110.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -68,12 +72,13 @@ TEST(ExpressionComputation, T3Simple) {
 
 
 TEST(ExpressionComputation, T4SimpleMod) {
-  const char *input_str = "5.0mod3.0";
+  const std::string input_str("5.0mod3.0");
+Model model;
 
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_code = model.Calculate(input_str, &result, x_value);
   const double expected = 2.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -81,12 +86,13 @@ TEST(ExpressionComputation, T4SimpleMod) {
 }
 
 TEST(ExpressionComputation, T5SimpleBraces) {
-  const char *input_str = "1.0/2.0*(2.0-1.0)";
+  const std::string input_str("1.0/2.0*(2.0-1.0)");
+Model model;
 
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_code = model.Calculate(input_str, &result, x_value);
   const double expected = 0.5;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -94,12 +100,13 @@ TEST(ExpressionComputation, T5SimpleBraces) {
 }
 
 TEST(ExpressionComputation, T6MoreBraces) {
-  const char *input_str = "(1-2-(0-3)-4)-5-(0-6)";
+  const std::string input_str("(1-2-(0-3)-4)-5-(0-6)");
+Model model;
 
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_code = model.Calculate(input_str, &result, x_value);
   const double expected = -1.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -107,12 +114,13 @@ TEST(ExpressionComputation, T6MoreBraces) {
 }
 
 TEST(ExpressionComputation, T7MoreBraces) {
-  const char *input_str = "(1+2)*((3-4)+1+(5-6+7))";
+  const std::string input_str("(1+2)*((3-4)+1+(5-6+7))");
+Model model;
 
 
   double result = 0.0;
   double x_value = 0.0;
-  const int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  const int ex_code = model.Calculate(input_str, &result, x_value);
   const double expected = 18.0;
   const int ex_expected = 0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -120,11 +128,12 @@ TEST(ExpressionComputation, T7MoreBraces) {
 }
 
 TEST(ExpressionComputation, T8MoreBraces) {
-  const char *input_str = "sqrt(4)-1/2*sin(3^2-2)";
+  const std::string input_str("sqrt(4)-1/2*sin(3^2-2)");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 1.6715067;
   EXPECT_EQ(ex_code, ex_expected);
@@ -134,11 +143,12 @@ TEST(ExpressionComputation, T8MoreBraces) {
 
 
 TEST(ExpressionComputation, T1Pows)  {
-  const char *input_str = "2^3^2";
+  const std::string input_str("2^3^2");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 512.0;
 
@@ -162,11 +172,12 @@ TEST(ExpressionComputation, T1Pows)  {
 // // END_TEST
 
 TEST(ExpressionComputation, T4Simple) {
-  const char *input_str = "-1+8";
+  const std::string input_str("-1+8");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 7.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -175,11 +186,12 @@ TEST(ExpressionComputation, T4Simple) {
 
 
 TEST(ExpressionComputation, T1Mod) {
-  const char *input_str = "-5.0mod(-3.0)";
+  const std::string input_str("-5.0mod(-3.0)");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = -2.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -188,11 +200,12 @@ TEST(ExpressionComputation, T1Mod) {
 
 
 TEST(ExpressionComputation, T1LongEpression) {
-  const char *input_str = "4+4*2/(1-5)";
+  const std::string input_str("4+4*2/(1-5)");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 2.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -201,11 +214,12 @@ TEST(ExpressionComputation, T1LongEpression) {
 
 
 TEST(ExpressionComputation, T2LongEpression) {
-  const char *input_str = "4+4*2/1-5";
+  const std::string input_str("4+4*2/1-5");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 7.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -214,11 +228,12 @@ TEST(ExpressionComputation, T2LongEpression) {
 
 
 TEST(ExpressionComputation, T3LongEpression) {
-  const char *input_str = "4+4*(2/1-5)";
+  const std::string input_str("4+4*(2/1-5)");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = -8.0;
 
@@ -228,11 +243,12 @@ TEST(ExpressionComputation, T3LongEpression) {
 
 
 TEST(ExpressionComputation, T4LongEpression) {
-  const char *input_str = "4+(4*2/1-5)";
+  const std::string input_str("4+(4*2/1-5)");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 7.0;
 
@@ -242,11 +258,12 @@ TEST(ExpressionComputation, T4LongEpression) {
 
 
 TEST(ExpressionComputation, T5LongEpression) {
-  const char *input_str = "4+4*(2/1)-5";
+  const std::string input_str("4+4*(2/1)-5");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 7.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -255,11 +272,12 @@ TEST(ExpressionComputation, T5LongEpression) {
 
 
 TEST(ExpressionComputation, T6LongEpression) {
-  const char *input_str = "4+(4*2/1)-5";
+  const std::string input_str("4+(4*2/1)-5");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 7.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -268,11 +286,12 @@ TEST(ExpressionComputation, T6LongEpression) {
 
 
 TEST(ExpressionComputation, T7LongEpression) {
-  const char *input_str = "(4+4*2/1)-5";
+  const std::string input_str("(4+4*2/1)-5");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 7.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -281,11 +300,12 @@ TEST(ExpressionComputation, T7LongEpression) {
 
 
 TEST(ExpressionComputation, T8LongEpression) {
-  const char *input_str = "4+(4*2)/1-5";
+  const std::string input_str("4+(4*2)/1-5");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 7.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -294,11 +314,12 @@ TEST(ExpressionComputation, T8LongEpression) {
 
 
 TEST(ExpressionComputation, T9LongEpression) {
-  const char *input_str = "(4+4*2)/1-5";
+  const std::string input_str("(4+4*2)/1-5");
+Model model;
   
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 7.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -307,11 +328,12 @@ TEST(ExpressionComputation, T9LongEpression) {
 
 
 TEST(ExpressionComputation, T10LongEpression) {
-  const char *input_str = "8*(7+6*4)+3";
+  const std::string input_str("8*(7+6*4)+3");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 251.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -320,11 +342,12 @@ TEST(ExpressionComputation, T10LongEpression) {
 
 
 TEST(ExpressionComputation, T11LongEpression) {
-  const char *input_str = "2/(3+2)*5";
+  const std::string input_str("2/(3+2)*5");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 2.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -334,11 +357,12 @@ TEST(ExpressionComputation, T11LongEpression) {
 
 
 TEST(ExpressionComputation, T12LongEpression) {
-  const char *input_str = "2+9.3-8^3/4+56.2";
+  const std::string input_str("2+9.3-8^3/4+56.2");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = -60.5;
   EXPECT_EQ(ex_code, ex_expected);
@@ -347,11 +371,12 @@ TEST(ExpressionComputation, T12LongEpression) {
 
 
 TEST(ExpressionComputation, T13LongEpression) {
-  const char *input_str = "2+9.3-8^3/(4+56.2)";
+  const std::string input_str("2+9.3-8^3/(4+56.2)");
+Model model;
 
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 2.7950166;
   EXPECT_EQ(ex_code, ex_expected);
@@ -360,11 +385,12 @@ TEST(ExpressionComputation, T13LongEpression) {
 
 
 TEST(ExpressionComputation, T14LongEpression) {
-  const char *input_str = "2^(3^2)";
+  const std::string input_str("2^(3^2)");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 512.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -372,11 +398,12 @@ TEST(ExpressionComputation, T14LongEpression) {
 }
 
 TEST(ExpressionComputation, T15LongEpression) {
-  const char *input_str = "(2^3)^2";
+  const std::string input_str("(2^3)^2");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 64.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -384,11 +411,12 @@ TEST(ExpressionComputation, T15LongEpression) {
 }
 
 TEST(ExpressionComputation, T16LongEpression) {
-  const char *input_str = "cos(431.2*2^2/8)";
+  const std::string input_str("cos(431.2*2^2/8)");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = -0.3902501;
   EXPECT_EQ(ex_code, ex_expected);
@@ -396,11 +424,12 @@ TEST(ExpressionComputation, T16LongEpression) {
 }
 
 TEST(ExpressionComputation, T17LongEpression) {
-  const char *input_str = "3*sin(4+5)";
+  const std::string input_str("3*sin(4+5)");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 1.2363555;
   EXPECT_EQ(ex_code, ex_expected);
@@ -408,11 +437,12 @@ TEST(ExpressionComputation, T17LongEpression) {
 }
 
 TEST(ExpressionComputation, T18LongEpression) {
-  const char *input_str = "431.2*2^2/8";
+  const std::string input_str("431.2*2^2/8");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 215.6;
   EXPECT_EQ(ex_code, ex_expected);
@@ -420,33 +450,36 @@ TEST(ExpressionComputation, T18LongEpression) {
 }
 
 TEST(ExpressionComputation, T19LongEpression) {
-  const char *input_str = "cos(sin(2+9*6^1.2-tan(1)))";
+  const std::string input_str("cos(sin(2+9*6^1.2-tan(1)))");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.7421823;
   EXPECT_EQ(ex_code, ex_expected);
   EXPECT_NEAR(result, expected, EPS);
 }
 TEST(ExpressionComputation, T20LongEpression) {
-  const char *input_str = "sqrt(cos(sin(2+9*6^1.2-tan(1))))";
+  const std::string input_str("sqrt(cos(sin(2+9*6^1.2-tan(1))))");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.8615000;
   EXPECT_EQ(ex_code, ex_expected);
   EXPECT_NEAR(result, expected, EPS);
 }
 TEST(ExpressionComputation, T21LongEpression) {
-  const char *input_str = "sqrt(cos(sin(2+9*6^1.2-tan(1))))mod0.1";
+  const std::string input_str("sqrt(cos(sin(2+9*6^1.2-tan(1))))mod0.1");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.0615000;
   EXPECT_EQ(ex_code, ex_expected);
@@ -454,22 +487,24 @@ TEST(ExpressionComputation, T21LongEpression) {
 }
 
 TEST(ExpressionComputation, T22LongEpression) {
-  const char *input_str = "sqrt(2^2)*5/(4-3mod2)*(4-sqrt(81))";
+  const std::string input_str("sqrt(2^2)*5/(4-3mod2)*(4-sqrt(81))");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = -16.6666667;
   EXPECT_EQ(ex_code, ex_expected);
   EXPECT_NEAR(result, expected, EPS);
 }
 TEST(ExpressionComputation, T23LongEpression) {
-  const char *input_str = "cos(1/3)*sin(1.352^9/(4+3))";
+  const std::string input_str("cos(1/3)*sin(1.352^9/(4+3))");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.7876032;
   EXPECT_EQ(ex_code, ex_expected);
@@ -477,74 +512,81 @@ TEST(ExpressionComputation, T23LongEpression) {
 }
 
 TEST(ExpressionComputation, T24LongEpression) {
-  const char *input_str = "(cos(1/3)*sin(1.352^9/(4+3))/76.56)*log(150)";
+  const std::string input_str("(cos(1/3)*sin(1.352^9/(4+3))/76.56)*log(150)");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.0223863;
   EXPECT_EQ(ex_code, ex_expected);
   EXPECT_NEAR(result, expected, EPS);
 }
 TEST(ExpressionComputation, T25LongEpression) {
-  const char *input_str = "2+(-(-(-(-1))))";
+  const std::string input_str("2+(-(-(-(-1))))");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 3.0;
   EXPECT_EQ(ex_code, ex_expected);
   EXPECT_NEAR(result, expected, EPS);
 }
 TEST(ExpressionComputation, T26LongEpression) {
-  const char *input_str = "cos(6*3)/5";
+  const std::string input_str("cos(6*3)/5");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.1320633;
   EXPECT_EQ(ex_code, ex_expected);
   EXPECT_NEAR(result, expected, EPS);
 }
 TEST(ExpressionComputation, T1EpressionError) {
-  const char *input_str = "12.6.9+8";
+  const std::string input_str("12.6.9+8");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 1;
   EXPECT_EQ(ex_code, ex_expected);
 }
 
 TEST(ExpressionComputation, T2EpressionError) {
-  const char *input_str = "(12+6";
+  const std::string input_str("(12+6");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 1;
   EXPECT_EQ(ex_code, ex_expected);
 }
 
 TEST(ExpressionComputation, T3EpressionError) {
-  const char *input_str = "(12+6))8*3(";
+  const std::string input_str("(12+6))8*3(");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 1;
   EXPECT_EQ(ex_code, ex_expected);
 }
 
 TEST(ExpressionComputation, T4ExpressionCos) {
-  const char *input_str = "acos1";
+  const std::string input_str("acos1");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -552,11 +594,12 @@ TEST(ExpressionComputation, T4ExpressionCos) {
 }
 
 TEST(ExpressionComputation, T5ExpressionAcos) {
-  const char *input_str = "acos0.5";
+  const std::string input_str("acos0.5");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 1.0471975;
   EXPECT_EQ(ex_code, ex_expected);
@@ -564,11 +607,12 @@ TEST(ExpressionComputation, T5ExpressionAcos) {
 }
 
 TEST(ExpressionComputation, T1ExpressionAtan) {
-  const char *input_str = "atan1";
+  const std::string input_str("atan1");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.7853981;
   EXPECT_EQ(ex_code, ex_expected);
@@ -576,11 +620,12 @@ TEST(ExpressionComputation, T1ExpressionAtan) {
 }
 
 TEST(ExpressionComputation, T2ExpressionAtan) {
-  const char *input_str = "atan15";
+  const std::string input_str("atan15");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 1.5042281;
   EXPECT_EQ(ex_code, ex_expected);
@@ -588,11 +633,12 @@ TEST(ExpressionComputation, T2ExpressionAtan) {
 }
 
 TEST(ExpressionComputation, T3ExpressionAsin) {
-  const char *input_str = "asin1";
+  const std::string input_str("asin1");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 1.5707963;
   EXPECT_EQ(ex_code, ex_expected);
@@ -600,11 +646,12 @@ TEST(ExpressionComputation, T3ExpressionAsin) {
 }
 
 TEST(ExpressionComputation, T4ExpressionAsin) {
-  const char *input_str = "asin0.5";
+  const std::string input_str("asin0.5");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.5235987;
   EXPECT_EQ(ex_code, ex_expected);
@@ -612,11 +659,12 @@ TEST(ExpressionComputation, T4ExpressionAsin) {
 }
 
 TEST(ExpressionComputation, T5ExpressionLen) {
-  const char *input_str = "ln1";
+  const std::string input_str("ln1");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 0.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -624,39 +672,25 @@ TEST(ExpressionComputation, T5ExpressionLen) {
 }
 
 TEST(ExpressionComputation, T6ExpressionLen) {
-  const char *input_str = "ln15";
+  const std::string input_str("ln15");
+Model model;
  
   double result = 0.0;
   double x_value = 0.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 2.7080502;
   EXPECT_EQ(ex_code, ex_expected);
   EXPECT_NEAR(result, expected, EPS);
 }
 
-
-// // DON'T!!!!!!!!!!!!!!!!!
-// // DON'T!!!!!!!!!!!!!!!!!
-// // DON'T!!!!!!!!!!!!!!!!!
-// // START_TEST(test_case_51) {
-// //   char *input_str = "x+15";
-// //   double result = 0;
-// //   double x_value = 2;
-// //   int ex_code;
-// //   ex_code = main_for_calc(input_str, &result, x_value);
-// //   ck_assert_int_eq(ex_code, 0);
-// //   ck_assert_double_eq_tol(result, 17, EPS);
-// // }
-// // END_TEST
-
-
 TEST(ExpressionComputation, T7ExpressionPow) {
-  const char *input_str = "x^2+x*2";
+  const std::string input_str("x^2+x*2");
+Model model;
  
   double result = 0.0;
   double x_value = 3.0;
-  int ex_code = Model::main_for_calc(input_str, &result, x_value);
+  int ex_code = model.Calculate(input_str, &result, x_value);
   const int ex_expected = 0;
   const double expected = 15.0;
   EXPECT_EQ(ex_code, ex_expected);
@@ -823,79 +857,6 @@ TEST(ExpressionComputation, T7ExpressionPow) {
 // }
 // END_TEST
 
-// int main(void) {
-//   Suite *s1 = suite_create("SmartCalc");
-//   TCase *smart_calc = tcase_create("SmartCalc");
-//   suite_add_tcase(s1, smart_calc);
-//   tcase_add_test(smart_calc, test_case_1);
-//   tcase_add_test(smart_calc, test_case_2);
-//   tcase_add_test(smart_calc, test_case_3);
-//   tcase_add_test(smart_calc, test_case_4);
-//   tcase_add_test(smart_calc, test_case_5);
-//   tcase_add_test(smart_calc, test_case_6);
-//   tcase_add_test(smart_calc, test_case_7);
-//   tcase_add_test(smart_calc, test_case_8);
-//   tcase_add_test(smart_calc, test_case_9);
-//   tcase_add_test(smart_calc, test_case_10);
-//   // tcase_add_test(smart_calc, test_case_11);
-//   tcase_add_test(smart_calc, test_case_12);
-//   tcase_add_test(smart_calc, test_case_13);
-//   tcase_add_test(smart_calc, test_case_14);
-//   tcase_add_test(smart_calc, test_case_15);
-//   tcase_add_test(smart_calc, test_case_16);
-//   tcase_add_test(smart_calc, test_case_17);
-//   tcase_add_test(smart_calc, test_case_18);
-//   tcase_add_test(smart_calc, test_case_19);
-//   tcase_add_test(smart_calc, test_case_20);
-//   tcase_add_test(smart_calc, test_case_21);
-//   tcase_add_test(smart_calc, test_case_22);
-//   tcase_add_test(smart_calc, test_case_23);
-//   tcase_add_test(smart_calc, test_case_24);
-//   tcase_add_test(smart_calc, test_case_25);
-//   tcase_add_test(smart_calc, test_case_26);
-//   tcase_add_test(smart_calc, test_case_27);
-//   tcase_add_test(smart_calc, test_case_28);
-//   tcase_add_test(smart_calc, test_case_29);
-//   tcase_add_test(smart_calc, test_case_30);
-//   tcase_add_test(smart_calc, test_case_31);
-//   tcase_add_test(smart_calc, test_case_32);
-//   tcase_add_test(smart_calc, test_case_33);
-//   tcase_add_test(smart_calc, test_case_34);
-//   tcase_add_test(smart_calc, test_case_35);
-//   tcase_add_test(smart_calc, test_case_36);
-//   tcase_add_test(smart_calc, test_case_37);
-//   tcase_add_test(smart_calc, test_case_38);
-//   tcase_add_test(smart_calc, test_case_39);
-//   tcase_add_test(smart_calc, test_case_40);
-//   tcase_add_test(smart_calc, test_case_41);
-//   tcase_add_test(smart_calc, test_case_42);
-//   tcase_add_test(smart_calc, test_case_43);
-//   tcase_add_test(smart_calc, test_case_44);
-//   tcase_add_test(smart_calc, test_case_45);
-//   tcase_add_test(smart_calc, test_case_46);
-//   tcase_add_test(smart_calc, test_case_47);
-//   tcase_add_test(smart_calc, test_case_48);
-//   tcase_add_test(smart_calc, test_case_49);
-//   tcase_add_test(smart_calc, test_case_50);
-//   // tcase_add_test(smart_calc, test_case_51);
-//   tcase_add_test(smart_calc, test_case_52);
-//   tcase_add_test(smart_calc, test_case_53);
-//   tcase_add_test(smart_calc, test_case_54);
-//   tcase_add_test(smart_calc, test_case_55);
-//   tcase_add_test(smart_calc, test_case_56);
-//   tcase_add_test(smart_calc, test_case_57);
-//   tcase_add_test(smart_calc, test_case_58);
-//   tcase_add_test(smart_calc, test_case_59);
-//   tcase_add_test(smart_calc, test_case_60);
-
-//   SRunner *sr = srunner_create(s1);
-//   int nf;
-//   srunner_set_fork_status(sr, CK_NOFORK);
-//   srunner_run_all(sr, CK_ENV);
-//   nf = srunner_ntests_failed(sr);
-//   srunner_free(sr);
-//   return nf == 0 ? 0 : 1;
-// }
 
 
 } // namespace

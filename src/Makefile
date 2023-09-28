@@ -1,15 +1,10 @@
 CC=g++
 CFLAGS=-Wall -Werror -Wextra
 CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g -Werror
-# STRICT_CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g -Werror
 CCOV=-fprofile-arcs -ftest-coverage
-# SOURSE_FILE = *.c SmartCalc.h
-# COVFLAGS = --coverage
 COVFLAGS=$(shell pkg-config --cflags --libs gcovr)
 LDFLAGS = -lgcov
-# TFLAGS = -lcheck -lm -lsubunit
 TFLAGS=$(shell pkg-config --libs check)
-#ASAN = -g -fsanitize=address
 
 
 GCOVR_CFLAGS=-fprofile-arcs -ftest-coverage -fPIC
@@ -23,19 +18,14 @@ HEADERS=model/SmartCalc.h
 
 SOURCES=tests/tests_main.cc
 SOURCES+=tests/test.cc
-SOURCES+=model/main_c.cc
-SOURCES+=model/stack.cc
-SOURCES+=model/shunting_yard.cc
-SOURCES+=model/parcer.cc
-SOURCES+=model/calc_rpn.cc
-SOURCES+=model/bonus_part.cc
+SOURCES+=model/model.cc
+SOURCES+=model/bonus_model.cc
 
 
 BINARIES=$(patsubst %.c,%.o,$(SOURCES))
 
 
 all: install run	
-# all: clean install run	
 
 install:
 	sh install_script.sh
@@ -44,7 +34,6 @@ uninstall:
 	rm -rf build
 
 dvi:
-# open ../README.md
 	doxygen -g doxygen.config
 	doxygen doxygen.config
 	open html/index.html
@@ -55,12 +44,8 @@ dist:
 run:
 	./build/SmartCalc_1_0.app/Contents/MacOS/SmartCalc_1_0
 
-# test: 
-# 	$(CC) $(CFLAGS) $(ASAN) $(CCOV) $(SOURSE_FILE) -o test $(TFLAGS)
-# 	-./test
-
 test: run_tests 
-# gcov_report
+
 
 run_tests: tests/tests_main.exe
 		./tests/tests_main.exe
