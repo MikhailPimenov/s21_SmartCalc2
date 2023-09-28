@@ -1,10 +1,6 @@
 set(MODEL_SOURCES
-    stack.cc
-    parcer.cc
-    shunting_yard.cc
-    bonus_part.cc
-    calc_rpn.cc
-    main_c.cc
+    model.cc
+    bonus_model.cc
 )
 add_library(model_target ${MODEL_SOURCES})
 
