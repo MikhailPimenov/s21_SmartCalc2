@@ -21,6 +21,7 @@ SOURCES+=tests/test.cc
 SOURCES+=model/model.cc
 SOURCES+=model/bonus_model.cc
 
+REPORT_DIRECTORY=report
 
 BINARIES=$(patsubst %.c,%.o,$(SOURCES))
 
@@ -60,12 +61,13 @@ tests/tests_main.exe: $(BINARIES)
 		$(CC) -o $@ $^ $(GTEST_LFLAGS) $(GCOVR_LFLAGS) -g
 
 gcov_report: run_tests
-	$(CC) $(ASAN) $(GFLAGS) $(CCOV) $(SOURSE_FILE) $(TFLAGS) -o ./htmlreport.out
-	./htmlreport.out
-	lcov -t "htmlreport" -o test.info -c -d .
-	genhtml -o report test.info
-# gcovr . --html --html-details -o $(REPORT_DIRECTORY)/coverage_report.html
-# open $(REPORT_DIRECTORY)/index.html
+# $(CC) $(ASAN) $(GFLAGS) $(CCOV) $(SOURSE_FILE) $(TFLAGS) -o ./htmlreport.out
+# ./htmlreport.out
+# lcov -t "htmlreport" -o test.info -c -d .
+# genhtml -o report test.info
+		mkdir -p $(REPORT_DIRECTORY)
+		gcovr . --html --html-details $(EXCLUDE_FROM_COVERAGE) -o $(REPORT_DIRECTORY)/coverage_report.html
+		open "" $(REPORT_DIRECTORY)/coverage_report.functions.html  
 
 check:
 	cppcheck --enable=all --force *.c SmartCalc.h
@@ -82,6 +84,7 @@ clean:
 	rm -rf html
 	rm -rf latex
 	rm -rf doxygen.config
+	rm -rf report
 
 rebuild: clean all
 
