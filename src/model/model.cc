@@ -284,6 +284,8 @@ int Model::CalculateGraph(const GraphParameters& gp, GraphResult& gr) {
   double x_step = abs(gp.x_max - gp.x_min) / x_range;
   int ex_code = 0;
 
+  gr.x.resize(x_range);
+  gr.y.resize(x_range);
   for (int i = 0; i < x_range && ex_code == 0; ++i) {
     gr.x[i] = gp.x_min + x_step * i;
     double result = 0.0;

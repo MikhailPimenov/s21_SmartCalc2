@@ -234,6 +234,7 @@ void MainWindow::on_pushButton_graph_clicked() {
   Controller::GraphParameters gp;
   gp.x_max = ui->input_xmax->text().toDouble();
   gp.x_min = ui->input_xmin->text().toDouble();
+  gp.input_string = string_.toStdString();
   const double y_max = ui->input_ymax->text().toDouble();
   const double y_min = ui->input_ymin->text().toDouble();
 
