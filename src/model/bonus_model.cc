@@ -3,6 +3,8 @@
 #include "model.h"
 #include "../controller/controller.h"
 
+namespace s21 {
+
 bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
   if (cp.order_ == CreditParameters::RepainmentOrder::Undefined)
     return false;
@@ -104,3 +106,5 @@ bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult&
 
   return true;
 }
+
+}   // namespace s21

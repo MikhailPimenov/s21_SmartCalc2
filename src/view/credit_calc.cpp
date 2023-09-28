@@ -6,6 +6,9 @@
 #include "ui_credit_calc.h"
 #include "../controller/controller.h"
 
+namespace s21 {
+
+
 CreditWindow::CreditWindow(QWidget *parent, Controller* controller_)
     : QDialog(parent), ui(new Ui::credit_calc) {
   ui->setupUi(this);
@@ -55,4 +58,4 @@ void CreditWindow::on_make_calc_clicked() {
   }
 }
 
-
+} //  namespace s21

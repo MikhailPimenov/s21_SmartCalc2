@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+namespace s21 {
+
 class Controller 
 {
 public:
@@ -82,5 +84,7 @@ struct GraphResult {
     private:
         Model* model_;
 };
+
+}   //  namespace s21
 
 #endif  // SRC_CONTROLLER_CONTROLLER_H

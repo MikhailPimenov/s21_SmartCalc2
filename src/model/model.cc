@@ -1,7 +1,10 @@
 #include <cmath>
+#include <iostream>
 #include <string>
 
 #include "model.h"
+
+namespace s21 {
 
 int Model::Calculate(const std::string& input_str, double *result, double x_value) {
   printf("string = %s\nx_value = %f\n", input_str.data(), x_value);
@@ -15,13 +18,13 @@ int Model::Calculate(const std::string& input_str, double *result, double x_valu
   printf("parcer ended...\n");
   if (ex_code == 0) {
     printf("shunting_yard...\n");
-    shunting_yard(head, output);
+    shuntingYard(head, output);
     printf("shunting_yard ended...\n");
     printf("flip_stack...\n");
-    flip_stack(output, input);
+    flipStack(output, input);
     printf("flip_stack ended...\n");
     printf("calc_rpn...\n");
-    *result = calc_rpn(input, x_value);
+    *result = calcRpn(input, x_value);
     printf("calc_rpn ended...\n");
   } else {
     while (!head.empty()) {
@@ -169,7 +172,7 @@ int Model::parcer(const std::string& input_str, std::stack<Token>& head) {
   return ex_code;
 }
 
-double Model::calc_rpn(std::stack<Token>& input, double x_value) {
+double Model::calcRpn(std::stack<Token>& input, double x_value) {
   double result = 0;
   std::stack<Token> stack;
   while (!input.empty()) {
@@ -184,12 +187,12 @@ double Model::calc_rpn(std::stack<Token>& input, double x_value) {
                !stack.empty()) {
       double number2 = stack.top().value;
       stack.pop();
-      result = binary_fn_calc(stack.top().value, number2, input.top().type);
+      result = binaryFnCalc(stack.top().value, number2, input.top().type);
       stack.pop();
       input.pop();
       stack.push(Token(result, Type::Number, 1));
     } else if (input.top().type >= Type::Cos && !stack.empty()) {
-      result = unary_fn_calc(stack.top().value, input.top().type);
+      result = unaryFnCalc(stack.top().value, input.top().type);
       stack.pop();
       input.pop();
       stack.push(Token(result, Type::Number, 1));
@@ -200,7 +203,7 @@ double Model::calc_rpn(std::stack<Token>& input, double x_value) {
   return result;
 }
 
-double Model::unary_fn_calc(double number1, Type type) {
+double Model::unaryFnCalc(double number1, Type type) {
   double result = 0;
   if (type == Type::Cos) result = std::cos(number1);
   if (type == Type::Sin) result = std::sin(number1);
@@ -214,7 +217,7 @@ double Model::unary_fn_calc(double number1, Type type) {
   return result;
 }
 
-double Model::binary_fn_calc(double number1, double number2, Type type) {
+double Model::binaryFnCalc(double number1, double number2, Type type) {
   double result = 0;
   if (type == Type::Sum) result = number1 + number2;
   if (type == Type::Minus) result = number1 - number2;
@@ -225,7 +228,7 @@ double Model::binary_fn_calc(double number1, double number2, Type type) {
   return result;
 }
 
-void Model::shunting_yard(std::stack<Token>& head, std::stack<Token>& output) {
+void Model::shuntingYard(std::stack<Token>& head, std::stack<Token>& output) {
   std::stack<Token> stack;
   while (!head.empty()) {
     if (head.top().type == Type::Number || head.top().type == Type::X) {
@@ -272,7 +275,7 @@ void Model::shunting_yard(std::stack<Token>& head, std::stack<Token>& output) {
 }
 
 
-void Model::flip_stack(std::stack<Token>& input, std::stack<Token>& output) {
+void Model::flipStack(std::stack<Token>& input, std::stack<Token>& output) {
   while (!input.empty()) {
     output.push(input.top());
     input.pop();
@@ -293,6 +296,6 @@ int Model::CalculateGraph(const GraphParameters& gp, GraphResult& gr) {
     gr.y[i] = result;
   }
   return ex_code;
-  // QVector<double> x(x_range), y(x_range);
-
 }
+
+}   //  namespace s21

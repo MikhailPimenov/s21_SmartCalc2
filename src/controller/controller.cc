@@ -1,6 +1,7 @@
 #include "controller.h"
 #include "../model/model.h"
 
+namespace s21 {
 
 Controller::Controller(Model* model) : model_{model} {}
 
@@ -60,3 +61,4 @@ bool Controller::CalculateDeposit(const DepositParameters& dp, DepositResult& dr
     return result;
 }
 
+}   // namespace s21

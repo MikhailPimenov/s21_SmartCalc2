@@ -10,6 +10,9 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+
+namespace s21 {
+
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
@@ -39,4 +42,7 @@ class MainWindow : public QMainWindow {
   void on_credit_calc_clicked();
   void on_deposit_calc_clicked();
 };
+
+} // namespace s21
+
 #endif  // MAINWINDOW_H

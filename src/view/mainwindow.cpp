@@ -11,6 +11,9 @@
 
 #include <iostream>
 
+
+namespace s21 {
+
 MainWindow::MainWindow(QWidget *parent, Controller* controller)
     : QMainWindow(parent), ui(new Ui::MainWindow), controller_(controller) {
   ui->setupUi(this);
@@ -286,3 +289,5 @@ void MainWindow::on_deposit_calc_clicked() {
   window.setModal(true);
   window.exec();
 }
+
+} // namespace s21

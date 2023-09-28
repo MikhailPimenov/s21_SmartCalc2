@@ -23,8 +23,8 @@
  * @return int Error code (not used)
  */
 int main(int argc, char *argv[]) {
-    Model model;
-    Controller controller(&model);
+    s21::Model model;
+    s21::Controller controller(&model);
 
-    return main_view(argc, argv, &controller);
+    return s21::main_view(argc, argv, &controller);
 }

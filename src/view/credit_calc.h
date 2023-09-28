@@ -8,6 +8,8 @@ namespace Ui {
 class credit_calc;
 }
 
+namespace s21 {
+
 class CreditWindow : public QDialog {
   Q_OBJECT
 
@@ -23,5 +25,7 @@ class CreditWindow : public QDialog {
   Ui::credit_calc *ui;
   Controller* controller_ = nullptr;
 };
+
+} //  namespace s21
 
 #endif  // CREDIT_CALC_H

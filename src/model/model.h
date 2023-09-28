@@ -1,12 +1,12 @@
 #ifndef SRC_MODEL_MODEL_H
 #define SRC_MODEL_MODEL_H
 
-
-#include <cstdio>
 #include <string>
 
 #include <stack>
 #include <vector>
+
+namespace s21 {
 
 class Model {
 public:
@@ -115,12 +115,14 @@ public:
 
 private:
   static int parcer(const std::string& input_str, std::stack<Token>& head);
-  static void shunting_yard(std::stack<Token>& head, std::stack<Token>& output);
-  static double calc_rpn(std::stack<Token>& output, double x_value);
-  static double unary_fn_calc(double number1, Type type);
-  static double binary_fn_calc(double number1, double number2, Type type);
+  static void shuntingYard(std::stack<Token>& head, std::stack<Token>& output);
+  static double calcRpn(std::stack<Token>& output, double x_value);
+  static double unaryFnCalc(double number1, Type type);
+  static double binaryFnCalc(double number1, double number2, Type type);
 
-  static void flip_stack(std::stack<Token>& input, std::stack<Token>& output);
+  static void flipStack(std::stack<Token>& input, std::stack<Token>& output);
 };
+
+} //  namespace s21
 
 #endif  //  SRC_MODEL_MODEL_H

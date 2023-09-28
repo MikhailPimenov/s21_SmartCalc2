@@ -8,6 +8,8 @@ namespace Ui {
 class deposit_calc;
 }
 
+namespace s21 {
+
 class DepositWindow : public QDialog {
   Q_OBJECT
 
@@ -22,5 +24,7 @@ class DepositWindow : public QDialog {
   Ui::deposit_calc *ui;
   Controller* controller_ = nullptr;
 };
+
+} // namespace s21
 
 #endif  // DEPOSIT_CALC_H

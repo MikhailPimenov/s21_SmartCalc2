@@ -2,6 +2,7 @@
 #include "ui_deposit_calc.h"
 #include "../controller/controller.h"
 
+namespace s21 {
 
 DepositWindow::DepositWindow(QWidget *parent, Controller* controller_)
     : QDialog(parent), ui(new Ui::deposit_calc) {
@@ -56,3 +57,5 @@ void DepositWindow::on_pushButton_clicked() {
     ui->tableWidget->setItem(i, 0, itm);
   }
 }
+
+} //  namespace s21
