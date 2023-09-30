@@ -10,6 +10,10 @@ class deposit_calc;
 
 namespace s21 {
 
+/**
+ * @brief Class for deposit window
+ * 
+ */
 class DepositWindow : public QDialog {
   Q_OBJECT
 
@@ -18,6 +22,11 @@ class DepositWindow : public QDialog {
   ~DepositWindow();
 
  private slots:
+  /**
+   * @brief Called when button is clicked - runs deposit calculation
+   * 
+   * @return ** void 
+   */
   void on_pushButton_clicked();
 
  private:

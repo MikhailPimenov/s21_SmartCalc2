@@ -5,6 +5,15 @@
 
 namespace s21 {
 
+
+/**
+ * @brief Calculates credit
+ * 
+ * @param cp Input parameters
+ * @param cr Calculated result
+ * @return true if success
+ * @return false if failed (incorrect input)
+ */
 bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
   if (cp.order_ == CreditParameters::RepainmentOrder::Undefined)
     return false;
@@ -39,6 +48,15 @@ bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
   return true;
 }
 
+
+/**
+ * @brief Calculates deposit
+ * 
+ * @param parameters Input parameters
+ * @param result Calculated result
+ * @return true if success
+ * @return false if failed (incorrect input)
+ */
 bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult& result) {
   static constexpr std::array<int, 12> daysPerMonth { 
     31, // jan 

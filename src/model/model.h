@@ -10,11 +10,35 @@ namespace s21 {
 
 class Model {
 public:
+  /**
+   * @brief Parameters to be passed to model to start credit calculation
+   * 
+   */
   struct CreditParameters {
+        /**
+         * @brief How much money was given
+         * 
+         */
         double creditSum_ = 0.0;
+
+        /**
+         * @brief Period, months
+         * 
+         */
         int creditTerm_ = 0;
+
+        /**
+         * @brief Percent
+         * 
+         */
         float creditPercent_ = 0.0f;
         
+        /**
+         * @brief Credit type
+         * Annuity - constant sum to pay every month
+         * Differentiated - sum to pay is decreasing every month
+         * Undefined - not selected. Incorrect input
+         */
         enum class RepainmentOrder {
             Undefined,
             Annuity,
@@ -24,11 +48,32 @@ public:
         RepainmentOrder order_ = RepainmentOrder::Undefined;
     };
 
+    /**
+     * @brief Result of calculated credit
+     * 
+     */
     struct CreditResult {
+        /**
+         * @brief How much to pay every month, or the last sum in case of differentiated credit
+         * 
+         */
         double monthltyPayment_ = 0.0;
+        /**
+         * @brief How much the entire sum to pay exceeds initial credit sum 
+         * 
+         */
         double overpayment_ = 0.0;
+
+        /**
+         * @brief The entire sum to pay
+         * 
+         */
         double totalSum_ = 0.0;
 
+        /**
+         * @brief All sums to pay every month
+         * 
+         */
         std::vector<double> list_;
     };
 
@@ -39,18 +84,48 @@ public:
 
     std::vector<double> list_;
   };
-
+  /**
+   * @brief Parameters to be passed to model to perform deposit calculation 
+   * 
+   */
   struct DepositParameters {
+      /**
+       * @brief Initial sum
+       * 
+       */
       double amount_ = 0.0;
+      /**
+       * @brief Period, months
+       * 
+       */
       int period_ = 0;
+      /**
+       * @brief Percent by which initial sum increases in one year
+       * 
+       */
       double interest_ = 0.0;
+      /**
+       * @brief Percent of delta which is payed as tax
+       * 
+       */
       double tax_ = 0.0;
 
+      /**
+       * @brief Type of capitalization.
+       * Monthly - every month additional sum is added to sum
+       * Total - additional sum is not added to sum every month
+       * Undefined - not selected. Incorrect input
+       */
       enum class Capitalization {
           Undefined,
           Total,
           Monthly,
       };
+      /**
+       * @brief Payment frequency type
+       * Monthly
+       * 
+       */
       enum class PaymentFrequency {
           Undefined,
           Total,

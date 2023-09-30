@@ -50,7 +50,7 @@ void DepositWindow::on_pushButton_clicked() {
   ui->tax_sum->setText(total_tax_sum);
 
   ui->tableWidget->setRowCount(dr.list_.size());
-  ui->tableWidget->setColumnCount(1);
+  ui->tableWidget->setColumnCount(2);
 
   for (int i = 0; i < static_cast<signed>(dr.list_.size()); ++i) {
     QTableWidgetItem *itm = new QTableWidgetItem(QString::number(dr.list_.at(i)));
