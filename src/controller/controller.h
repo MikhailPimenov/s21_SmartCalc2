@@ -16,6 +16,15 @@ namespace s21 {
 class Controller 
 {
 public:
+
+    /**
+     * @brief Parameters passed from view to controller to calculate credit
+     * Same as parameters to be passed to model.
+     * Different structures are used to underline independence.
+     * Model must not be dependened on data structures, so it uses its own ones.
+     * View must not be dependened on data structures of model, so controller provides its own ones. 
+     * 
+     */
     struct CreditParameters {
         double creditSum_ = 0.0;
         int creditTerm_ = 0;
@@ -30,14 +39,30 @@ public:
         RepainmentOrder order_ = RepainmentOrder::Undefined;
     };
 
+    /**
+     * @brief Parameters passed from controller to view with calculated credit
+     * Same as parameters to be passed from model.
+     * Different structures are used to underline independence.
+     * Model must not be dependened on data structures, so it uses its own ones.
+     * View must not be dependened on data structures of model, so controller provides its own ones. 
+     * 
+     */
     struct CreditResult {
-        double monthltyPayment_ = 0.0;
+        double monthlyPayment_ = 0.0;
         double overpayment_ = 0.0;
         double totalSum_ = 0.0;
 
         std::vector<double> list_;
     };
 
+    /**
+     * @brief Parameters passed from controller to view with calculated deposit
+     * Same as parameters to be passed from model.
+     * Different structures are used to underline independence.
+     * Model must not be dependened on data structures, so it uses its own ones.
+     * View must not be dependened on data structures of model, so controller provides its own ones. 
+     * 
+     */
     struct DepositResult {
         double accruedTotal_ = 0.0;
         double taxTotal_ = 0.0;
@@ -47,6 +72,15 @@ public:
         std::vector<double> percentMonthly_;
     };
 
+
+    /**
+     * @brief Parameters passed from view to controller to calculate deposit
+     * Same as parameters to be passed to model.
+     * Different structures are used to underline independence.
+     * Model must not be dependened on data structures, so it uses its own ones.
+     * View must not be dependened on data structures of model, so controller provides its own ones. 
+     * 
+     */
     struct DepositParameters {
         double amount_ = 0.0;
         int period_ = 0;
@@ -70,15 +104,32 @@ public:
         mutable std::vector<double> depositOrWithdrawal_;
     };
 
+    /**
+     * @brief Parameters passed from view to controller to calculate graph
+     * Same as parameters to be passed to model.
+     * Different structures are used to underline independence.
+     * Model must not be dependened on data structures, so it uses its own ones.
+     * View must not be dependened on data structures of model, so controller provides its own ones. 
+     * 
+     */
     struct GraphParameters {
-  double x_max = 30.0;
-  double x_min = -30.0;
-  std::string input_string;
-  };
-struct GraphResult {
-  std::vector<double> x;
-  std::vector<double> y;
-};
+        double x_max = 30.0;
+        double x_min = -30.0;
+        std::string input_string;
+    };
+
+    /**
+     * @brief Parameters passed from controller to view with calculated deposit
+     * Same as parameters to be passed from model.
+     * Different structures are used to underline independence.
+     * Model must not be dependened on data structures, so it uses its own ones.
+     * View must not be dependened on data structures of model, so controller provides its own ones. 
+     * 
+     */
+    struct GraphResult {
+        std::vector<double> x;
+        std::vector<double> y;
+    };
 
 
     public:
@@ -88,7 +139,6 @@ struct GraphResult {
         bool CalculateDeposit(const DepositParameters& dp, DepositResult& dr);
         int CalculateGraph(const GraphParameters& gp, GraphResult& gr);
         bool CalculateCredit(const CreditParameters& cp, CreditResult& cr);
-
 
     private:
         Model* model_;

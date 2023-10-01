@@ -57,7 +57,7 @@ public:
          * @brief How much to pay every month, or the last sum in case of differentiated credit
          * 
          */
-        double monthltyPayment_ = 0.0;
+        double monthlyPayment_ = 0.0;
         /**
          * @brief How much the entire sum to pay exceeds initial credit sum 
          * 
@@ -73,7 +73,7 @@ public:
          * @brief All sums to pay every month
          * 
          */
-        std::vector<double> list_;
+        std::vector<double> monthlyPaymentList_;
     };
 
   /**
@@ -148,8 +148,9 @@ public:
       };
       /**
        * @brief Payment frequency type
-       * Monthly
-       * 
+       * Monthly - every month additional sum is taken from sum
+       * Total - all sum is taken at the end
+       * Undefined - not selected. Incorrect input
        */
       enum class PaymentFrequency {
           Undefined,
@@ -160,14 +161,26 @@ public:
       Capitalization capitalization_ = Capitalization::Undefined;
       PaymentFrequency frequency_ = PaymentFrequency::Undefined;
 
+      /**
+       * @brief Addition or amount of money taken from deposit by the client
+       * 
+       */
       std::vector<double> depositOrWithdrawal_;
   };
 
+/**
+ * @brief Parameters to be passed to model to calculate graph
+ * 
+ */
 struct GraphParameters {
   double x_max = 30.0;
   double x_min = -30.0;
   std::string input_string;
   };
+  /**
+   * @brief Parameters of calculated graph from model
+   * 
+   */
 struct GraphResult {
   std::vector<double> x;
   std::vector<double> y;
@@ -175,6 +188,10 @@ struct GraphResult {
 
 private:
 
+  /**
+   * @brief Token type. Either number, or function, or bracket, or placeholder X
+   * 
+   */
   enum class Type : int {
     Number        = 0,
     OpenBracket   = 1,
@@ -197,6 +214,11 @@ private:
     X=20,
   };
 
+  /**
+   * @brief Type of element the input string consists of
+   * Has value, type of value and precedence.
+   * Precedence defines the order of calculations
+   */
   struct Token {
     double value;
     Type type;
@@ -206,13 +228,10 @@ private:
     Token(double v, Type t, int p) : value(v), type(t), precedence(p) {}
   };
 
-  
-
 public:
   static int Calculate(const std::string& input_str, double *result, double x_value);
   static bool CalculateDeposit(const DepositParameters& parameters, DepositResult& result);
   static bool CalculateCredit(const CreditParameters& cp, CreditResult& cr);
-
   static int CalculateGraph(const GraphParameters& gp, GraphResult& gr);
 
 private:
@@ -220,9 +239,8 @@ private:
   static void shuntingYard(std::stack<Token>& head, std::stack<Token>& output);
   static double calcRpn(std::stack<Token>& output, double x_value);
   static double unaryFnCalc(double number1, Type type);
-  static double binaryFnCalc(double number1, double number2, Type type);
-
-  static void flipStack(std::stack<Token>& input, std::stack<Token>& output);
+  static double binaryFnCalc(double number1, double number2, Type type);  
+  static void flipStack(std::stack<Token> input, std::stack<Token>& output);
 };
 
 } //  namespace s21

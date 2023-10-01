@@ -694,24 +694,48 @@ s21::Model model;
   EXPECT_NEAR(result, expected, EPS);
 }
 
+bool operator==(const s21::Model::CreditResult& left,
+                const s21::Model::CreditResult& right) {
+  if (std::abs(left.overpayment_ - right.overpayment_) > 1e-6)
+    return false;
+  if (std::abs(left.totalSum_ - right.totalSum_) > 1e-6)
+    return false;
 
-// START_TEST(test_case_53) {
-//   double credit_sum = 100000;
-//   int credit_term = 6;
-//   float credit_percent = 15;
-//   int type = 1;
-//   double monthlty_payment;
-//   double overpayment;
-//   double total_sum;
-//   int ex_code;
-//   ex_code = credit_calc_fn(credit_sum, credit_term, credit_percent, type,
-//                            &monthlty_payment, &overpayment, &total_sum);
-//   ck_assert_int_eq(ex_code, 0);
-//   ck_assert_double_eq_tol(monthlty_payment, 17403.38, EPS2);
-//   ck_assert_double_eq_tol(overpayment, 4420.29, EPS2);
-//   ck_assert_double_eq_tol(total_sum, 104420.29, EPS2);
-// }
-// END_TEST
+  if (std::abs(left.monthlyPayment_ - right.monthlyPayment_) > 1e-6)
+    return false;
+
+  if (left.monthlyPaymentList_.size() != right.monthlyPaymentList_.size())
+    return false;
+
+  auto left_it = left.monthlyPaymentList_.begin();
+  auto right_it = right.monthlyPaymentList_.begin();
+
+  return true;
+}
+
+TEST(Credit, T0CreditSimple) {
+  s21::Model::CreditParameters cp;
+  cp.creditSum_ = 700000.0;
+  cp.creditTerm_ = 60;
+  cp.creditPercent_ = 10.0;
+  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+
+  s21::Model::CreditResult expected;
+  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
+  for (int i = 0; i < cp.creditTerm_; ++i)
+    expected.monthlyPaymentList_.push_back(14.873);
+
+  expected.overpayment_ = 192375.80;
+  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
+
+  expected.monthlyPayment_ = 14.873;
+
+
+  s21::Model::CreditResult actual;
+  s21::Model::CalculateCredit(cp, actual);
+
+  
+}
 
 // START_TEST(test_case_54) {
 //   double credit_sum = 100000;

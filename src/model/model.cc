@@ -275,7 +275,7 @@ void Model::shuntingYard(std::stack<Token>& head, std::stack<Token>& output) {
 }
 
 
-void Model::flipStack(std::stack<Token>& input, std::stack<Token>& output) {
+void Model::flipStack(std::stack<Token> input, std::stack<Token>& output) {
   while (!input.empty()) {
     output.push(input.top());
     input.pop();
