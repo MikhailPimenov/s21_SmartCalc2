@@ -17,14 +17,16 @@ void DepositWindow::on_pushButton_clicked() {
   ui->total_deposit_sum->setText("");
   ui->tax_sum->setText("");
   ui->error_label->setText("");
-  ui->tableWidget->clear();
-
 
   Controller::DepositParameters dp;
   dp.amount_ = ui->deposit_sum->text().toDouble();
   dp.interest_ = ui->deposit_percent->text().toFloat();
   dp.tax_ = ui->tax_percent->text().toFloat();
   dp.period_ = ui->deposit_term->text().toInt();
+
+  ui->tableWidget->setHorizontalHeaderLabels({{"+/-"}, {"Added as %"}, {"Total"},});
+  ui->tableWidget->setRowCount(dp.period_);
+  ui->tableWidget->setColumnCount(3);
 
   if (ui->checkBox_add->isChecked()) {
     dp.depositOrWithdrawal_.reserve(dp.period_);
@@ -61,13 +63,8 @@ void DepositWindow::on_pushButton_clicked() {
   QString total_tax_sum = QString::number(dr.taxTotal_, 'f', 2);
   ui->tax_sum->setText(total_tax_sum);
 
-
   if (!ui->checkBox_add->isChecked())
     return;
-
-  ui->tableWidget->setHorizontalHeaderLabels({{"+/-"}, {"Added as %"}, {"Total"},});
-  ui->tableWidget->setRowCount(dp.period_);
-  ui->tableWidget->setColumnCount(3);
 
   for (int i = 0; i < static_cast<signed>(dr.percentMonthly_.size()); ++i) {
     QTableWidgetItem *itm = new QTableWidgetItem(QString::number(dr.percentMonthly_.at(i)));

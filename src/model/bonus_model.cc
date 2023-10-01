@@ -3,7 +3,6 @@
 #include "model.h"
 #include "../controller/controller.h"
 
-
 namespace s21 {
 
 
@@ -115,7 +114,6 @@ bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult&
     const double deltaInterest = sum / 100.0 * parameters.interest_ / days * daysDelta;
     const double deltaTax = deltaInterest / 100.0 * parameters.tax_;
     const double deltaSum = deltaInterest - deltaTax;
-
 
     if (parameters.capitalization_ == DepositParameters::Capitalization::Monthly && parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
       sum += deltaSum;

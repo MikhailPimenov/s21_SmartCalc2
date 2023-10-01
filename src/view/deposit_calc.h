@@ -28,6 +28,12 @@ class DepositWindow : public QDialog {
    * @return ** void 
    */
   void on_pushButton_clicked();
+  /**
+   * @brief Called when button for list input is clicked
+   * Allows to input monthly addition to deposit or take from deposit
+   * Show detailes on each month
+   * @return ** void 
+   */
   void on_checkBox_add_stateChanged(int);
 
  private:
