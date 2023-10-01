@@ -28,6 +28,7 @@ class DepositWindow : public QDialog {
    * @return ** void 
    */
   void on_pushButton_clicked();
+  void on_checkBox_add_stateChanged(int);
 
  private:
   Ui::deposit_calc *ui;

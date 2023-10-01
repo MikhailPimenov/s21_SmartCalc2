@@ -49,13 +49,15 @@ bool Controller::CalculateDeposit(const DepositParameters& dp, DepositResult& dr
     mdp.period_ = dp.period_;
     mdp.capitalization_ = static_cast<Model::DepositParameters::Capitalization>(dp.capitalization_);
     mdp.frequency_ = static_cast<Model::DepositParameters::PaymentFrequency>(dp.frequency_);
+    mdp.depositOrWithdrawal_ = std::move(dp.depositOrWithdrawal_);
 
     Model::DepositResult mdr;
     const bool result = Model::CalculateDeposit(mdp, mdr);
 
     dr.accruedTotal_ = mdr.accruedTotal_;
     dr.amountTotal_ = mdr.amountTotal_;
-    dr.list_ = std::move(mdr.list_);
+    dr.accruedMonthly_ = std::move(mdr.accruedMonthly_);
+    dr.percentMonthly_ = std::move(mdr.percentMonthly_);
     dr.taxTotal_ = mdr.taxTotal_;
 
     return result;

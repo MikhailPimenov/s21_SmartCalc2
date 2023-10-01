@@ -3,6 +3,7 @@
 #include "model.h"
 #include "../controller/controller.h"
 
+
 namespace s21 {
 
 
@@ -99,28 +100,42 @@ bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult&
   result.taxTotal_ = 0.0;
   result.accruedTotal_ = 0.0;
 
-  if (parameters.frequency_ == DepositParameters::PaymentFrequency::Monthly)
-    result.list_.reserve(parameters.period_);
+  if (parameters.frequency_ == DepositParameters::PaymentFrequency::Monthly) {
+    result.accruedMonthly_.reserve(parameters.period_);
+    result.percentMonthly_.reserve(parameters.period_);
+  }
   
+  const bool monthlyChanges = static_cast<int>(parameters.depositOrWithdrawal_.size()) == parameters.period_;
+
   for (int i = 0; i < parameters.period_; ++i) {
+    if (monthlyChanges)
+      sum += parameters.depositOrWithdrawal_[i];
+
     const int daysDelta = daysPerMonth[i % months];
     const double deltaInterest = sum / 100.0 * parameters.interest_ / days * daysDelta;
     const double deltaTax = deltaInterest / 100.0 * parameters.tax_;
     const double deltaSum = deltaInterest - deltaTax;
 
-    if (parameters.capitalization_ == DepositParameters::Capitalization::Monthly)
-      sum += deltaSum;
 
+    if (parameters.capitalization_ == DepositParameters::Capitalization::Monthly && parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
+      sum += deltaSum;
+    
+    if (monthlyChanges)
+      result.amountTotal_ += parameters.depositOrWithdrawal_[i];
+  
     result.amountTotal_ += deltaSum;
+    
+    if (monthlyChanges)
+      result.accruedMonthly_.push_back(result.amountTotal_);
+
     result.taxTotal_ += deltaTax;
     result.accruedTotal_ += deltaInterest;
 
-    if (parameters.frequency_ == DepositParameters::PaymentFrequency::Monthly)
-      result.list_.push_back(deltaSum);
+    result.percentMonthly_.push_back(deltaSum);
   }
 
   if (parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
-    result.list_.push_back(result.amountTotal_ - parameters.amount_);
+    result.percentMonthly_.push_back(result.amountTotal_ - parameters.amount_);
 
   return true;
 }

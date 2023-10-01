@@ -43,7 +43,8 @@ public:
         double taxTotal_ = 0.0;
         double amountTotal_ = 0.0;
 
-        std::vector<double> list_;
+        std::vector<double> accruedMonthly_;
+        std::vector<double> percentMonthly_;
     };
 
     struct DepositParameters {
@@ -66,6 +67,7 @@ public:
         Capitalization capitalization_ = Capitalization::Undefined;
         PaymentFrequency frequency_ = PaymentFrequency::Undefined;
         
+        mutable std::vector<double> depositOrWithdrawal_;
     };
 
     struct GraphParameters {

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
+    <width>676</width>
     <height>805</height>
    </rect>
   </property>
@@ -286,13 +286,24 @@
     <rect>
      <x>20</x>
      <y>360</y>
-     <width>211</width>
+     <!-- <width>211</width> -->
+     <width>271</width>
      <height>231</height>
     </rect>
    </property>
    <column>
     <property name="text">
-     <string>Total sum</string>
+     <string>+/-</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Added as %</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Total</string>
     </property>
    </column>
   </widget>

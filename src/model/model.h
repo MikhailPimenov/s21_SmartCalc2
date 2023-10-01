@@ -63,7 +63,6 @@ public:
          * 
          */
         double overpayment_ = 0.0;
-
         /**
          * @brief The entire sum to pay
          * 
@@ -77,12 +76,38 @@ public:
         std::vector<double> list_;
     };
 
+  /**
+   * @brief Parameters to be passed to model to start deposit calculation
+   * 
+   */
   struct DepositResult {
+    /**
+     * @brief Total amount increased because of percent
+     * 
+     */
     double accruedTotal_;
+    /**
+     * @brief Total amount payed because of taxes
+     * 
+     */
     double taxTotal_;
+
+    /**
+     * @brief Sum at the end of the period
+     * 
+     */
     double amountTotal_;
 
-    std::vector<double> list_;
+    /**
+     * @brief Sum at every month
+     * 
+     */
+    std::vector<double> accruedMonthly_;
+    /**
+     * @brief Monthly addition because of percent
+     * 
+     */
+    std::vector<double> percentMonthly_;
   };
   /**
    * @brief Parameters to be passed to model to perform deposit calculation 
@@ -134,6 +159,8 @@ public:
 
       Capitalization capitalization_ = Capitalization::Undefined;
       PaymentFrequency frequency_ = PaymentFrequency::Undefined;
+
+      std::vector<double> depositOrWithdrawal_;
   };
 
 struct GraphParameters {
