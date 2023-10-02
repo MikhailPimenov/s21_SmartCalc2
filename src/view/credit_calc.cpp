@@ -41,7 +41,7 @@ void CreditWindow::on_make_calc_clicked() {
     return;
   } 
 
-  QString mon_pay = QString::number(cr.monthltyPayment_, 'f', 2);
+  QString mon_pay = QString::number(cr.monthlyPayment_, 'f', 2);
   ui->monthly_payment->setText(mon_pay);
   QString overpay = QString::number(cr.overpayment_, 'f', 2);
   ui->overpayment->setText(overpay);
