@@ -123,8 +123,8 @@ bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult&
   
     result.amountTotal_ += deltaSum;
     
-    if (monthlyChanges)
-      result.accruedMonthly_.push_back(result.amountTotal_);
+    // if (parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
+    result.accruedMonthly_.push_back(sum);
 
     result.taxTotal_ += deltaTax;
     result.accruedTotal_ += deltaInterest;

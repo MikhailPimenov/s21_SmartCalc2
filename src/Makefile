@@ -60,11 +60,10 @@ run_tests: tests/tests_main.exe
 tests/tests_main.exe: $(BINARIES)
 		$(CC) -o $@ $^ $(GTEST_LFLAGS) $(GCOVR_LFLAGS) -g
 
+
+EXCLUDE_FROM_COVERAGE=--exclude-lines-by-pattern '.*assert.*' --exclude-throw-branches
+
 gcov_report: run_tests
-# $(CC) $(ASAN) $(GFLAGS) $(CCOV) $(SOURSE_FILE) $(TFLAGS) -o ./htmlreport.out
-# ./htmlreport.out
-# lcov -t "htmlreport" -o test.info -c -d .
-# genhtml -o report test.info
 		mkdir -p $(REPORT_DIRECTORY)
 		gcovr . --html --html-details $(EXCLUDE_FROM_COVERAGE) -o $(REPORT_DIRECTORY)/coverage_report.html
 		open "" $(REPORT_DIRECTORY)/coverage_report.functions.html  

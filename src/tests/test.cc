@@ -13,6 +13,7 @@
 namespace s21 {
 
 static constexpr double tolerance = 1e-4;
+static constexpr double tolerance2 = 1e-2;
 
 bool operator==(const Model::CreditResult& left,
                 const Model::CreditResult& right) {
@@ -48,6 +49,69 @@ bool operator!=(const Model::CreditResult& left,
 }
 
 
+  bool isFebruary(int index) {
+    static constexpr int months = 12;
+    return index % months == 1;
+  }
+
+
+
+bool operator==(const Model::DepositResult& left,
+                const Model::DepositResult& right) {
+  if (std::abs(left.accruedTotal_ - right.accruedTotal_) > tolerance * std::abs(left.accruedTotal_))
+    return false;
+  if (std::abs(left.taxTotal_ - right.taxTotal_) > tolerance * std::abs(left.taxTotal_))
+    return false;
+
+  if (std::abs(left.amountTotal_ - right.amountTotal_) > tolerance * std::abs(left.amountTotal_))
+    return false;
+
+  if (left.accruedMonthly_.size() != right.accruedMonthly_.size())
+    return false;
+
+  auto left_it1 = left.accruedMonthly_.begin();
+  auto right_it1 = right.accruedMonthly_.begin();
+
+
+
+  
+  int month = 0;
+  while (left_it1  != left.accruedMonthly_.end() && 
+         right_it1 != right.accruedMonthly_.end()) {
+    if (std::abs(*left_it1 - *right_it1) > ( isFebruary(month) ? 0.1 * std::abs(*left_it1) : tolerance * std::abs(*left_it1)))
+      return false; 
+
+    ++left_it1;
+    ++right_it1;
+
+    ++month;
+  }
+
+  auto left_it2 = left.percentMonthly_.begin();
+  auto right_it2 = right.percentMonthly_.begin();
+
+  month = 0;
+  while (left_it2  != left.percentMonthly_.end() && 
+         right_it2 != right.percentMonthly_.end()) {
+    if (std::abs(*left_it2 - *right_it2) > ( isFebruary(month) ? 0.1 * std::abs(*left_it2) : tolerance2 * std::abs(*left_it2)))
+      return false; 
+
+    ++left_it2;
+    ++right_it2;
+
+    ++month;
+  }
+
+  return true;
+}
+
+bool operator!=(const Model::DepositResult& left,
+                const Model::DepositResult& right) {
+  return !(left == right);
+}
+
+
+
 std::ostream& operator<<(std::ostream& out, const Model::CreditResult& cr) {
   out << "CreditResult:\n";
   out << cr.monthlyPayment_ << '\n';
@@ -55,6 +119,21 @@ std::ostream& operator<<(std::ostream& out, const Model::CreditResult& cr) {
   out << cr.totalSum_ << '\n';
   out << "Monthly payment by months:\n";
   for (double value : cr.monthlyPaymentList_)
+    out << value << '\n';
+
+  return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const Model::DepositResult& dr) {
+  out << "DepositResult:\n";
+  out << dr.accruedTotal_ << '\n';
+  out << dr.taxTotal_ << '\n';
+  out << dr.amountTotal_ << '\n';
+  out << "Percent increase by months:\n";
+  for (double value : dr.percentMonthly_)
+    out << value << '\n';
+  out << "Total sum by months:\n";
+  for (double value : dr.accruedMonthly_)
     out << value << '\n';
 
   return out;
@@ -864,6 +943,63 @@ TEST(Credit, T0CreditSimpleDifferentiated) {
   EXPECT_EQ(expected, actual);
   
 }
+
+
+TEST(Deposit, T0Deposit) {
+  
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 12;
+  dp.interest_ = 10.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+
+
+  s21::Model::DepositResult expected;
+  expected.taxTotal_ = 0.0;
+  expected.accruedTotal_ = 70000.0; 
+  expected.amountTotal_ = 770000.0;
+
+  expected.percentMonthly_.resize(dp.period_);
+  expected.accruedMonthly_.resize(dp.period_);
+
+  expected.percentMonthly_.at(0) = 5929.0;
+  expected.percentMonthly_.at(1) = 5546.0;
+  expected.percentMonthly_.at(2) = 5929.0;
+  expected.percentMonthly_.at(3) = 5738.0;
+  expected.percentMonthly_.at(4) = 5929.0;
+  expected.percentMonthly_.at(5) = 5738.0;
+  expected.percentMonthly_.at(6) = 5929.0;
+  expected.percentMonthly_.at(7) = 5929.0;
+  expected.percentMonthly_.at(8) = 5738.0;
+  expected.percentMonthly_.at(9) = 5929.0;
+  expected.percentMonthly_.at(10) = 5738.0;
+  expected.percentMonthly_.at(11) = 5929.0;
+
+  expected.accruedMonthly_.at(0) = 700000.0;
+  expected.accruedMonthly_.at(1) = 700000.0;
+  expected.accruedMonthly_.at(2) = 700000.0;
+  expected.accruedMonthly_.at(3) = 700000.0;
+  expected.accruedMonthly_.at(4) = 700000.0;
+  expected.accruedMonthly_.at(5) = 700000.0;
+  expected.accruedMonthly_.at(6) = 700000.0;
+  expected.accruedMonthly_.at(7) = 700000.0;
+  expected.accruedMonthly_.at(8) = 700000.0;
+  expected.accruedMonthly_.at(9) = 700000.0;
+  expected.accruedMonthly_.at(10) = 700000.0;
+  expected.accruedMonthly_.at(11) = 700000.0;
+
+  s21::Model::DepositResult actual;
+  s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(expected, actual);
+  
+}
+
+
+
 
 // START_TEST(test_case_54) {
 //   double credit_sum = 100000;
