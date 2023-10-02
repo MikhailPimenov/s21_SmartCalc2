@@ -33,9 +33,9 @@ bool Controller::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
     Model::CreditResult mcr;
     const bool result = Model::CalculateCredit(mcp, mcr);
 
-    cr.monthltyPayment_  = mcr.monthltyPayment_ ;
+    cr.monthlyPayment_  = mcr.monthlyPayment_ ;
     cr.overpayment_ = mcr.overpayment_;
-    cr.list_ = std::move(mcr.list_);
+    cr.list_ = std::move(mcr.monthlyPaymentList_);
     cr.totalSum_ = mcr.totalSum_;
 
     return result;
