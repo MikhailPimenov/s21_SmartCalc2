@@ -122,9 +122,11 @@ bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult&
     if (monthlyChanges)
       result.amountTotal_ += parameters.depositOrWithdrawal_[i];
   
+    if (result.amountTotal_ < 0.0)
+      return false;
+
     result.amountTotal_ += deltaSum;
     
-    // if (parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
     result.accruedMonthly_.push_back(sum);
 
     result.taxTotal_ += deltaTax;
@@ -132,9 +134,6 @@ bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult&
 
     result.percentMonthly_.push_back(deltaSum);
   }
-
-  // if (parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
-  //   result.percentMonthly_.push_back(result.amountTotal_ - parameters.amount_);
 
   return true;
 }
