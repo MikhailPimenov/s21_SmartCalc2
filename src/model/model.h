@@ -8,6 +8,14 @@
 
 namespace s21 {
 
+
+/**
+ * @brief Business logic. All computations are here
+ * Calculates expression using reversed polish notation
+ * Plots graphs
+ * Calculates credit
+ * Calculates deposit
+ */
 class Model {
 public:
   /**

@@ -4,15 +4,14 @@
 #include <string>
 #include <vector>
 
-
-/*!
-\file
-\brief Controller. Mediator between view (interface) and model (calculator)
-
-*/
-
 namespace s21 {
 
+/**
+ * @brief Mediator between view and model.
+ * Transfers data from view to model
+ * Transfers data from model to view
+ * Makes view independent on model
+ */
 class Controller 
 {
 public:
