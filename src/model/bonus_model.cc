@@ -107,13 +107,14 @@ bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult&
   const bool monthlyChanges = static_cast<int>(parameters.depositOrWithdrawal_.size()) == parameters.period_;
 
   for (int i = 0; i < parameters.period_; ++i) {
-    if (monthlyChanges)
-      sum += parameters.depositOrWithdrawal_[i];
 
     const int daysDelta = daysPerMonth[i % months];
     const double deltaInterest = sum / 100.0 * parameters.interest_ / days * daysDelta;
     const double deltaTax = deltaInterest / 100.0 * parameters.tax_;
     const double deltaSum = deltaInterest - deltaTax;
+
+    if (monthlyChanges)
+      sum += parameters.depositOrWithdrawal_[i];
 
     if (parameters.capitalization_ == DepositParameters::Capitalization::Monthly && parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
       sum += deltaSum;
@@ -132,8 +133,8 @@ bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult&
     result.percentMonthly_.push_back(deltaSum);
   }
 
-  if (parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
-    result.percentMonthly_.push_back(result.amountTotal_ - parameters.amount_);
+  // if (parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
+  //   result.percentMonthly_.push_back(result.amountTotal_ - parameters.amount_);
 
   return true;
 }
