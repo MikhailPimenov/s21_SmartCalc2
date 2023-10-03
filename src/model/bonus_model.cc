@@ -17,11 +17,17 @@ namespace s21 {
 bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
   if (cp.order_ == CreditParameters::RepainmentOrder::Undefined)
     return false;
-  if (cp.creditSum_ < 0.0)
+  if (cp.creditSum_ < 10000.0)
+    return false;
+  if (cp.creditSum_ > 100000000.0)
     return false;
   if (cp.creditTerm_ < 1)
     return false;
-  if (cp.creditPercent_ < 0.0)
+  if (cp.creditTerm_ > 600)
+    return false;
+  if (cp.creditPercent_ < 0.01)
+    return false;
+  if (cp.creditPercent_ > 99.999999)
     return false;
   
   static constexpr int months = 12;
@@ -83,11 +89,11 @@ bool Model::CalculateDeposit(const DepositParameters& parameters, DepositResult&
     return false;
   if (parameters.interest_ < 0.0)
     return false;
-  if (parameters.interest_ > 100.0)
+  if (parameters.interest_ > 99.9999999)
     return false;
   if (parameters.tax_ < 0.0)
     return false;
-  if (parameters.tax_ > 100.0)
+  if (parameters.tax_ > 99.9999999)
     return false;
   if (parameters.period_ < 1)
     return false;

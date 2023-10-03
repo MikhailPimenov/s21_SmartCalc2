@@ -945,6 +945,133 @@ TEST(Credit, T0CreditSimpleDifferentiated) {
 }
 
 
+TEST(Credit, T0CreditIncorrectInput) {
+  s21::Model::CreditParameters cp;
+  cp.creditSum_ = -700000.0;
+  cp.creditTerm_ = 60;
+  cp.creditPercent_ = 10.0;
+  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+
+  s21::Model::CreditResult expected;
+  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
+  for (int i = 0; i < cp.creditTerm_; ++i)
+    expected.monthlyPaymentList_.push_back(14872.93);
+
+  expected.overpayment_ = 192375.80;
+  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
+
+  expected.monthlyPayment_ = 14872.93;
+
+
+  s21::Model::CreditResult actual;
+  const bool status = s21::Model::CalculateCredit(cp, actual);
+
+  EXPECT_EQ(status, false);
+  
+}
+
+TEST(Credit, T1CreditIncorrectInput) {
+  s21::Model::CreditParameters cp;
+  cp.creditSum_ = 700000.0;
+  cp.creditTerm_ = 60000;
+  cp.creditPercent_ = 10.0;
+  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+
+  s21::Model::CreditResult expected;
+  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
+  for (int i = 0; i < cp.creditTerm_; ++i)
+    expected.monthlyPaymentList_.push_back(14872.93);
+
+  expected.overpayment_ = 192375.80;
+  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
+
+  expected.monthlyPayment_ = 14872.93;
+
+
+  s21::Model::CreditResult actual;
+  const bool status = s21::Model::CalculateCredit(cp, actual);
+
+  EXPECT_EQ(status, false);
+  
+}
+
+TEST(Credit, T2CreditIncorrectInput) {
+  s21::Model::CreditParameters cp;
+  cp.creditSum_ = 700000.0;
+  cp.creditTerm_ = -60;
+  cp.creditPercent_ = 10.0;
+  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+
+  s21::Model::CreditResult expected;
+  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
+  for (int i = 0; i < cp.creditTerm_; ++i)
+    expected.monthlyPaymentList_.push_back(14872.93);
+
+  expected.overpayment_ = 192375.80;
+  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
+
+  expected.monthlyPayment_ = 14872.93;
+
+
+  s21::Model::CreditResult actual;
+  const bool status = s21::Model::CalculateCredit(cp, actual);
+
+  EXPECT_EQ(status, false);
+  
+}
+
+TEST(Credit, T3CreditIncorrectInput) {
+  s21::Model::CreditParameters cp;
+  cp.creditSum_ = 700000.0;
+  cp.creditTerm_ = 60;
+  cp.creditPercent_ = -10.0;
+  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+
+  s21::Model::CreditResult expected;
+  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
+  for (int i = 0; i < cp.creditTerm_; ++i)
+    expected.monthlyPaymentList_.push_back(14872.93);
+
+  expected.overpayment_ = 192375.80;
+  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
+
+  expected.monthlyPayment_ = 14872.93;
+
+
+  s21::Model::CreditResult actual;
+  const bool status = s21::Model::CalculateCredit(cp, actual);
+
+  EXPECT_EQ(status, false);
+  
+}
+
+TEST(Credit, T4CreditIncorrectInput) {
+  s21::Model::CreditParameters cp;
+  cp.creditSum_ = 700000.0;
+  cp.creditTerm_ = 60;
+  cp.creditPercent_ = 10.0;
+  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Undefined;
+
+  s21::Model::CreditResult expected;
+  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
+  for (int i = 0; i < cp.creditTerm_; ++i)
+    expected.monthlyPaymentList_.push_back(14872.93);
+
+  expected.overpayment_ = 192375.80;
+  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
+
+  expected.monthlyPayment_ = 14872.93;
+
+
+  s21::Model::CreditResult actual;
+  const bool status = s21::Model::CalculateCredit(cp, actual);
+
+  EXPECT_EQ(status, false);
+  
+}
+
+
+
 TEST(Deposit, T0DepositCapitalization) {
   
   s21::Model::DepositParameters dp;
