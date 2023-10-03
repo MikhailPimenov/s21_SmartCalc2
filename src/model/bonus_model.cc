@@ -40,7 +40,7 @@ bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
       cr.monthlyPaymentList_.push_back(cr.monthlyPayment_);
     cr.totalSum_ = cr.monthlyPayment_ * cp.creditTerm_;
     cr.overpayment_ = cr.totalSum_ - cp.creditSum_;
-  } else if (cp.order_ == CreditParameters::RepainmentOrder::Differentiated) {
+  } else /* if (cp.order_ == CreditParameters::RepainmentOrder::Differentiated) */ {
     double monthlyLoan = cp.creditSum_ / cp.creditTerm_;
     cr.totalSum_ = 0;
     for (int i = 0; i < cp.creditTerm_; i++) {

@@ -952,22 +952,10 @@ TEST(Credit, T0CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult expected;
-  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
-  for (int i = 0; i < cp.creditTerm_; ++i)
-    expected.monthlyPaymentList_.push_back(14872.93);
-
-  expected.overpayment_ = 192375.80;
-  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
-
-  expected.monthlyPayment_ = 14872.93;
-
-
   s21::Model::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
-  
 }
 
 TEST(Credit, T1CreditIncorrectInput) {
@@ -977,22 +965,10 @@ TEST(Credit, T1CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult expected;
-  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
-  for (int i = 0; i < cp.creditTerm_; ++i)
-    expected.monthlyPaymentList_.push_back(14872.93);
-
-  expected.overpayment_ = 192375.80;
-  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
-
-  expected.monthlyPayment_ = 14872.93;
-
-
   s21::Model::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
-  
 }
 
 TEST(Credit, T2CreditIncorrectInput) {
@@ -1002,22 +978,10 @@ TEST(Credit, T2CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult expected;
-  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
-  for (int i = 0; i < cp.creditTerm_; ++i)
-    expected.monthlyPaymentList_.push_back(14872.93);
-
-  expected.overpayment_ = 192375.80;
-  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
-
-  expected.monthlyPayment_ = 14872.93;
-
-
   s21::Model::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
-  
 }
 
 TEST(Credit, T3CreditIncorrectInput) {
@@ -1027,22 +991,10 @@ TEST(Credit, T3CreditIncorrectInput) {
   cp.creditPercent_ = -10.0;
   cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult expected;
-  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
-  for (int i = 0; i < cp.creditTerm_; ++i)
-    expected.monthlyPaymentList_.push_back(14872.93);
-
-  expected.overpayment_ = 192375.80;
-  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
-
-  expected.monthlyPayment_ = 14872.93;
-
-
   s21::Model::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
-  
 }
 
 TEST(Credit, T4CreditIncorrectInput) {
@@ -1052,23 +1004,52 @@ TEST(Credit, T4CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Undefined;
 
-  s21::Model::CreditResult expected;
-  expected.monthlyPaymentList_.reserve(cp.creditTerm_);
-  for (int i = 0; i < cp.creditTerm_; ++i)
-    expected.monthlyPaymentList_.push_back(14872.93);
+  s21::Model::CreditResult actual;
+  const bool status = s21::Model::CalculateCredit(cp, actual);
 
-  expected.overpayment_ = 192375.80;
-  expected.totalSum_ = cp.creditSum_ + expected.overpayment_;
+  EXPECT_EQ(status, false);
+}
 
-  expected.monthlyPayment_ = 14872.93;
-
+TEST(Credit, T5CreditIncorrectInput) {
+  s21::Model::CreditParameters cp;
+  cp.creditSum_ = 100.0;
+  cp.creditTerm_ = 60;
+  cp.creditPercent_ = 10.0;
+  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
 
   s21::Model::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
-  
 }
+
+TEST(Credit, T6CreditIncorrectInput) {
+  s21::Model::CreditParameters cp;
+  cp.creditSum_ = 20000000000.0;
+  cp.creditTerm_ = 60;
+  cp.creditPercent_ = 10.0;
+  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+
+  s21::Model::CreditResult actual;
+  const bool status = s21::Model::CalculateCredit(cp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Credit, T7CreditIncorrectInput) {
+  s21::Model::CreditParameters cp;
+  cp.creditSum_ = 700000.0;
+  cp.creditTerm_ = 60;
+  cp.creditPercent_ = 999.0;
+  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+
+  s21::Model::CreditResult actual;
+  const bool status = s21::Model::CalculateCredit(cp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+
 
 
 
@@ -1166,6 +1147,110 @@ TEST(Deposit, T0Deposit) {
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
   dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+
+
+  s21::Model::DepositResult expected;
+  expected.taxTotal_ = 0.0;
+  expected.accruedTotal_ = 70000.0; 
+  expected.amountTotal_ = 770000.0;
+
+  expected.percentMonthly_.resize(dp.period_);
+  expected.accruedMonthly_.resize(dp.period_);
+
+  expected.percentMonthly_.at(0) = 5929.0;
+  expected.percentMonthly_.at(1) = 5546.0;
+  expected.percentMonthly_.at(2) = 5929.0;
+  expected.percentMonthly_.at(3) = 5738.0;
+  expected.percentMonthly_.at(4) = 5929.0;
+  expected.percentMonthly_.at(5) = 5738.0;
+  expected.percentMonthly_.at(6) = 5929.0;
+  expected.percentMonthly_.at(7) = 5929.0;
+  expected.percentMonthly_.at(8) = 5738.0;
+  expected.percentMonthly_.at(9) = 5929.0;
+  expected.percentMonthly_.at(10) = 5738.0;
+  expected.percentMonthly_.at(11) = 5929.0;
+
+  expected.accruedMonthly_.at(0) = 700000.0;
+  expected.accruedMonthly_.at(1) = 700000.0;
+  expected.accruedMonthly_.at(2) = 700000.0;
+  expected.accruedMonthly_.at(3) = 700000.0;
+  expected.accruedMonthly_.at(4) = 700000.0;
+  expected.accruedMonthly_.at(5) = 700000.0;
+  expected.accruedMonthly_.at(6) = 700000.0;
+  expected.accruedMonthly_.at(7) = 700000.0;
+  expected.accruedMonthly_.at(8) = 700000.0;
+  expected.accruedMonthly_.at(9) = 700000.0;
+  expected.accruedMonthly_.at(10) = 700000.0;
+  expected.accruedMonthly_.at(11) = 700000.0;
+
+  s21::Model::DepositResult actual;
+  s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Deposit, T1Deposit) {
+  
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 12;
+  dp.interest_ = 10.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Total;
+
+
+
+  s21::Model::DepositResult expected;
+  expected.taxTotal_ = 0.0;
+  expected.accruedTotal_ = 70000.0; 
+  expected.amountTotal_ = 770000.0;
+
+  expected.percentMonthly_.resize(dp.period_);
+  expected.accruedMonthly_.resize(dp.period_);
+
+  expected.percentMonthly_.at(0) = 5929.0;
+  expected.percentMonthly_.at(1) = 5546.0;
+  expected.percentMonthly_.at(2) = 5929.0;
+  expected.percentMonthly_.at(3) = 5738.0;
+  expected.percentMonthly_.at(4) = 5929.0;
+  expected.percentMonthly_.at(5) = 5738.0;
+  expected.percentMonthly_.at(6) = 5929.0;
+  expected.percentMonthly_.at(7) = 5929.0;
+  expected.percentMonthly_.at(8) = 5738.0;
+  expected.percentMonthly_.at(9) = 5929.0;
+  expected.percentMonthly_.at(10) = 5738.0;
+  expected.percentMonthly_.at(11) = 5929.0;
+
+  expected.accruedMonthly_.at(0) = 700000.0;
+  expected.accruedMonthly_.at(1) = 700000.0;
+  expected.accruedMonthly_.at(2) = 700000.0;
+  expected.accruedMonthly_.at(3) = 700000.0;
+  expected.accruedMonthly_.at(4) = 700000.0;
+  expected.accruedMonthly_.at(5) = 700000.0;
+  expected.accruedMonthly_.at(6) = 700000.0;
+  expected.accruedMonthly_.at(7) = 700000.0;
+  expected.accruedMonthly_.at(8) = 700000.0;
+  expected.accruedMonthly_.at(9) = 700000.0;
+  expected.accruedMonthly_.at(10) = 700000.0;
+  expected.accruedMonthly_.at(11) = 700000.0;
+
+  s21::Model::DepositResult actual;
+  s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Deposit, T2Deposit) {
+  
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 12;
+  dp.interest_ = 10.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Monthly;
   dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
 
 
@@ -1309,6 +1394,174 @@ TEST(Deposit, T0DepositCapitalizationAddition) {
 
   EXPECT_EQ(expected, actual);
 }
+
+
+
+TEST(Deposit, T0DepositIncorrectInput) {
+  
+  s21::Model::DepositParameters dp;
+  dp.amount_ = -700000.0;
+  dp.period_ = 12;
+  dp.interest_ = 10.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+
+TEST(Deposit, T1DepositIncorrectInput) {
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 699;
+  dp.interest_ = 10.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Deposit, T2DepositIncorrectInput) {
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = -12;
+  dp.interest_ = 10.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Deposit, T3DepositIncorrectInput) {
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 12;
+  dp.interest_ = -10.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Deposit, T4DepositIncorrectInput) {
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 12;
+  dp.interest_ = 100.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Deposit, T5DepositIncorrectInput) {
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 12;
+  dp.interest_ = 10.0;
+  dp.tax_ = -10.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Deposit, T6DepositIncorrectInput) {
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 12;
+  dp.interest_ = 10.0;
+  dp.tax_ = 100.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Deposit, T7DepositIncorrectInput) {
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 12;
+  dp.interest_ = 10.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Undefined;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Deposit, T8DepositIncorrectInput) {
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 12;
+  dp.interest_ = 10.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Monthly;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Undefined;
+
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Deposit, T9DepositIncorrectInput) {
+  
+  s21::Model::DepositParameters dp;
+  dp.amount_ = 700000.0;
+  dp.period_ = 60;
+  dp.interest_ = 12.0;
+  dp.tax_ = 0.0;
+  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Monthly;
+  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Total;
+  dp.depositOrWithdrawal_.resize(dp.period_);
+  dp.depositOrWithdrawal_.at(dp.period_ - 1) = -99999999999.9;
+  
+  s21::Model::DepositResult actual;
+  const bool status = s21::Model::CalculateDeposit(dp, actual);
+
+  EXPECT_EQ(status, false);
+}
+
+TEST(Graph, T0Simple) {
+  s21::Model::GraphParameters gp;
+  gp.x_min = -30.0;
+  gp.x_max = 30.0;
+
+  EXPECT_EQ(true, false);
+}
+
+
 
 
 
