@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <iostream>
+#include <cmath>
 
 #include "../model/model.h"
 
@@ -138,6 +139,29 @@ std::ostream& operator<<(std::ostream& out, const Model::DepositResult& dr) {
 
   return out;
 }
+
+
+bool operator==(const std::vector<double>& left, const std::vector<double>& right) {
+  if (left.size() != right.size())
+    return false;
+
+  auto it_left = left.begin();
+  auto it_right = right.begin();
+
+  while (it_left != left.end() && it_right != right.end()) {
+    if (std::abs(*it_left - *it_right) > 1e-6)
+      return false;
+    
+    ++it_left;
+    ++it_right;
+  }
+  return true;
+}
+
+bool operator==(const Model::GraphResult& left, const Model::GraphResult& right) {
+  return left.x == right.x && left.y == right.y;
+}
+
 
 } // namespace s21
 
@@ -1557,10 +1581,165 @@ TEST(Graph, T0Simple) {
   s21::Model::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
+  gp.input_string = "x";
+  s21::Model::GraphResult expected;
+  
+  static constexpr double x_range = 10000.0;
+  double x_step = abs(gp.x_max - gp.x_min) / x_range;
+  int ex_code = 0;
 
-  EXPECT_EQ(true, false);
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range && ex_code == 0; ++i) {
+    expected.x[i] = gp.x_min + x_step * i;
+    expected.y[i] = expected.x[i];
+  }
+  
+  s21::Model::GraphResult actual;
+  const int status = s21::Model::CalculateGraph(gp, actual);
+  EXPECT_EQ(status, 0);
+  EXPECT_EQ(expected, actual);
 }
 
+TEST(Graph, T1Simple) {
+  s21::Model::GraphParameters gp;
+  gp.x_min = -30.0;
+  gp.x_max = 30.0;
+  gp.input_string = "2*x";
+  s21::Model::GraphResult expected;
+  
+  static constexpr double x_range = 10000.0;
+  double x_step = abs(gp.x_max - gp.x_min) / x_range;
+  int ex_code = 0;
+
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range && ex_code == 0; ++i) {
+    expected.x[i] = gp.x_min + x_step * i;
+    expected.y[i] = 2.0 * expected.x[i];
+  }
+  
+  s21::Model::GraphResult actual;
+  const int status = s21::Model::CalculateGraph(gp, actual);
+  EXPECT_EQ(status, 0);
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Graph, T2Simple) {
+  s21::Model::GraphParameters gp;
+  gp.x_min = -30.0;
+  gp.x_max = 30.0;
+  gp.input_string = "2*x+1";
+  s21::Model::GraphResult expected;
+  
+  static constexpr double x_range = 10000.0;
+  double x_step = abs(gp.x_max - gp.x_min) / x_range;
+  int ex_code = 0;
+
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range && ex_code == 0; ++i) {
+    expected.x[i] = gp.x_min + x_step * i;
+    expected.y[i] = 2.0 * expected.x[i] + 1.0;
+  }
+  
+  s21::Model::GraphResult actual;
+  const int status = s21::Model::CalculateGraph(gp, actual);
+  EXPECT_EQ(status, 0);
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Graph, T3Simple) {
+  s21::Model::GraphParameters gp;
+  gp.x_min = -30.0;
+  gp.x_max = 30.0;
+  gp.input_string = "-x";
+  s21::Model::GraphResult expected;
+  
+  static constexpr double x_range = 10000.0;
+  double x_step = abs(gp.x_max - gp.x_min) / x_range;
+  int ex_code = 0;
+
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range && ex_code == 0; ++i) {
+    expected.x[i] = gp.x_min + x_step * i;
+    expected.y[i] = -1.0 * expected.x[i];
+  }
+  
+  s21::Model::GraphResult actual;
+  const int status = s21::Model::CalculateGraph(gp, actual);
+  EXPECT_EQ(status, 0);
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Graph, T0Complex) {
+  s21::Model::GraphParameters gp;
+  gp.x_min = -30.0;
+  gp.x_max = 30.0;
+  gp.input_string = "2*(x+1)*sin(4-x)*x";
+  s21::Model::GraphResult expected;
+  
+  static constexpr double x_range = 10000.0;
+  double x_step = abs(gp.x_max - gp.x_min) / x_range;
+  int ex_code = 0;
+
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range && ex_code == 0; ++i) {
+    expected.x[i] = gp.x_min + x_step * i;
+    expected.y[i] = 2.0 * (expected.x[i] + 1.0) * std::sin(4.0 - expected.x[i]) * expected.x[i];
+  }
+  
+  s21::Model::GraphResult actual;
+  const int status = s21::Model::CalculateGraph(gp, actual);
+  EXPECT_EQ(status, 0);
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Graph, T0IncorrectInput) {
+  s21::Model::GraphParameters gp;
+  gp.x_min = -30.0;
+  gp.x_max = 30.0;
+  gp.input_string = "2*(x+1(*sin(4-x)*x";
+  
+  s21::Model::GraphResult actual;
+  const int status = s21::Model::CalculateGraph(gp, actual);
+  EXPECT_EQ(status, 1);
+}
+
+TEST(Graph, T1IncorrectInput) {
+  s21::Model::GraphParameters gp;
+  gp.x_min = -30.0;
+  gp.x_max = 30.0;
+  gp.input_string = "2*(x+1()(((*sin(4-x)*x";
+  
+  s21::Model::GraphResult actual;
+  const int status = s21::Model::CalculateGraph(gp, actual);
+  EXPECT_EQ(status, 1);
+}
+
+TEST(Graph, T2IncorrectInput) {
+  s21::Model::GraphParameters gp;
+  gp.x_min = -30.0;
+  gp.x_max = 30.0;
+  gp.input_string = "hello";
+  
+  s21::Model::GraphResult actual;
+  const int status = s21::Model::CalculateGraph(gp, actual);
+  EXPECT_EQ(status, 1);
+}
+
+TEST(Graph, T3IncorrectInput) {
+  s21::Model::GraphParameters gp;
+  gp.x_min = -30.0;
+  gp.x_max = 30.0;
+  gp.input_string = "x + 1";
+  
+  s21::Model::GraphResult actual;
+  const int status = s21::Model::CalculateGraph(gp, actual);
+  EXPECT_EQ(status, 1);
+}
 
 
 

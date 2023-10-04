@@ -15,7 +15,7 @@ int Model::Calculate(const std::string& input_str, double *result, double x_valu
   std::stack<Token> input;
   printf("parcer...\n");
   const int ex_code = parcer(input_str, head);
-  printf("parcer ended...\n");
+  printf("parcer ended with ex_code %d...\n", ex_code);
   if (ex_code == 0) {
     printf("shunting_yard...\n");
     shuntingYard(head, output);
@@ -95,9 +95,12 @@ int Model::parcer(const std::string& input_str, std::stack<Token>& head) {
         break;
       case '-':
         if (i == 0 || input_str[i - 1] == '(') {
-          head.push(Token(0, Type::Number, 1));
+          head.push(Token(-1.0, Type::Number, 1));
+          head.push(Token(0, Type::Mult, 6));
+          ++operand_qty;
+        } else {
+          head.push(Token(0, Type::Minus, 6));
         }
-        head.push(Token(0, Type::Minus, 6));
         use_double_operand_operator = 1;  // true
         i--;
         break;
@@ -164,6 +167,9 @@ int Model::parcer(const std::string& input_str, std::stack<Token>& head) {
         head.push(Token(0, Type::X, 1));
         ++operand_qty;
         i--;
+        break;
+      default:
+        ex_code = 1;
         break;
     }
   }
