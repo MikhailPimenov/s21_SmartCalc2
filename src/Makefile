@@ -43,7 +43,7 @@ dist:
 	sh dist_script.sh
 
 run:
-	./build/SmartCalc_1_0.app/Contents/MacOS/SmartCalc_1_0
+	./build/SmartCalc_2_0.app/Contents/MacOS/SmartCalc_2_0
 
 test: run_tests 
 

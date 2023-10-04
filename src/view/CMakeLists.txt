@@ -3,11 +3,11 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS PrintSupport)
 
 set(VIEW_SOURCES
-        main_view.cpp
-        mainwindow.cpp
-        qcustomplot.cpp
-        credit_calc.cpp
-        deposit_calc.cpp
+        main_view.cc
+        mainwindow.cc
+        qcustomplot.cc
+        credit_calc.cc
+        deposit_calc.cc
 )
 add_compile_options(-g)
 

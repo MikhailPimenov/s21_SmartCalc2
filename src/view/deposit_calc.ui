@@ -317,7 +317,7 @@
     </rect>
    </property>
    <property name="text">
-   <string>Deposit/Withdrawal list</string>
+   <string>Monthly info/deposit-withdrawal</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="tax_percent">

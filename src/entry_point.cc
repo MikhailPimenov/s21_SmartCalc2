@@ -8,13 +8,6 @@
 *
 */
 
-
-/*!
-\file
-\brief Entry point to calculator. This file contains main function
-
-*/
-
 /**
  * @brief 
  * The first function to be executed
