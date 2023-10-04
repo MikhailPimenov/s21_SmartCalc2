@@ -14,7 +14,7 @@ GCOVR_LFLAGS=--coverage
 
 GTEST_LFLAGS=-lgtest -lgtest_main
 
-HEADERS=model/SmartCalc.h
+HEADERS=model/model.h
 
 SOURCES=tests/tests_main.cc
 SOURCES+=tests/test.cc
@@ -23,7 +23,7 @@ SOURCES+=model/bonus_model.cc
 
 REPORT_DIRECTORY=report
 
-BINARIES=$(patsubst %.c,%.o,$(SOURCES))
+BINARIES=$(patsubst %.cc,%.o,$(SOURCES))
 
 
 all: install run	
@@ -53,8 +53,7 @@ run_tests: tests/tests_main.exe
 
 
 %.o: %.cc $(HEADERS)
-		$(CC) -c $(CFLAGS) $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS)
-
+		$(CC) -c -Wall -std=c++17 -Wextra -pedantic -g -Werror $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS)
 
 
 tests/tests_main.exe: $(BINARIES)
@@ -68,8 +67,8 @@ gcov_report: run_tests
 		gcovr . --html --html-details $(EXCLUDE_FROM_COVERAGE) -o $(REPORT_DIRECTORY)/coverage_report.html
 		open "" $(REPORT_DIRECTORY)/coverage_report.functions.html  
 
-check:
-	cppcheck --enable=all --force *.c SmartCalc.h
+# check:
+# cppcheck --enable=all --force *.c SmartCalc.h
 
 leakscheck: test
 	leaks --atExit -- ./test
