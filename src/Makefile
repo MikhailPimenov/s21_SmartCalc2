@@ -68,11 +68,106 @@ gcov_report: run_tests
 		open "" $(REPORT_DIRECTORY)/coverage_report.functions.html  
 
 # check:
-# cppcheck --enable=all --force *.c SmartCalc.h
+# 		cppcheck --enable=all --force *.c SmartCalc.h
 
-leakscheck: test
-	leaks --atExit -- ./test
-#	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./test
+REPORT_DIRECTORY=report
+VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER=valgrind_report
+
+
+leaks: tests/tests_main.exe
+		leaks --atExit -- ./tests/tests_main.exe
+
+
+valgrind: tests/tests_main.exe
+		mkdir -p $(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)
+		-valgrind --leak-check=full --show-reachable=no --track-origins=yes --log-file=$(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)/valgrind_report.txt -s ./tests/tests_main.exe > $(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)/test_report.txt
+		cat $(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)/test_report.txt
+		cat $(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)/valgrind_report.txt
+
+valgrind_full: tests/tests_main.exe
+		mkdir -p $(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)
+		-valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=$(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)/valgrind_full_report.txt -s ./tests/tests_main.exe > $(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)/test_report.txt
+		cat $(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)/test_report.txt
+		cat $(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)/valgrind_full_report.txt
+
+
+
+check_style:
+		-clang-format --style=Google -n *.cc
+		-clang-format --style=Google -n *.h
+		-clang-format --style=Google -n tests/*.cc
+		-clang-format --style=Google -n tests/*.h
+		-clang-format --style=Google -n model/*.cc
+		-clang-format --style=Google -n model/*.h
+		-clang-format --style=Google -n view/*.cc
+		-clang-format --style=Google -n view/*.h
+		-clang-format --style=Google -n controller/*.cc
+		-clang-format --style=Google -n controller/*.h
+
+style: style_google
+
+style_google:
+		-clang-format --style=Google -i *.cc
+		-clang-format --style=Google -i *.h
+		-clang-format --style=Google -i tests/*.cc
+		-clang-format --style=Google -i tests/*.h
+		-clang-format --style=Google -i tests/*/*.cc
+		-clang-format --style=Google -i tests/*/*.h
+		-clang-format --style=Google -i tests/*.cc
+		-clang-format --style=Google -i tests/*.h
+
+style_microsoft:
+		-clang-format --style=Microsoft -i *.cc
+		-clang-format --style=Microsoft -i *.h
+		-clang-format --style=Microsoft -i tests/*.cc
+		-clang-format --style=Microsoft -i tests/*.h
+		-clang-format --style=Microsoft -i tests/*/*.cc
+		-clang-format --style=Microsoft -i tests/*/*.h
+		-clang-format --style=Microsoft -i tests/*.cc
+		-clang-format --style=Microsoft -i tests/*.h
+
+style_llvm:
+		-clang-format --style=LLVM -i *.cc
+		-clang-format --style=LLVM -i *.h
+		-clang-format --style=LLVM -i tests/*.cc
+		-clang-format --style=LLVM -i tests/*.h
+		-clang-format --style=LLVM -i tests/*/*.cc
+		-clang-format --style=LLVM -i tests/*/*.h
+		-clang-format --style=LLVM -i tests/*.cc
+		-clang-format --style=LLVM -i tests/*.h
+
+style_chromium:
+		-clang-format --style=Chromium -i *.cc
+		-clang-format --style=Chromium -i *.h
+		-clang-format --style=Chromium -i tests/*.cc
+		-clang-format --style=Chromium -i tests/*.h
+		-clang-format --style=Chromium -i tests/*/*.cc
+		-clang-format --style=Chromium -i tests/*/*.cc
+		-clang-format --style=Chromium -i tests/*.h
+		-clang-format --style=Chromium -i tests/*.cc
+
+style_mozilla:
+		-clang-format --style=Mozilla -i *.cc
+		-clang-format --style=Mozilla -i *.h
+		-clang-format --style=Mozilla -i tests/*.cc
+		-clang-format --style=Mozilla -i tests/*.h
+		-clang-format --style=Mozilla -i tests/*/*.cc
+		-clang-format --style=Mozilla -i tests/*/*.h
+		-clang-format --style=Mozilla -i tests/*.cc
+		-clang-format --style=Mozilla -i tests/*.h
+
+style_webkit:
+		-clang-format --style=WebKit -i *.cc
+		-clang-format --style=WebKit -i *.h
+		-clang-format --style=WebKit -i tests/*.cc
+		-clang-format --style=WebKit -i tests/*.h
+		-clang-format --style=WebKit -i tests/*/*.cc
+		-clang-format --style=WebKit -i tests/*/*.h
+		-clang-format --style=WebKit -i tests/*.cc
+		-clang-format --style=WebKit -i tests/*.h
+
+
+
 
 
 clean:
@@ -84,6 +179,8 @@ clean:
 	rm -rf report
 	rm -rf doxygen.config.bak
 	rm -rf SmartCalc_mac.tar.gz 
+	rm -rf $(VALGRIND_REPORT_DIRECTORY_FOR_DOCKER_CONTAINER)
+	rm -rf $(REPORT_DIRECTORY)
 # rm -rf doxygen.config
 
 rebuild: clean all

@@ -1,0 +1,28 @@
+FROM ubuntu
+
+RUN apt-get update && apt-get install -y \
+    valgrind \
+    git \
+    make \
+    cmake \
+    libgtest-dev \
+    g++ \
+    dos2unix \
+    && rm -rf /var/lib/apt/lists
+
+COPY . project/
+WORKDIR /usr/src/gtest/
+
+RUN groupadd -g 999 appuser && \
+    useradd -r -u 999 -g appuser appuser && \
+    cmake CMakeLists.txt && \
+    make && \
+    cp lib/*.a /usr/lib && \
+    chmod +x /project/src/_run_make_valgrind_for_dockerfile.sh && \
+    dos2unix /project/src/_run_make_valgrind_for_dockerfile.sh
+
+USER appuser
+
+WORKDIR /project/src/
+
+ENTRYPOINT [ "/bin/bash", "_run_make_valgrind_for_dockerfile.sh" ]

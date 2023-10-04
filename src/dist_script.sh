@@ -8,8 +8,11 @@ cp ../*.h . 2>/dev/null
 cp ../*.sh . 2>/dev/null
 cp ../readme.html . 2>/dev/null
 cp ../Makefile . 2>/dev/null
+cp ../test_valgrind_ubuntu_docker . 2>/dev/null
 cp ../CMakeLists.txt . 2>/dev/null
 cp ../../.gitignore . 2>/dev/null
+cp ../../Dockerfile_ubuntu . 2>/dev/null
+cp ../../test_valgrind_ubuntu_docker.sh . 2>/dev/null
 cp ../../CHANGELOG . 2>/dev/null
 cp ../../LICENSE . 2>/dev/null
 cp ../../README.md . 2>/dev/null

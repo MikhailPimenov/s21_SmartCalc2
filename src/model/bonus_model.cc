@@ -29,7 +29,6 @@ bool Model::CalculateCredit(const CreditParameters& cp, CreditResult& cr) {
     return false;
   if (cp.creditPercent_ > 99.999999)
     return false;
-  
   static constexpr int months = 12;
   if (cp.order_ == CreditParameters::RepainmentOrder::Annuity) {
     const double creditPercent = cp.creditPercent_ / 100.0 / months;
