@@ -1348,7 +1348,7 @@ class QCP_LIB_DECL QCPMarginGroup : public QObject {
  protected:
   // non-property members:
   QCustomPlot *mParentPlot;
-  QHash<QCP::MarginSide, QList<QCPLayoutElement *> > mChildren;
+  QHash<QCP::MarginSide, QList<QCPLayoutElement *>> mChildren;
 
   // introduced virtual methods:
   virtual int commonMargin(QCP::MarginSide side) const;
@@ -1607,7 +1607,7 @@ class QCP_LIB_DECL QCPLayoutGrid : public QCPLayout {
 
  protected:
   // property members:
-  QList<QList<QCPLayoutElement *> > mElements;
+  QList<QList<QCPLayoutElement *>> mElements;
   QList<double> mColumnStretchFactors;
   QList<double> mRowStretchFactors;
   int mColumnSpacing, mRowSpacing;
@@ -1899,8 +1899,8 @@ class QCPLabelPainterPrivate {
                                     AnchorSide side, double rotation,
                                     const QString &text);
   virtual QByteArray generateLabelParameterHash()
-      const;  // TODO: get rid of this in favor of invalidation flag upon
-              // setters?
+      const;  // TODO: get rid of this in favor of
+              // invalidation flag upon setters?
 
   // non-virtual methods:
   QPointF getAnchorPos(const QPointF &tickPos);
@@ -3259,9 +3259,10 @@ void QCPDataContainer<DataType>::add(const QVector<DataType> &data,
 
   if (alreadySorted && oldSize > 0 &&
       !qcpLessThanSortKey<DataType>(
-          *constBegin(), *(data.constEnd() -
-                           1)))  // prepend if new data is sorted and keys are
-                                 // all smaller than or equal to existing ones
+          *constBegin(),
+          *(data.constEnd() -
+            1)))  // prepend if new data is sorted and keys are
+                  // all smaller than or equal to existing ones
   {
     if (mPreallocSize < n) preallocateGrow(n);
     mPreallocSize -= n;
@@ -3325,8 +3326,8 @@ void QCPDataContainer<DataType>::removeBefore(double sortKey) {
                        qcpLessThanSortKey<DataType>);
   mPreallocSize +=
       int(itEnd -
-          it);  // don't actually delete, just add it to the preallocated block
-                // (if it gets too large, squeeze will take care of it)
+          it);  // don't actually delete, just add it to the preallocated
+                // block (if it gets too large, squeeze will take care of it)
   if (mAutoSqueeze) performAutoSqueeze();
 }
 
@@ -4473,7 +4474,7 @@ class QCP_LIB_DECL QCustomPlot : public QWidget {
   bool mOpenGl;
 
   // non-property members:
-  QList<QSharedPointer<QCPAbstractPaintBuffer> > mPaintBuffers;
+  QList<QSharedPointer<QCPAbstractPaintBuffer>> mPaintBuffers;
   QPoint mMousePressPos;
   bool mMouseHasMoved;
   QPointer<QCPLayerable> mMouseEventLayerable;
@@ -4710,7 +4711,7 @@ class QCPAbstractPlottable1D
 
  protected:
   // property members:
-  QSharedPointer<QCPDataContainer<DataType> > mDataContainer;
+  QSharedPointer<QCPDataContainer<DataType>> mDataContainer;
 
   // helpers for subclasses:
   void getDataSegments(QList<QCPDataRange> &selectedSegments,
@@ -5426,8 +5427,8 @@ class QCP_LIB_DECL QCPColorGradient {
 
   // non-property members:
   QVector<QRgb>
-      mColorBuffer;  // have colors premultiplied with alpha (for usage with
-                     // QImage::Format_ARGB32_Premultiplied)
+      mColorBuffer;  // have colors premultiplied with alpha (for usage
+                     // with QImage::Format_ARGB32_Premultiplied)
   bool mColorBufferInvalidated;
 
   // non-virtual methods:
@@ -5612,15 +5613,15 @@ class QCP_LIB_DECL QCPAxisRect : public QCPLayoutElement {
   Qt::AspectRatioMode mBackgroundScaledMode;
   QCPLayoutInset *mInsetLayout;
   Qt::Orientations mRangeDrag, mRangeZoom;
-  QList<QPointer<QCPAxis> > mRangeDragHorzAxis, mRangeDragVertAxis;
-  QList<QPointer<QCPAxis> > mRangeZoomHorzAxis, mRangeZoomVertAxis;
+  QList<QPointer<QCPAxis>> mRangeDragHorzAxis, mRangeDragVertAxis;
+  QList<QPointer<QCPAxis>> mRangeZoomHorzAxis, mRangeZoomVertAxis;
   double mRangeZoomFactorHorz, mRangeZoomFactorVert;
 
   // non-property members:
   QList<QCPRange> mDragStartHorzRange, mDragStartVertRange;
   QCP::AntialiasedElements mAADragBackup, mNotAADragBackup;
   bool mDragging;
-  QHash<QCPAxis::AxisType, QList<QCPAxis *> > mAxes;
+  QHash<QCPAxis::AxisType, QList<QCPAxis *>> mAxes;
 
   // reimplemented virtual methods:
   virtual void applyDefaultAntialiasingHint(QCPPainter *painter) const
@@ -6248,7 +6249,7 @@ class QCP_LIB_DECL QCPGraph : public QCPAbstractPlottable1D<QCPGraphData> {
   QVector<QPointF> dataToImpulseLines(const QVector<QCPGraphData> &data) const;
   QVector<QCPDataRange> getNonNanSegments(const QVector<QPointF> *lineData,
                                           Qt::Orientation keyOrientation) const;
-  QVector<QPair<QCPDataRange, QCPDataRange> > getOverlappingSegments(
+  QVector<QPair<QCPDataRange, QCPDataRange>> getOverlappingSegments(
       QVector<QCPDataRange> thisSegments, const QVector<QPointF> *thisData,
       QVector<QCPDataRange> otherSegments,
       const QVector<QPointF> *otherData) const;

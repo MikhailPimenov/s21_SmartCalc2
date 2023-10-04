@@ -1,16 +1,16 @@
 #include "deposit_calc.h"
-#include "ui_deposit_calc.h"
+
 #include "../controller/controller.h"
+#include "ui_deposit_calc.h"
 
 namespace s21 {
 
-DepositWindow::DepositWindow(QWidget *parent, Controller* controller_)
+DepositWindow::DepositWindow(QWidget *parent, Controller *controller_)
     : QDialog(parent), ui(new Ui::deposit_calc) {
   ui->setupUi(this);
 }
 
 DepositWindow::~DepositWindow() { delete ui; }
-
 
 void DepositWindow::on_pushButton_clicked() {
   ui->interest_income->setText("");
@@ -24,7 +24,11 @@ void DepositWindow::on_pushButton_clicked() {
   dp.tax_ = ui->tax_percent->text().toFloat();
   dp.period_ = ui->deposit_term->text().toInt();
 
-  ui->tableWidget->setHorizontalHeaderLabels({{"+/-"}, {"Added as %"}, {"Total"},});
+  ui->tableWidget->setHorizontalHeaderLabels({
+      {"+/-"},
+      {"Added as %"},
+      {"Total"},
+  });
   ui->tableWidget->setRowCount(dp.period_);
   ui->tableWidget->setColumnCount(3);
 
@@ -32,11 +36,12 @@ void DepositWindow::on_pushButton_clicked() {
     dp.depositOrWithdrawal_.reserve(dp.period_);
     for (int i = 0; i < dp.period_; ++i) {
       if (ui->tableWidget->item(i, 0))
-        dp.depositOrWithdrawal_.push_back(ui->tableWidget->item(i, 0)->text().toDouble());
-      else 
+        dp.depositOrWithdrawal_.push_back(
+            ui->tableWidget->item(i, 0)->text().toDouble());
+      else
         dp.depositOrWithdrawal_.push_back(0.0);
     }
-  } 
+  }
 
   if (ui->radioB_mon_cap->isChecked()) {
     dp.capitalization_ = Controller::DepositParameters::Capitalization::Monthly;
@@ -63,22 +68,27 @@ void DepositWindow::on_pushButton_clicked() {
   QString total_tax_sum = QString::number(dr.taxTotal_, 'f', 2);
   ui->tax_sum->setText(total_tax_sum);
 
-  if (!ui->checkBox_add->isChecked())
-    return;
+  if (!ui->checkBox_add->isChecked()) return;
 
   for (int i = 0; i < static_cast<signed>(dr.percentMonthly_.size()); ++i) {
-    QTableWidgetItem *itm = new QTableWidgetItem(QString::number(dr.percentMonthly_.at(i)));
+    QTableWidgetItem *itm =
+        new QTableWidgetItem(QString::number(dr.percentMonthly_.at(i)));
     ui->tableWidget->setItem(i, 1, itm);
   }
   for (int i = 0; i < static_cast<signed>(dr.accruedMonthly_.size()); ++i) {
-    QTableWidgetItem *itm = new QTableWidgetItem(QString::number(dr.accruedMonthly_.at(i)));
+    QTableWidgetItem *itm =
+        new QTableWidgetItem(QString::number(dr.accruedMonthly_.at(i)));
     ui->tableWidget->setItem(i, 2, itm);
   }
 }
 
 void DepositWindow::on_checkBox_add_stateChanged(int arg1) {
   if (ui->checkBox_add->isChecked()) {
-    ui->tableWidget->setHorizontalHeaderLabels({{"+/-"}, {"Added as %"}, {"Total"},});
+    ui->tableWidget->setHorizontalHeaderLabels({
+        {"+/-"},
+        {"Added as %"},
+        {"Total"},
+    });
     const int deposit_term = ui->deposit_term->text().toInt();
     ui->tableWidget->setRowCount(deposit_term);
     ui->tableWidget->setColumnCount(3);
@@ -87,5 +97,4 @@ void DepositWindow::on_checkBox_add_stateChanged(int arg1) {
   }
 }
 
-
-} //  namespace s21
+}  //  namespace s21

@@ -3,8 +3,8 @@
 
 namespace s21 {
 
-int main_view(int argc, char *argv[], class Controller* controller);
+int main_view(int argc, char *argv[], class Controller *controller);
 
-}   // namespace s21
+}  // namespace s21
 
 #endif  // SRC_VIEW_VIEW_H

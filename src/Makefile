@@ -111,60 +111,72 @@ style_google:
 		-clang-format --style=Google -i *.h
 		-clang-format --style=Google -i tests/*.cc
 		-clang-format --style=Google -i tests/*.h
-		-clang-format --style=Google -i tests/*/*.cc
-		-clang-format --style=Google -i tests/*/*.h
-		-clang-format --style=Google -i tests/*.cc
-		-clang-format --style=Google -i tests/*.h
+		-clang-format --style=Google -i model/*.cc
+		-clang-format --style=Google -i model/*.h
+		-clang-format --style=Google -i view/*.cc
+		-clang-format --style=Google -i view/*.h
+		-clang-format --style=Google -i controller/*.cc
+		-clang-format --style=Google -i controller/*.h
 
 style_microsoft:
 		-clang-format --style=Microsoft -i *.cc
 		-clang-format --style=Microsoft -i *.h
 		-clang-format --style=Microsoft -i tests/*.cc
 		-clang-format --style=Microsoft -i tests/*.h
-		-clang-format --style=Microsoft -i tests/*/*.cc
-		-clang-format --style=Microsoft -i tests/*/*.h
-		-clang-format --style=Microsoft -i tests/*.cc
-		-clang-format --style=Microsoft -i tests/*.h
+		-clang-format --style=Microsoft -i model/*.cc
+		-clang-format --style=Microsoft -i model/*.h
+		-clang-format --style=Microsoft -i view/*.cc
+		-clang-format --style=Microsoft -i view/*.h
+		-clang-format --style=Microsoft -i controller/*.cc
+		-clang-format --style=Microsoft -i controller/*.h
 
 style_llvm:
 		-clang-format --style=LLVM -i *.cc
 		-clang-format --style=LLVM -i *.h
 		-clang-format --style=LLVM -i tests/*.cc
 		-clang-format --style=LLVM -i tests/*.h
-		-clang-format --style=LLVM -i tests/*/*.cc
-		-clang-format --style=LLVM -i tests/*/*.h
-		-clang-format --style=LLVM -i tests/*.cc
-		-clang-format --style=LLVM -i tests/*.h
+		-clang-format --style=LLVM -i model/*.cc
+		-clang-format --style=LLVM -i model/*.h
+		-clang-format --style=LLVM -i view/*.cc
+		-clang-format --style=LLVM -i view/*.h
+		-clang-format --style=LLVM -i controller/*.cc
+		-clang-format --style=LLVM -i controller/*.h
 
 style_chromium:
 		-clang-format --style=Chromium -i *.cc
 		-clang-format --style=Chromium -i *.h
 		-clang-format --style=Chromium -i tests/*.cc
 		-clang-format --style=Chromium -i tests/*.h
-		-clang-format --style=Chromium -i tests/*/*.cc
-		-clang-format --style=Chromium -i tests/*/*.cc
-		-clang-format --style=Chromium -i tests/*.h
-		-clang-format --style=Chromium -i tests/*.cc
+		-clang-format --style=Chromium -i model/*.cc
+		-clang-format --style=Chromium -i model/*.h
+		-clang-format --style=Chromium -i view/*.cc
+		-clang-format --style=Chromium -i view/*.h
+		-clang-format --style=Chromium -i controller/*.cc
+		-clang-format --style=Chromium -i controller/*.h
 
 style_mozilla:
 		-clang-format --style=Mozilla -i *.cc
 		-clang-format --style=Mozilla -i *.h
 		-clang-format --style=Mozilla -i tests/*.cc
 		-clang-format --style=Mozilla -i tests/*.h
-		-clang-format --style=Mozilla -i tests/*/*.cc
-		-clang-format --style=Mozilla -i tests/*/*.h
-		-clang-format --style=Mozilla -i tests/*.cc
-		-clang-format --style=Mozilla -i tests/*.h
+		-clang-format --style=Mozilla -i model/*.cc
+		-clang-format --style=Mozilla -i model/*.h
+		-clang-format --style=Mozilla -i view/*.cc
+		-clang-format --style=Mozilla -i view/*.h
+		-clang-format --style=Mozilla -i controller/*.cc
+		-clang-format --style=Mozilla -i controller/*.h
 
 style_webkit:
 		-clang-format --style=WebKit -i *.cc
 		-clang-format --style=WebKit -i *.h
 		-clang-format --style=WebKit -i tests/*.cc
 		-clang-format --style=WebKit -i tests/*.h
-		-clang-format --style=WebKit -i tests/*/*.cc
-		-clang-format --style=WebKit -i tests/*/*.h
-		-clang-format --style=WebKit -i tests/*.cc
-		-clang-format --style=WebKit -i tests/*.h
+		-clang-format --style=WebKit -i model/*.cc
+		-clang-format --style=WebKit -i model/*.h
+		-clang-format --style=WebKit -i view/*.cc
+		-clang-format --style=WebKit -i view/*.h
+		-clang-format --style=WebKit -i controller/*.cc
+		-clang-format --style=WebKit -i controller/*.h
 
 
 

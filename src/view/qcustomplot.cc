@@ -295,8 +295,8 @@ QCPPainter::QCPPainter(QPaintDevice *device)
 #if QT_VERSION <           \
     QT_VERSION_CHECK(5, 0, \
                      0)  // before Qt5, default pens used to be cosmetic if
-                         // NonCosmeticDefaultPen flag isn't set. So we set it
-                         // to get consistency across Qt versions.
+                         // NonCosmeticDefaultPen flag isn't set. So we set
+                         // it to get consistency across Qt versions.
   if (isActive()) setRenderHint(QPainter::NonCosmeticDefaultPen);
 #endif
 }
@@ -396,8 +396,8 @@ bool QCPPainter::begin(QPaintDevice *device) {
 #if QT_VERSION <           \
     QT_VERSION_CHECK(5, 0, \
                      0)  // before Qt5, default pens used to be cosmetic if
-                         // NonCosmeticDefaultPen flag isn't set. So we set it
-                         // to get consistency across Qt versions.
+                         // NonCosmeticDefaultPen flag isn't set. So we set
+                         // it to get consistency across Qt versions.
   if (result) setRenderHint(QPainter::NonCosmeticDefaultPen);
 #endif
   return result;
@@ -2995,7 +2995,7 @@ QCPMarginGroup::~QCPMarginGroup() { clear(); }
   layout elements use this margin group to synchronize margin sides.
 */
 bool QCPMarginGroup::isEmpty() const {
-  QHashIterator<QCP::MarginSide, QList<QCPLayoutElement *> > it(mChildren);
+  QHashIterator<QCP::MarginSide, QList<QCPLayoutElement *>> it(mChildren);
   while (it.hasNext()) {
     it.next();
     if (!it.value().isEmpty()) return false;
@@ -3010,7 +3010,7 @@ bool QCPMarginGroup::isEmpty() const {
 */
 void QCPMarginGroup::clear() {
   // make all children remove themselves from this margin group:
-  QHashIterator<QCP::MarginSide, QList<QCPLayoutElement *> > it(mChildren);
+  QHashIterator<QCP::MarginSide, QList<QCPLayoutElement *>> it(mChildren);
   while (it.hasNext()) {
     it.next();
     const QList<QCPLayoutElement *> elements = it.value();
@@ -3397,8 +3397,8 @@ void QCPLayoutElement::update(UpdatePhase phase) {
             QCP::setMarginValue(
                 newMargins, side,
                 calculateAutoMargin(
-                    side));  // this side is not part of a group, so calculate
-                             // the value directly
+                    side));  // this side is not part of a group,
+                             // so calculate the value directly
           // apply minimum margin restrictions:
           if (QCP::getMarginValue(newMargins, side) <
               QCP::getMarginValue(mMinimumMargins, side))
@@ -3907,8 +3907,8 @@ QVector<int> QCPLayout::getSectionSizes(QVector<int> maxSizes,
           freeSize -= nextMax * stretchFactors.at(secId);
         }
         unfinishedSections.removeOne(
-            nextId);  // exclude the section that is now at maximum from further
-                      // changes
+            nextId);  // exclude the section that is now
+                      // at maximum from further changes
       } else  // next maximum isn't hit, just distribute rest of free space on
               // remaining sections
       {
@@ -6692,8 +6692,8 @@ double QCPAxisTickerDateTime::getTickStep(const QCPRange &range) {
                       // prevent jitter on exact integers
 
   mDateStrategy =
-      dsNone;  // leaving it at dsNone means tick coordinates will not be tuned
-               // in any special way in createTickVector
+      dsNone;      // leaving it at dsNone means tick coordinates will
+                   // not be tuned in any special way in createTickVector
   if (result < 1)  // ideal tick step is below 1 second -> use normal clean
                    // mantissa algorithm in units of seconds
   {
@@ -8436,9 +8436,9 @@ QCPAxis::QCPAxis(QCPAxisRect *parent, AxisType type)
   mGrid->setVisible(false);
   setAntialiased(false);
   setLayer(
-      mParentPlot->currentLayer());  // it's actually on that layer already, but
-                                     // we want it in front of the grid, so we
-                                     // place it on there again
+      mParentPlot->currentLayer());  // it's actually on that layer already,
+                                     // but we want it in front of the grid,
+                                     // so we place it on there again
 
   if (type == atTop) {
     setTickLabelPadding(3);
@@ -10720,8 +10720,8 @@ QPointF QCPAxisPainterPrivate::getTickLabelDrawOffset(
   bool doRotation = !qFuzzyIsNull(tickLabelRotation);
   bool flip =
       qFuzzyCompare(qAbs(tickLabelRotation),
-                    90.0);  // perfect +/-90 degree flip. Indicates vertical
-                            // label centering on vertical axes.
+                    90.0);  // perfect +/-90 degree flip. Indicates
+                            // vertical label centering on vertical axes.
   double radians = tickLabelRotation / 180.0 * M_PI;
   double x = 0;
   double y = 0;
@@ -15501,8 +15501,8 @@ void QCustomPlot::replot(QCustomPlot::RefreshPriority refreshPriority) {
   if (!qFuzzyIsNull(mReplotTimeAverage))
     mReplotTimeAverage =
         mReplotTimeAverage * 0.9 +
-        mReplotTime * 0.1;  // exponential moving average with a time constant
-                            // of 10 last replots
+        mReplotTime * 0.1;  // exponential moving average with a
+                            // time constant of 10 last replots
   else
     mReplotTimeAverage = mReplotTime;  // no previous replots to average with,
                                        // so initialize with replot time
@@ -15961,8 +15961,8 @@ void QCustomPlot::mousePressEvent(QMouseEvent *event) {
     if (!candidates.isEmpty()) {
       mMouseSignalLayerable =
           candidates
-              .first();  // candidate for signal emission is always topmost hit
-                         // layerable (signal emitted in release event)
+              .first();  // candidate for signal emission is always topmost
+                         // hit layerable (signal emitted in release event)
       mMouseSignalLayerableDetails = details.first();
     }
     // forward event to topmost candidate which accepts the event:
@@ -18119,7 +18119,7 @@ QList<QCPAxis *> QCPAxisRect::axes(QCPAxis::AxisTypes types) const {
 */
 QList<QCPAxis *> QCPAxisRect::axes() const {
   QList<QCPAxis *> result;
-  QHashIterator<QCPAxis::AxisType, QList<QCPAxis *> > it(mAxes);
+  QHashIterator<QCPAxis::AxisType, QList<QCPAxis *>> it(mAxes);
   while (it.hasNext()) {
     it.next();
     result << it.value();
@@ -18239,7 +18239,7 @@ QList<QCPAxis *> QCPAxisRect::addAxes(QCPAxis::AxisTypes types) {
 bool QCPAxisRect::removeAxis(QCPAxis *axis) {
   // don't access axis->axisType() to provide safety when axis is an invalid
   // pointer, rather go through all axis containers:
-  QHashIterator<QCPAxis::AxisType, QList<QCPAxis *> > it(mAxes);
+  QHashIterator<QCPAxis::AxisType, QList<QCPAxis *>> it(mAxes);
   while (it.hasNext()) {
     it.next();
     if (it.value().contains(axis)) {
@@ -22063,7 +22063,7 @@ void QCPGraph::drawFill(QCPPainter *painter, QVector<QPointF> *lines) const {
     if (!otherLines.isEmpty()) {
       QVector<QCPDataRange> otherSegments = getNonNanSegments(
           &otherLines, mChannelFillGraph->keyAxis()->orientation());
-      QVector<QPair<QCPDataRange, QCPDataRange> > segmentPairs =
+      QVector<QPair<QCPDataRange, QCPDataRange>> segmentPairs =
           getOverlappingSegments(segments, lines, otherSegments, &otherLines);
       for (int i = 0; i < segmentPairs.size(); ++i)
         painter->drawPolygon(
@@ -22625,11 +22625,11 @@ QVector<QCPDataRange> QCPGraph::getNonNanSegments(
 
   \see getNonNanSegments, segmentsIntersect, drawFill, getChannelFillPolygon
 */
-QVector<QPair<QCPDataRange, QCPDataRange> > QCPGraph::getOverlappingSegments(
+QVector<QPair<QCPDataRange, QCPDataRange>> QCPGraph::getOverlappingSegments(
     QVector<QCPDataRange> thisSegments, const QVector<QPointF> *thisData,
     QVector<QCPDataRange> otherSegments,
     const QVector<QPointF> *otherData) const {
-  QVector<QPair<QCPDataRange, QCPDataRange> > result;
+  QVector<QPair<QCPDataRange, QCPDataRange>> result;
   if (thisData->isEmpty() || otherData->isEmpty() || thisSegments.isEmpty() ||
       otherSegments.isEmpty())
     return result;
@@ -27879,9 +27879,9 @@ double QCPColorMap::selectTest(const QPointF &pos, bool onlySelectable,
         mMapData->valueRange().contains(posValue)) {
       if (details)
         details->setValue(QCPDataSelection(QCPDataRange(
-            0, 1)));  // temporary solution, to facilitate whole-plottable
-                      // selection. Replace in future version with segmented 2D
-                      // selection.
+            0, 1)));  // temporary solution, to facilitate
+                      // whole-plottable selection. Replace in
+                      // future version with segmented 2D selection.
       return mParentPlot->selectionTolerance() * 0.99;
     }
   }
@@ -27973,8 +27973,8 @@ void QCPColorMap::updateMapImage() {
           : int(1.0 +
                 100.0 /
                     double(valueSize));  // make mMapImage have at least size
-                                         // 100, factor becomes 1 if size > 200
-                                         // or interpolation is on
+                                         // 100, factor becomes 1 if size >
+                                         // 200 or interpolation is on
 
   // resize mMapImage to correct dimensions including possible oversampling
   // factors, according to key/value axes orientation:
@@ -33910,9 +33910,9 @@ QCPPolarAxisAngular::QCPPolarAxisAngular(QCustomPlot *parentPlot)
   }
   setAntialiased(true);
   setLayer(
-      mParentPlot->currentLayer());  // it's actually on that layer already, but
-                                     // we want it in front of the grid, so we
-                                     // place it on there again
+      mParentPlot->currentLayer());  // it's actually on that layer already,
+                                     // but we want it in front of the grid,
+                                     // so we place it on there again
 
   setTickLabelPadding(5);
   setTickLabelRotation(0);
@@ -36673,8 +36673,8 @@ void QCPPolarGraph::getOptimizedLineData(
   const double lowerClipValue =
       range.lower -
       (reversed ? range.size() * 0.05 + clipMargin
-                : 0);  // clip slightly outside of actual range to avoid line
-                       // thicknesses to peek into visible circle
+                : 0);  // clip slightly outside of actual range to avoid
+                       // line thicknesses to peek into visible circle
   const double maxKeySkip =
       qAsin(qSqrt(clipMargin * (clipMargin + 2 * range.size())) /
             (range.size() + clipMargin)) /
@@ -36791,8 +36791,8 @@ void QCPPolarGraph::getOptimizedScatterData(
   const double lowerClipValue =
       range.lower -
       (reversed ? clipMargin
-                : 0);  // clip slightly outside of actual range to avoid scatter
-                       // size to peek into visible circle
+                : 0);  // clip slightly outside of actual range to avoid
+                       // scatter size to peek into visible circle
   QCPGraphDataContainer::const_iterator it = begin;
   while (it != end) {
     if (it->value > lowerClipValue && it->value < upperClipValue)

@@ -1,20 +1,18 @@
 #include "mainwindow.h"
 
 #include <cmath>
+#include <iostream>
 #include <vector>
 
-#include "./ui_mainwindow.h"
+#include "../controller/controller.h"
 #include "../model/model.h"
+#include "./ui_mainwindow.h"
 #include "credit_calc.h"
 #include "deposit_calc.h"
-#include "../controller/controller.h"
-
-#include <iostream>
-
 
 namespace s21 {
 
-MainWindow::MainWindow(QWidget *parent, Controller* controller)
+MainWindow::MainWindow(QWidget *parent, Controller *controller)
     : QMainWindow(parent), ui(new Ui::MainWindow), controller_(controller) {
   ui->setupUi(this);
 
@@ -75,7 +73,7 @@ MainWindow::MainWindow(QWidget *parent, Controller* controller)
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::push_button() {
-  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
+  QPushButton *button = reinterpret_cast<QPushButton *>(sender());
   if (string_.isEmpty() == 0) {
     if (string_.back() != ')' || string_.back() != 'x') {
       string_ = (ui->label->text() + button->text());
@@ -87,7 +85,7 @@ void MainWindow::push_button() {
 }
 
 void MainWindow::push_dot_button() {
-  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
+  QPushButton *button = reinterpret_cast<QPushButton *>(sender());
   if (string_.isEmpty() == 0) {
     if (string_.back() >= '0' && string_.back() <= '9') {
       string_ = (ui->label->text() + button->text());
@@ -97,11 +95,10 @@ void MainWindow::push_dot_button() {
 }
 
 void MainWindow::push_x_button() {
-  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
+  QPushButton *button = reinterpret_cast<QPushButton *>(sender());
   if (string_.isEmpty() == 0) {
     if (string_.back() == ')' || string_.back() == 'x' ||
-        (string_.back() >= '0' && string_.back() <= '9') ||
-        string_ == '.') {
+        (string_.back() >= '0' && string_.back() <= '9') || string_ == '.') {
     } else {
       string_ = (ui->label->text() + button->text());
     }
@@ -112,7 +109,7 @@ void MainWindow::push_x_button() {
 }
 
 void MainWindow::push_button_operation() {
-  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
+  QPushButton *button = reinterpret_cast<QPushButton *>(sender());
   if (string_.isEmpty() == 0) {
     if ((string_.back() >= '0' && string_.back() <= '9') ||
         string_.back() == ')' || string_.back() == 'x') {
@@ -123,7 +120,7 @@ void MainWindow::push_button_operation() {
 }
 
 void MainWindow::push_button_operation_un() {
-  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
+  QPushButton *button = reinterpret_cast<QPushButton *>(sender());
   if (string_.isEmpty() == 0) {
     if ((string_.back() >= '0' && string_.back() <= '9') ||
         string_.back() == ')' || string_.back() == '(' ||
@@ -137,7 +134,7 @@ void MainWindow::push_button_operation_un() {
 }
 
 void MainWindow::push_button_close_bracket() {
-  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
+  QPushButton *button = reinterpret_cast<QPushButton *>(sender());
   if (string_.isEmpty() == 0) {
     if ((string_.back() >= '0' && string_.back() <= '9') ||
         string_.back() == ')' || string_.back() == 'x') {
@@ -148,7 +145,7 @@ void MainWindow::push_button_close_bracket() {
 }
 
 void MainWindow::push_button_open_bracket() {
-  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
+  QPushButton *button = reinterpret_cast<QPushButton *>(sender());
   if (string_.isEmpty() == 0) {
     if (!(string_.back() >= '0' && string_.back() <= '9' ||
           string_.back() == '.' || string_.back() == 'x')) {
@@ -161,7 +158,7 @@ void MainWindow::push_button_open_bracket() {
 }
 
 void MainWindow::push_button_operation_fn() {
-  QPushButton *button = reinterpret_cast<QPushButton*>(sender());
+  QPushButton *button = reinterpret_cast<QPushButton *>(sender());
   if (string_.isEmpty() == 0) {
     if (string_.back() == '+' || string_.back() == '-' ||
         string_.back() == '(' || string_.back() == '*' ||
@@ -180,7 +177,8 @@ void MainWindow::on_pushButton_equal_clicked() {
   if (len < 256) {
     double result = 0;
     double x_value = ui->x_value->text().toDouble();
-    int ex_code = controller_->Calculate(string_.toStdString(), &result, x_value);
+    int ex_code =
+        controller_->Calculate(string_.toStdString(), &result, x_value);
     string_.clear();
     ui->label->clear();
 
@@ -228,10 +226,6 @@ void MainWindow::on_pushButton_clean_clicked() {
   }
 }
 
-
-
-
-
 void MainWindow::on_pushButton_graph_clicked() {
   ui->widget->clearGraphs();
   Controller::GraphParameters gp;
@@ -248,8 +242,6 @@ void MainWindow::on_pushButton_graph_clicked() {
 
   // int ex_code = 0;
 
-
-
   // for (int i = 0; i < x_range && ex_code == 0; ++i) {
   //   x[i] = x_min + x_step * i;
   //   double result = 0.0;
@@ -260,11 +252,10 @@ void MainWindow::on_pushButton_graph_clicked() {
   Controller::GraphResult gr;
 
   const int ex_code = controller_->CalculateGraph(gp, gr);
-  if (ex_code)
-    return;
-  
+  if (ex_code) return;
 
-  const QVector<double> x(gr.x.begin(), gr.x.end()), y(gr.y.begin(), gr.y.end());
+  const QVector<double> x(gr.x.begin(), gr.x.end()),
+      y(gr.y.begin(), gr.y.end());
 
   ui->widget->addGraph();
   ui->widget->graph(0)->addData(x, y);
@@ -290,4 +281,4 @@ void MainWindow::on_deposit_calc_clicked() {
   window.exec();
 }
 
-} // namespace s21
+}  // namespace s21

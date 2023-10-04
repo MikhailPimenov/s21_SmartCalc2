@@ -1,15 +1,16 @@
+#include "model.h"
+
 #include <cmath>
 #include <iostream>
 #include <string>
 
-#include "model.h"
-
 namespace s21 {
 
-int Model::Calculate(const std::string& input_str, double *result, double x_value) {
+int Model::Calculate(const std::string &input_str, double *result,
+                     double x_value) {
   printf("string = %s\nx_value = %f\n", input_str.data(), x_value);
   printf("main_for_calc...\n");
-  
+
   std::stack<Token> head;
   std::stack<Token> output;
   std::stack<Token> input;
@@ -35,7 +36,7 @@ int Model::Calculate(const std::string& input_str, double *result, double x_valu
   return ex_code;
 }
 
-int Model::parcer(const std::string& input_str, std::stack<Token>& head) {
+int Model::parcer(const std::string &input_str, std::stack<Token> &head) {
   int ex_code = 0;
   const int len = static_cast<int>(input_str.size());
   if (len == 0) ex_code = 1;
@@ -178,7 +179,7 @@ int Model::parcer(const std::string& input_str, std::stack<Token>& head) {
   return ex_code;
 }
 
-double Model::calcRpn(std::stack<Token>& input, double x_value) {
+double Model::calcRpn(std::stack<Token> &input, double x_value) {
   double result = 0;
   std::stack<Token> stack;
   while (!input.empty()) {
@@ -234,7 +235,7 @@ double Model::binaryFnCalc(double number1, double number2, Type type) {
   return result;
 }
 
-void Model::shuntingYard(std::stack<Token>& head, std::stack<Token>& output) {
+void Model::shuntingYard(std::stack<Token> &head, std::stack<Token> &output) {
   std::stack<Token> stack;
   while (!head.empty()) {
     if (head.top().type == Type::Number || head.top().type == Type::X) {
@@ -254,22 +255,28 @@ void Model::shuntingYard(std::stack<Token>& head, std::stack<Token>& output) {
         stack.pop();
       }
       head.pop();
-    } else if (static_cast<int>(head.top().type) >= static_cast<int>(Type::Sum) && static_cast<int>(head.top().type) <= static_cast<int>(Type::Mod) &&
+    } else if (static_cast<int>(head.top().type) >=
+                   static_cast<int>(Type::Sum) &&
+               static_cast<int>(head.top().type) <=
+                   static_cast<int>(Type::Mod) &&
                head.top().type != Type::Power) {
-      while (!stack.empty() && (stack.top().precedence >= head.top().precedence)) {
+      while (!stack.empty() &&
+             (stack.top().precedence >= head.top().precedence)) {
         output.push(stack.top());
         stack.pop();
       }
       stack.push(head.top());
       head.pop();
     } else if (head.top().type == Type::Power) {
-      while (!stack.empty() && (stack.top().precedence > head.top().precedence)) {
+      while (!stack.empty() &&
+             (stack.top().precedence > head.top().precedence)) {
         output.push(stack.top());
         stack.pop();
       }
       stack.push(head.top());
       head.pop();
-    } else if (static_cast<int>(head.top().type) >= static_cast<int>(Type::Cos)) {
+    } else if (static_cast<int>(head.top().type) >=
+               static_cast<int>(Type::Cos)) {
       stack.push(head.top());
       head.pop();
     }
@@ -280,15 +287,14 @@ void Model::shuntingYard(std::stack<Token>& head, std::stack<Token>& output) {
   }
 }
 
-
-void Model::flipStack(std::stack<Token> input, std::stack<Token>& output) {
+void Model::flipStack(std::stack<Token> input, std::stack<Token> &output) {
   while (!input.empty()) {
     output.push(input.top());
     input.pop();
   }
 }
 
-int Model::CalculateGraph(const GraphParameters& gp, GraphResult& gr) {
+int Model::CalculateGraph(const GraphParameters &gp, GraphResult &gr) {
   static constexpr double x_range = 10000.0;
   double x_step = abs(gp.x_max - gp.x_min) / x_range;
   int ex_code = 0;
@@ -304,4 +310,4 @@ int Model::CalculateGraph(const GraphParameters& gp, GraphResult& gr) {
   return ex_code;
 }
 
-}   //  namespace s21
+}  //  namespace s21

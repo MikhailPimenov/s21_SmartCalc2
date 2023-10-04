@@ -2,14 +2,13 @@
 
 #include <QTableWidgetItem>
 
+#include "../controller/controller.h"
 #include "QtWidgets/qtableview.h"
 #include "ui_credit_calc.h"
-#include "../controller/controller.h"
 
 namespace s21 {
 
-
-CreditWindow::CreditWindow(QWidget *parent, Controller* controller_)
+CreditWindow::CreditWindow(QWidget *parent, Controller *controller_)
     : QDialog(parent), ui(new Ui::credit_calc) {
   ui->setupUi(this);
 }
@@ -31,7 +30,7 @@ void CreditWindow::on_make_calc_clicked() {
   if (ui->radioButton->isChecked()) {
     cp.order_ = Controller::CreditParameters::RepainmentOrder::Annuity;
   } else if (ui->radioButton_2->isChecked()) {
-    cp.order_= Controller::CreditParameters::RepainmentOrder::Differentiated;
+    cp.order_ = Controller::CreditParameters::RepainmentOrder::Differentiated;
   }
 
   Controller::CreditResult cr;
@@ -39,7 +38,7 @@ void CreditWindow::on_make_calc_clicked() {
   if (!controller_->CalculateCredit(cp, cr)) {
     ui->label_error->setText("Incorrect input");
     return;
-  } 
+  }
 
   QString mon_pay = QString::number(cr.monthlyPayment_, 'f', 2);
   ui->monthly_payment->setText(mon_pay);
@@ -47,7 +46,7 @@ void CreditWindow::on_make_calc_clicked() {
   ui->overpayment->setText(overpay);
   QString tot_sum = QString::number(cr.totalSum_, 'f', 2);
   ui->total_sum->setText(tot_sum);
-  
+
   ui->tableWidget->setRowCount(cp.creditTerm_);
   ui->tableWidget->setColumnCount(1);
 
@@ -58,4 +57,4 @@ void CreditWindow::on_make_calc_clicked() {
   }
 }
 
-} //  namespace s21
+}  //  namespace s21
