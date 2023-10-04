@@ -84,6 +84,7 @@ clean:
 	rm -rf latex
 	rm -rf report
 	rm -rf doxygen.config.bak
+	rm -rf SmartCalc_mac.tar.gz 
 # rm -rf doxygen.config
 
 rebuild: clean all
