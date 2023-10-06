@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../model/model.h"
+#include "../protocol/protocol.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2
@@ -12,11 +13,15 @@
 
 namespace s21 {
 
+namespace Protocol {
+
 static constexpr double tolerance = 1e-3;
 static constexpr double tolerance2 = 1e-2;
 
-bool operator==(const Model::CreditResult &left,
-                const Model::CreditResult &right) {
+
+
+bool operator==(const Protocol::CreditResult &left,
+                const Protocol::CreditResult &right) {
   if (std::abs(left.overpayment_ - right.overpayment_) >
       tolerance * std::abs(left.overpayment_))
     return false;
@@ -46,8 +51,8 @@ bool operator==(const Model::CreditResult &left,
   return true;
 }
 
-bool operator!=(const Model::CreditResult &left,
-                const Model::CreditResult &right) {
+bool operator!=(const Protocol::CreditResult &left,
+                const Protocol::CreditResult &right) {
   return !(left == right);
 }
 
@@ -56,8 +61,8 @@ bool isFebruary(int index) {
   return index % months == 1;
 }
 
-bool operator==(const Model::DepositResult &left,
-                const Model::DepositResult &right) {
+bool operator==(const Protocol::DepositResult &left,
+                const Protocol::DepositResult &right) {
   if (std::abs(left.accruedTotal_ - right.accruedTotal_) >
       tolerance * std::abs(left.accruedTotal_))
     return false;
@@ -108,12 +113,12 @@ bool operator==(const Model::DepositResult &left,
   return true;
 }
 
-bool operator!=(const Model::DepositResult &left,
-                const Model::DepositResult &right) {
+bool operator!=(const Protocol::DepositResult &left,
+                const Protocol::DepositResult &right) {
   return !(left == right);
 }
 
-std::ostream &operator<<(std::ostream &out, const Model::CreditResult &cr) {
+std::ostream &operator<<(std::ostream &out, const Protocol::CreditResult &cr) {
   out << "CreditResult:\n";
   out << cr.monthlyPayment_ << '\n';
   out << cr.overpayment_ << '\n';
@@ -124,7 +129,7 @@ std::ostream &operator<<(std::ostream &out, const Model::CreditResult &cr) {
   return out;
 }
 
-std::ostream &operator<<(std::ostream &out, const Model::DepositResult &dr) {
+std::ostream &operator<<(std::ostream &out, const Protocol::DepositResult &dr) {
   out << "DepositResult:\n";
   out << dr.accruedTotal_ << '\n';
   out << dr.taxTotal_ << '\n';
@@ -153,10 +158,12 @@ bool operator==(const std::vector<double> &left,
   return true;
 }
 
-bool operator==(const Model::GraphResult &left,
-                const Model::GraphResult &right) {
+bool operator==(const Protocol::GraphResult &left,
+                const Protocol::GraphResult &right) {
   return left.x == right.x && left.y == right.y;
 }
+
+}  // namespace Protocol
 
 }  // namespace s21
 
@@ -818,13 +825,13 @@ TEST(ExpressionComputation, T7ExpressionPow) {
 }
 
 TEST(Credit, T0CreditSimpleAnnuity) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 700000.0;
   cp.creditTerm_ = 60;
   cp.creditPercent_ = 10.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult expected;
+  s21::Protocol::CreditResult expected;
   expected.monthlyPaymentList_.reserve(cp.creditTerm_);
   for (int i = 0; i < cp.creditTerm_; ++i)
     expected.monthlyPaymentList_.push_back(14872.93);
@@ -834,20 +841,20 @@ TEST(Credit, T0CreditSimpleAnnuity) {
 
   expected.monthlyPayment_ = 14872.93;
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Credit, T0CreditSimpleDifferentiated) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 700000.0;
   cp.creditTerm_ = 60;
   cp.creditPercent_ = 10.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Differentiated;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Differentiated;
 
-  s21::Model::CreditResult expected;
+  s21::Protocol::CreditResult expected;
   expected.monthlyPaymentList_.resize(cp.creditTerm_);
 
   expected.monthlyPaymentList_.at(1 - 1) = 17500.00;
@@ -916,126 +923,126 @@ TEST(Credit, T0CreditSimpleDifferentiated) {
 
   expected.monthlyPayment_ = expected.monthlyPaymentList_.at(0);
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Credit, T0CreditIncorrectInput) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = -700000.0;
   cp.creditTerm_ = 60;
   cp.creditPercent_ = 10.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Credit, T1CreditIncorrectInput) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 700000.0;
   cp.creditTerm_ = 60000;
   cp.creditPercent_ = 10.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Credit, T2CreditIncorrectInput) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 700000.0;
   cp.creditTerm_ = -60;
   cp.creditPercent_ = 10.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Credit, T3CreditIncorrectInput) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 700000.0;
   cp.creditTerm_ = 60;
   cp.creditPercent_ = -10.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Credit, T4CreditIncorrectInput) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 700000.0;
   cp.creditTerm_ = 60;
   cp.creditPercent_ = 10.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Undefined;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Undefined;
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Credit, T5CreditIncorrectInput) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 100.0;
   cp.creditTerm_ = 60;
   cp.creditPercent_ = 10.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Credit, T6CreditIncorrectInput) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 20000000000.0;
   cp.creditTerm_ = 60;
   cp.creditPercent_ = 10.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Credit, T7CreditIncorrectInput) {
-  s21::Model::CreditParameters cp;
+  s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 700000.0;
   cp.creditTerm_ = 60;
   cp.creditPercent_ = 999.0;
-  cp.order_ = s21::Model::CreditParameters::RepainmentOrder::Annuity;
+  cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Model::CreditResult actual;
+  s21::Protocol::CreditResult actual;
   const bool status = s21::Model::CalculateCredit(cp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T0DepositCapitalization) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 60;
   dp.interest_ = 12.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Monthly;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Total;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Total;
 
-  s21::Model::DepositResult expected;
+  s21::Protocol::DepositResult expected;
   expected.taxTotal_ = 0.0;
   expected.accruedTotal_ = 571685.0;
   expected.amountTotal_ = dp.amount_ + expected.accruedTotal_;
@@ -1164,22 +1171,22 @@ TEST(Deposit, T0DepositCapitalization) {
   expected.percentMonthly_.at(59) = 12795;
   expected.accruedMonthly_.at(59) = 1271685;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Deposit, T0Deposit) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult expected;
+  s21::Protocol::DepositResult expected;
   expected.taxTotal_ = 0.0;
   expected.accruedTotal_ = 70000.0;
   expected.amountTotal_ = 770000.0;
@@ -1213,22 +1220,22 @@ TEST(Deposit, T0Deposit) {
   expected.accruedMonthly_.at(10) = 700000.0;
   expected.accruedMonthly_.at(11) = 700000.0;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Deposit, T1Deposit) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Total;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Total;
 
-  s21::Model::DepositResult expected;
+  s21::Protocol::DepositResult expected;
   expected.taxTotal_ = 0.0;
   expected.accruedTotal_ = 70000.0;
   expected.amountTotal_ = 770000.0;
@@ -1262,22 +1269,22 @@ TEST(Deposit, T1Deposit) {
   expected.accruedMonthly_.at(10) = 700000.0;
   expected.accruedMonthly_.at(11) = 700000.0;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Deposit, T2Deposit) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Monthly;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult expected;
+  s21::Protocol::DepositResult expected;
   expected.taxTotal_ = 0.0;
   expected.accruedTotal_ = 70000.0;
   expected.amountTotal_ = 770000.0;
@@ -1311,25 +1318,25 @@ TEST(Deposit, T2Deposit) {
   expected.accruedMonthly_.at(10) = 700000.0;
   expected.accruedMonthly_.at(11) = 700000.0;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Deposit, T0DepositCapitalizationAddition) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 60;
   dp.interest_ = 12.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Monthly;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Total;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Total;
   dp.depositOrWithdrawal_.resize(dp.period_);
   for (double &value : dp.depositOrWithdrawal_) value = 10000.0;
   dp.depositOrWithdrawal_.at(dp.period_ - 1) = 0.0;
 
-  s21::Model::DepositResult expected;
+  s21::Protocol::DepositResult expected;
   expected.taxTotal_ = 0.0;
   expected.accruedTotal_ = 788533.0;
   expected.amountTotal_ = 590000.0 + expected.accruedTotal_ + dp.amount_;
@@ -1458,170 +1465,170 @@ TEST(Deposit, T0DepositCapitalizationAddition) {
   expected.percentMonthly_.at(59) = 20914;
   expected.accruedMonthly_.at(59) = 2078553;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Deposit, T0DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = -700000.0;
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T1DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 699;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T2DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = -12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T3DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 12;
   dp.interest_ = -10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T4DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 12;
   dp.interest_ = 100.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T5DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = -10.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T6DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 100.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Total;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Total;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T7DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Undefined;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Monthly;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Undefined;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T8DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Monthly;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Undefined;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Undefined;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Deposit, T9DepositIncorrectInput) {
-  s21::Model::DepositParameters dp;
+  s21::Protocol::DepositParameters dp;
   dp.amount_ = 700000.0;
   dp.period_ = 60;
   dp.interest_ = 12.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Model::DepositParameters::Capitalization::Monthly;
-  dp.frequency_ = s21::Model::DepositParameters::PaymentFrequency::Total;
+  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Total;
   dp.depositOrWithdrawal_.resize(dp.period_);
   dp.depositOrWithdrawal_.at(dp.period_ - 1) = -99999999999.9;
 
-  s21::Model::DepositResult actual;
+  s21::Protocol::DepositResult actual;
   const bool status = s21::Model::CalculateDeposit(dp, actual);
 
   EXPECT_EQ(status, false);
 }
 
 TEST(Graph, T0Simple) {
-  s21::Model::GraphParameters gp;
+  s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
   gp.input_string = "x";
-  s21::Model::GraphResult expected;
+  s21::Protocol::GraphResult expected;
 
   static constexpr double x_range = 10000.0;
   double x_step = abs(gp.x_max - gp.x_min) / x_range;
@@ -1634,18 +1641,18 @@ TEST(Graph, T0Simple) {
     expected.y[i] = expected.x[i];
   }
 
-  s21::Model::GraphResult actual;
+  s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);
   EXPECT_EQ(status, 0);
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Graph, T1Simple) {
-  s21::Model::GraphParameters gp;
+  s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
   gp.input_string = "2*x";
-  s21::Model::GraphResult expected;
+  s21::Protocol::GraphResult expected;
 
   static constexpr double x_range = 10000.0;
   double x_step = abs(gp.x_max - gp.x_min) / x_range;
@@ -1658,18 +1665,18 @@ TEST(Graph, T1Simple) {
     expected.y[i] = 2.0 * expected.x[i];
   }
 
-  s21::Model::GraphResult actual;
+  s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);
   EXPECT_EQ(status, 0);
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Graph, T2Simple) {
-  s21::Model::GraphParameters gp;
+  s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
   gp.input_string = "2*x+1";
-  s21::Model::GraphResult expected;
+  s21::Protocol::GraphResult expected;
 
   static constexpr double x_range = 10000.0;
   double x_step = abs(gp.x_max - gp.x_min) / x_range;
@@ -1682,18 +1689,18 @@ TEST(Graph, T2Simple) {
     expected.y[i] = 2.0 * expected.x[i] + 1.0;
   }
 
-  s21::Model::GraphResult actual;
+  s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);
   EXPECT_EQ(status, 0);
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Graph, T3Simple) {
-  s21::Model::GraphParameters gp;
+  s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
   gp.input_string = "-x";
-  s21::Model::GraphResult expected;
+  s21::Protocol::GraphResult expected;
 
   static constexpr double x_range = 10000.0;
   double x_step = abs(gp.x_max - gp.x_min) / x_range;
@@ -1706,18 +1713,18 @@ TEST(Graph, T3Simple) {
     expected.y[i] = -1.0 * expected.x[i];
   }
 
-  s21::Model::GraphResult actual;
+  s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);
   EXPECT_EQ(status, 0);
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Graph, T0Complex) {
-  s21::Model::GraphParameters gp;
+  s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
   gp.input_string = "2*(x+1)*sin(4-x)*x";
-  s21::Model::GraphResult expected;
+  s21::Protocol::GraphResult expected;
 
   static constexpr double x_range = 10000.0;
   double x_step = abs(gp.x_max - gp.x_min) / x_range;
@@ -1731,52 +1738,52 @@ TEST(Graph, T0Complex) {
                     std::sin(4.0 - expected.x[i]) * expected.x[i];
   }
 
-  s21::Model::GraphResult actual;
+  s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);
   EXPECT_EQ(status, 0);
   EXPECT_EQ(expected, actual);
 }
 
 TEST(Graph, T0IncorrectInput) {
-  s21::Model::GraphParameters gp;
+  s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
   gp.input_string = "2*(x+1(*sin(4-x)*x";
 
-  s21::Model::GraphResult actual;
+  s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);
   EXPECT_EQ(status, 1);
 }
 
 TEST(Graph, T1IncorrectInput) {
-  s21::Model::GraphParameters gp;
+  s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
   gp.input_string = "2*(x+1()(((*sin(4-x)*x";
 
-  s21::Model::GraphResult actual;
+  s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);
   EXPECT_EQ(status, 1);
 }
 
 TEST(Graph, T2IncorrectInput) {
-  s21::Model::GraphParameters gp;
+  s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
   gp.input_string = "hello";
 
-  s21::Model::GraphResult actual;
+  s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);
   EXPECT_EQ(status, 1);
 }
 
 TEST(Graph, T3IncorrectInput) {
-  s21::Model::GraphParameters gp;
+  s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
   gp.input_string = "x + 1";
 
-  s21::Model::GraphResult actual;
+  s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);
   EXPECT_EQ(status, 1);
 }

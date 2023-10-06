@@ -1,6 +1,7 @@
 #include "deposit_calc.h"
 
 #include "../controller/controller.h"
+#include "../protocol/protocol.h"
 #include "ui_deposit_calc.h"
 
 namespace s21 {
@@ -18,7 +19,7 @@ void DepositWindow::on_pushButton_clicked() {
   ui->tax_sum->setText("");
   ui->error_label->setText("");
 
-  Controller::DepositParameters dp;
+  Protocol::DepositParameters dp;
   dp.amount_ = ui->deposit_sum->text().toDouble();
   dp.interest_ = ui->deposit_percent->text().toFloat();
   dp.tax_ = ui->tax_percent->text().toFloat();
@@ -44,18 +45,18 @@ void DepositWindow::on_pushButton_clicked() {
   }
 
   if (ui->radioB_mon_cap->isChecked()) {
-    dp.capitalization_ = Controller::DepositParameters::Capitalization::Monthly;
+    dp.capitalization_ = Protocol::DepositParameters::Capitalization::Monthly;
   } else if (ui->radioB_end_cap->isChecked()) {
-    dp.capitalization_ = Controller::DepositParameters::Capitalization::Total;
+    dp.capitalization_ = Protocol::DepositParameters::Capitalization::Total;
   }
 
   if (ui->radioB_mon_pay->isChecked()) {
-    dp.frequency_ = Controller::DepositParameters::PaymentFrequency::Monthly;
+    dp.frequency_ = Protocol::DepositParameters::PaymentFrequency::Monthly;
   } else if (ui->radioB_end_pay->isChecked()) {
-    dp.frequency_ = Controller::DepositParameters::PaymentFrequency::Total;
+    dp.frequency_ = Protocol::DepositParameters::PaymentFrequency::Total;
   }
 
-  Controller::DepositResult dr;
+  Protocol::DepositResult dr;
   if (!controller_->CalculateDeposit(dp, dr)) {
     ui->error_label->setText("INCORRECT INPUT");
     return;

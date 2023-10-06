@@ -2,6 +2,7 @@
 #include <cmath>
 
 #include "../controller/controller.h"
+#include "../protocol/protocol.h"
 #include "model.h"
 
 namespace s21 {
@@ -14,8 +15,8 @@ namespace s21 {
  * @return true if success
  * @return false if failed (incorrect input)
  */
-bool Model::CalculateCredit(const CreditParameters &cp, CreditResult &cr) {
-  if (cp.order_ == CreditParameters::RepainmentOrder::Undefined) return false;
+bool Model::CalculateCredit(const Protocol::CreditParameters &cp, Protocol::CreditResult &cr) {
+  if (cp.order_ == Protocol::CreditParameters::RepainmentOrder::Undefined) return false;
   if (cp.creditSum_ < 10000.0) return false;
   if (cp.creditSum_ > 100000000.0) return false;
   if (cp.creditTerm_ < 1) return false;
@@ -23,7 +24,7 @@ bool Model::CalculateCredit(const CreditParameters &cp, CreditResult &cr) {
   if (cp.creditPercent_ < 0.01) return false;
   if (cp.creditPercent_ > 99.999999) return false;
   static constexpr int months = 12;
-  if (cp.order_ == CreditParameters::RepainmentOrder::Annuity) {
+  if (cp.order_ == Protocol::CreditParameters::RepainmentOrder::Annuity) {
     const double creditPercent = cp.creditPercent_ / 100.0 / months;
     cr.monthlyPayment_ = cp.creditSum_ * creditPercent *
                          std::pow(1. + creditPercent, cp.creditTerm_) /
@@ -58,8 +59,8 @@ bool Model::CalculateCredit(const CreditParameters &cp, CreditResult &cr) {
  * @return true if success
  * @return false if failed (incorrect input)
  */
-bool Model::CalculateDeposit(const DepositParameters &parameters,
-                             DepositResult &result) {
+bool Model::CalculateDeposit(const Protocol::DepositParameters &parameters,
+                             Protocol::DepositResult &result) {
   static constexpr std::array<int, 12> daysPerMonth{
       31,  // jan
       28,  // feb
@@ -78,9 +79,9 @@ bool Model::CalculateDeposit(const DepositParameters &parameters,
   static constexpr int days = 365;
 
   if (parameters.capitalization_ ==
-      DepositParameters::Capitalization::Undefined)
+      Protocol::DepositParameters::Capitalization::Undefined)
     return false;
-  if (parameters.frequency_ == DepositParameters::PaymentFrequency::Undefined)
+  if (parameters.frequency_ == Protocol::DepositParameters::PaymentFrequency::Undefined)
     return false;
   if (parameters.amount_ < 0.01) return false;
   if (parameters.interest_ < 0.0) return false;
@@ -95,7 +96,7 @@ bool Model::CalculateDeposit(const DepositParameters &parameters,
   result.taxTotal_ = 0.0;
   result.accruedTotal_ = 0.0;
 
-  if (parameters.frequency_ == DepositParameters::PaymentFrequency::Monthly) {
+  if (parameters.frequency_ == Protocol::DepositParameters::PaymentFrequency::Monthly) {
     result.accruedMonthly_.reserve(parameters.period_);
     result.percentMonthly_.reserve(parameters.period_);
   }
@@ -114,8 +115,8 @@ bool Model::CalculateDeposit(const DepositParameters &parameters,
     if (monthlyChanges) sum += parameters.depositOrWithdrawal_[i];
 
     if (parameters.capitalization_ ==
-            DepositParameters::Capitalization::Monthly &&
-        parameters.frequency_ == DepositParameters::PaymentFrequency::Total)
+            Protocol::DepositParameters::Capitalization::Monthly &&
+        parameters.frequency_ == Protocol::DepositParameters::PaymentFrequency::Total)
       sum += deltaSum;
 
     if (monthlyChanges)

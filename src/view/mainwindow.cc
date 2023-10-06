@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "../controller/controller.h"
-#include "../model/model.h"
+#include "../protocol/protocol.h"
 #include "./ui_mainwindow.h"
 #include "credit_calc.h"
 #include "deposit_calc.h"
@@ -228,28 +228,14 @@ void MainWindow::on_pushButton_clean_clicked() {
 
 void MainWindow::on_pushButton_graph_clicked() {
   ui->widget->clearGraphs();
-  Controller::GraphParameters gp;
+  Protocol::GraphParameters gp;
   gp.x_max = ui->input_xmax->text().toDouble();
   gp.x_min = ui->input_xmin->text().toDouble();
   gp.input_string = string_.toStdString();
   const double y_max = ui->input_ymax->text().toDouble();
   const double y_min = ui->input_ymin->text().toDouble();
 
-  // double x_range = 10000.0;
-  // double x_step = abs(x_max - x_min) / x_range;
-
-  // QVector<double> x(x_range), y(x_range);
-
-  // int ex_code = 0;
-
-  // for (int i = 0; i < x_range && ex_code == 0; ++i) {
-  //   x[i] = x_min + x_step * i;
-  //   double result = 0.0;
-  //   ex_code = controller_->Calculate(string_.toStdString(), &result, x[i]);
-  //   y[i] = result;
-  // }
-
-  Controller::GraphResult gr;
+  Protocol::GraphResult gr;
 
   const int ex_code = controller_->CalculateGraph(gp, gr);
   if (ex_code) return;

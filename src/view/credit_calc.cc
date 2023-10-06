@@ -3,6 +3,7 @@
 #include <QTableWidgetItem>
 
 #include "../controller/controller.h"
+#include "../protocol/protocol.h"
 #include "QtWidgets/qtableview.h"
 #include "ui_credit_calc.h"
 
@@ -21,19 +22,19 @@ void CreditWindow::on_make_calc_clicked() {
   ui->overpayment->setText("");
   ui->total_sum->setText("");
 
-  Controller::CreditParameters cp;
+  Protocol::CreditParameters cp;
 
   cp.creditSum_ = ui->credit_sum->text().toDouble();
   cp.creditTerm_ = ui->credit_term->text().toInt();
   cp.creditPercent_ = ui->credit_percent->text().toFloat();
 
   if (ui->radioButton->isChecked()) {
-    cp.order_ = Controller::CreditParameters::RepainmentOrder::Annuity;
+    cp.order_ = Protocol::CreditParameters::RepainmentOrder::Annuity;
   } else if (ui->radioButton_2->isChecked()) {
-    cp.order_ = Controller::CreditParameters::RepainmentOrder::Differentiated;
+    cp.order_ = Protocol::CreditParameters::RepainmentOrder::Differentiated;
   }
 
-  Controller::CreditResult cr;
+  Protocol::CreditResult cr;
 
   if (!controller_->CalculateCredit(cp, cr)) {
     ui->label_error->setText("Incorrect input");
@@ -52,7 +53,7 @@ void CreditWindow::on_make_calc_clicked() {
 
   for (int i = 0; i < cp.creditTerm_; i++) {
     QTableWidgetItem *itm =
-        new QTableWidgetItem(QString::number(cr.list_.at(i)));
+        new QTableWidgetItem(QString::number(cr.monthlyPaymentList_.at(i)));
     ui->tableWidget->setItem(i, 0, itm);
   }
 }
