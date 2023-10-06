@@ -3,8 +3,8 @@
 #include <cmath>
 #include <iostream>
 #include <string>
-#include "../protocol/protocol.h"
 
+#include "../protocol/protocol.h"
 
 namespace s21 {
 
@@ -296,7 +296,8 @@ void Model::flipStack(std::stack<Token> input, std::stack<Token> &output) {
   }
 }
 
-int Model::CalculateGraph(const Protocol::GraphParameters &gp, Protocol::GraphResult &gr) {
+int Model::CalculateGraph(const Protocol::GraphParameters &gp,
+                          Protocol::GraphResult &gr) {
   static constexpr double x_range = 10000.0;
   double x_step = abs(gp.x_max - gp.x_min) / x_range;
   int ex_code = 0;

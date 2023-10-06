@@ -15,8 +15,10 @@ namespace s21 {
  * @return true if success
  * @return false if failed (incorrect input)
  */
-bool Model::CalculateCredit(const Protocol::CreditParameters &cp, Protocol::CreditResult &cr) {
-  if (cp.order_ == Protocol::CreditParameters::RepainmentOrder::Undefined) return false;
+bool Model::CalculateCredit(const Protocol::CreditParameters &cp,
+                            Protocol::CreditResult &cr) {
+  if (cp.order_ == Protocol::CreditParameters::RepainmentOrder::Undefined)
+    return false;
   if (cp.creditSum_ < 10000.0) return false;
   if (cp.creditSum_ > 100000000.0) return false;
   if (cp.creditTerm_ < 1) return false;
@@ -81,7 +83,8 @@ bool Model::CalculateDeposit(const Protocol::DepositParameters &parameters,
   if (parameters.capitalization_ ==
       Protocol::DepositParameters::Capitalization::Undefined)
     return false;
-  if (parameters.frequency_ == Protocol::DepositParameters::PaymentFrequency::Undefined)
+  if (parameters.frequency_ ==
+      Protocol::DepositParameters::PaymentFrequency::Undefined)
     return false;
   if (parameters.amount_ < 0.01) return false;
   if (parameters.interest_ < 0.0) return false;
@@ -96,7 +99,8 @@ bool Model::CalculateDeposit(const Protocol::DepositParameters &parameters,
   result.taxTotal_ = 0.0;
   result.accruedTotal_ = 0.0;
 
-  if (parameters.frequency_ == Protocol::DepositParameters::PaymentFrequency::Monthly) {
+  if (parameters.frequency_ ==
+      Protocol::DepositParameters::PaymentFrequency::Monthly) {
     result.accruedMonthly_.reserve(parameters.period_);
     result.percentMonthly_.reserve(parameters.period_);
   }
@@ -116,7 +120,8 @@ bool Model::CalculateDeposit(const Protocol::DepositParameters &parameters,
 
     if (parameters.capitalization_ ==
             Protocol::DepositParameters::Capitalization::Monthly &&
-        parameters.frequency_ == Protocol::DepositParameters::PaymentFrequency::Total)
+        parameters.frequency_ ==
+            Protocol::DepositParameters::PaymentFrequency::Total)
       sum += deltaSum;
 
     if (monthlyChanges)

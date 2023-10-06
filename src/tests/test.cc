@@ -18,8 +18,6 @@ namespace Protocol {
 static constexpr double tolerance = 1e-3;
 static constexpr double tolerance2 = 1e-2;
 
-
-
 bool operator==(const Protocol::CreditResult &left,
                 const Protocol::CreditResult &right) {
   if (std::abs(left.overpayment_ - right.overpayment_) >
@@ -1039,7 +1037,8 @@ TEST(Deposit, T0DepositCapitalization) {
   dp.period_ = 60;
   dp.interest_ = 12.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.capitalization_ =
+      s21::Protocol::DepositParameters::Capitalization::Monthly;
   dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Total;
 
   s21::Protocol::DepositResult expected;
@@ -1281,7 +1280,8 @@ TEST(Deposit, T2Deposit) {
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.capitalization_ =
+      s21::Protocol::DepositParameters::Capitalization::Monthly;
   dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
   s21::Protocol::DepositResult expected;
@@ -1330,7 +1330,8 @@ TEST(Deposit, T0DepositCapitalizationAddition) {
   dp.period_ = 60;
   dp.interest_ = 12.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.capitalization_ =
+      s21::Protocol::DepositParameters::Capitalization::Monthly;
   dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Total;
   dp.depositOrWithdrawal_.resize(dp.period_);
   for (double &value : dp.depositOrWithdrawal_) value = 10000.0;
@@ -1582,7 +1583,8 @@ TEST(Deposit, T7DepositIncorrectInput) {
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Undefined;
+  dp.capitalization_ =
+      s21::Protocol::DepositParameters::Capitalization::Undefined;
   dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Monthly;
 
   s21::Protocol::DepositResult actual;
@@ -1597,7 +1599,8 @@ TEST(Deposit, T8DepositIncorrectInput) {
   dp.period_ = 12;
   dp.interest_ = 10.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.capitalization_ =
+      s21::Protocol::DepositParameters::Capitalization::Monthly;
   dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Undefined;
 
   s21::Protocol::DepositResult actual;
@@ -1612,7 +1615,8 @@ TEST(Deposit, T9DepositIncorrectInput) {
   dp.period_ = 60;
   dp.interest_ = 12.0;
   dp.tax_ = 0.0;
-  dp.capitalization_ = s21::Protocol::DepositParameters::Capitalization::Monthly;
+  dp.capitalization_ =
+      s21::Protocol::DepositParameters::Capitalization::Monthly;
   dp.frequency_ = s21::Protocol::DepositParameters::PaymentFrequency::Total;
   dp.depositOrWithdrawal_.resize(dp.period_);
   dp.depositOrWithdrawal_.at(dp.period_ - 1) = -99999999999.9;
