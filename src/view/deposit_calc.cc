@@ -1,5 +1,7 @@
 #include "deposit_calc.h"
 
+#include <QTableWidgetItem>
+
 #include "../controller/controller.h"
 #include "../protocol/protocol.h"
 #include "ui_deposit_calc.h"

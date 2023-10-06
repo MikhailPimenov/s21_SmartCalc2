@@ -1,7 +1,6 @@
 #include <array>
 #include <cmath>
 
-#include "../controller/controller.h"
 #include "../protocol/protocol.h"
 #include "model.h"
 

@@ -1,7 +1,6 @@
 #include "model.h"
 
 #include <cmath>
-#include <iostream>
 #include <string>
 
 #include "../protocol/protocol.h"
@@ -10,31 +9,19 @@ namespace s21 {
 
 int Model::Calculate(const std::string &input_str, double *result,
                      double x_value) {
-  printf("string = %s\nx_value = %f\n", input_str.data(), x_value);
-  printf("main_for_calc...\n");
-
   std::stack<Token> head;
   std::stack<Token> output;
   std::stack<Token> input;
-  printf("parcer...\n");
   const int ex_code = parcer(input_str, head);
-  printf("parcer ended with ex_code %d...\n", ex_code);
   if (ex_code == 0) {
-    printf("shunting_yard...\n");
     shuntingYard(head, output);
-    printf("shunting_yard ended...\n");
-    printf("flip_stack...\n");
     flipStack(output, input);
-    printf("flip_stack ended...\n");
-    printf("calc_rpn...\n");
     *result = calcRpn(input, x_value);
-    printf("calc_rpn ended...\n");
   } else {
     while (!head.empty()) {
       head.pop();
     }
   }
-  printf("main_for_calc ended...\n");
   return ex_code;
 }
 

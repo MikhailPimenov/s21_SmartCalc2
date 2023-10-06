@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <iostream>
 #include <string>
 
 #include "../controller/controller.h"

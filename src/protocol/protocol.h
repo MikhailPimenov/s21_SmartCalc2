@@ -1,6 +1,9 @@
 #ifndef SRC_PROTOCOL_PROTOCOL_H
 #define SRC_PROTOCOL_PROTOCOL_H
 
+#include <string>
+#include <vector>
+
 namespace s21 {
 
 /**
