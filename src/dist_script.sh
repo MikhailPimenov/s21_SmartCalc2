@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mkdir -p SmartCalc_dist SmartCalc_dist/model SmartCalc_dist/view SmartCalc_dist/controller SmartCalc_dist/tests
+mkdir -p SmartCalc_dist SmartCalc_dist/model SmartCalc_dist/view SmartCalc_dist/controller SmartCalc_dist/protocol SmartCalc_dist/tests 
 
 cd SmartCalc_dist
 cp ../*.cc . 2>/dev/null
@@ -30,6 +30,8 @@ cp ../view/*.h view 2>/dev/null
 cp ../view/*.cc view 2>/dev/null
 cp ../view/*.ui view 2>/dev/null
 cp ../view/CMakeLists.txt view 2>/dev/null
+
+cp ../protocol/*.h protocol 2>/dev/null
 
 cp ../tests/*.h tests 2>/dev/null
 cp ../tests/*.cc tests 2>/dev/null
