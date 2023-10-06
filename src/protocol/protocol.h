@@ -4,11 +4,8 @@
 namespace s21 {
 
 /**
- * @brief Business logic. All computations are here
- * Calculates expression using reversed polish notation
- * Plots graphs
- * Calculates credit
- * Calculates deposit
+ * @brief Parameters to be passed from view to model through controller and back
+ * 
  */
 namespace Protocol {
  
