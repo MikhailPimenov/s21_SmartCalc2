@@ -5,6 +5,7 @@
 
 #include "../protocol/protocol.h"
 
+
 namespace s21 {
 
 int Model::Calculate(const std::string &input_str, double *result,
@@ -16,7 +17,10 @@ int Model::Calculate(const std::string &input_str, double *result,
   if (ex_code == 0) {
     shuntingYard(head, output);
     flipStack(output, input);
-    *result = calcRpn(input, x_value);
+    const std::optional<double> opt = calcRpn(input, x_value);
+    if (!opt.has_value())
+      return 1;
+    *result = opt.value();
   } else {
     while (!head.empty()) {
       head.pop();
@@ -35,6 +39,7 @@ int Model::parcer(const std::string &input_str, std::stack<Token> &head) {
   int close_bracket_qty = 0;
   int operand_qty = 0;
   int use_double_operand_operator = 0;  // false
+  int no_operand = 1;                   // true
   for (int i = len - 1;
        i >= 0 && ex_code == 0 && open_bracket_qty <= close_bracket_qty;) {
     switch (input_str[i]) {
@@ -62,6 +67,7 @@ int Model::parcer(const std::string &input_str, std::stack<Token> &head) {
         i++;
         number = strtod(&input_str[i], NULL);
         head.push(Token(number, Type::Number, 1));
+        no_operand = 0;
         ++operand_qty;
         i--;
         break;
@@ -97,6 +103,7 @@ int Model::parcer(const std::string &input_str, std::stack<Token> &head) {
       case '*':
         head.push(Token(0, Type::Mult, 8));
         use_double_operand_operator = 1;  // true
+        no_operand = 1;
         i--;
         break;
       case '/':
@@ -155,6 +162,7 @@ int Model::parcer(const std::string &input_str, std::stack<Token> &head) {
         break;
       case 'x':
         head.push(Token(0, Type::X, 1));
+        no_operand = 0;
         ++operand_qty;
         i--;
         break;
@@ -164,12 +172,13 @@ int Model::parcer(const std::string &input_str, std::stack<Token> &head) {
     }
   }
   if (open_bracket_qty != close_bracket_qty) ex_code = 1;
+  if (no_operand) ex_code = 1;
   if (use_double_operand_operator && operand_qty < 2) ex_code = 1;
   return ex_code;
 }
 
-double Model::calcRpn(std::stack<Token> &input, double x_value) {
-  double result = 0;
+std::optional<double> Model::calcRpn(std::stack<Token> &input, double x_value) {
+  double result = 0.0;
   std::stack<Token> stack;
   while (!input.empty()) {
     if (input.top().type == Type::Number) {
@@ -183,6 +192,8 @@ double Model::calcRpn(std::stack<Token> &input, double x_value) {
                !stack.empty()) {
       double number2 = stack.top().value;
       stack.pop();
+      if (stack.empty())
+        return std::nullopt;
       result = binaryFnCalc(stack.top().value, number2, input.top().type);
       stack.pop();
       input.pop();

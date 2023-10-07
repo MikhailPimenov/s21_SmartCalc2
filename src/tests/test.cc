@@ -822,6 +822,59 @@ TEST(ExpressionComputation, T7ExpressionPow) {
   EXPECT_NEAR(result, expected, EPS);
 }
 
+TEST(ExpressionComputation, T0IncorrectStringInput) {
+  const std::string input_str("cos");
+  s21::Model model;
+
+  double result = 0.0;
+  double x_value = 3.0;
+  int ex_code = model.Calculate(input_str, &result, x_value);
+  const int ex_expected = 1;
+  EXPECT_EQ(ex_code, ex_expected);
+}
+
+TEST(ExpressionComputation, T1IncorrectStringInput) {
+  const std::string input_str("1*cos");
+  s21::Model model;
+
+  double result = 0.0;
+  double x_value = 3.0;
+  int ex_code = model.Calculate(input_str, &result, x_value);
+  const int ex_expected = 1;
+  EXPECT_EQ(ex_code, ex_expected);
+}
+
+TEST(ExpressionComputation, T2IncorrectStringInput) {
+  const std::string input_str("1*cos*3");
+  s21::Model model;
+
+  double result = 0.0;
+  double x_value = 3.0;
+  int ex_code = model.Calculate(input_str, &result, x_value);
+  const int ex_expected = 1;
+  EXPECT_EQ(ex_code, ex_expected);
+}
+
+TEST(ExpressionComputation, T3IncorrectStringInput) {
+  const std::string input_str("1*cos*3-3"); // 1, *, cos, *, 3, -, 3
+  s21::Model model;
+
+  double result = 0.0;
+  double x_value = 3.0;
+  int ex_code = model.Calculate(input_str, &result, x_value);
+  const int ex_expected = 1;
+  EXPECT_EQ(ex_code, ex_expected);
+}
+
+
+
+
+
+
+
+
+
+
 TEST(Credit, T0CreditSimpleAnnuity) {
   s21::Protocol::CreditParameters cp;
   cp.creditSum_ = 700000.0;

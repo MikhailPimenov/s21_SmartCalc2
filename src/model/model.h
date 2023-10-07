@@ -3,6 +3,7 @@
 
 #include <stack>
 #include <string>
+#include <optional>
 #include <vector>
 
 namespace s21 {
@@ -78,9 +79,10 @@ class Model {
                             Protocol::GraphResult &gr);
 
  private:
+  // static std::optional<std::stack<Token>> parcer(const std::string& input);
   static int parcer(const std::string &input_str, std::stack<Token> &head);
   static void shuntingYard(std::stack<Token> &head, std::stack<Token> &output);
-  static double calcRpn(std::stack<Token> &output, double x_value);
+  static std::optional<double> calcRpn(std::stack<Token> &output, double x_value);
   static double unaryFnCalc(double number1, Type type);
   static double binaryFnCalc(double number1, double number2, Type type);
   static void flipStack(std::stack<Token> input, std::stack<Token> &output);
