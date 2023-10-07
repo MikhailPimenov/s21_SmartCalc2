@@ -79,8 +79,8 @@ class Model {
                             Protocol::GraphResult &gr);
 
  private:
-  // static std::optional<std::stack<Token>> parcer(const std::string& input);
-  static int parcer(const std::string &input_str, std::stack<Token> &head);
+  static std::optional<std::stack<Token>> parcer(const std::string& input);
+  static int parcer2(const std::string &input_str, std::stack<Token> &head);
   static void shuntingYard(std::stack<Token> &head, std::stack<Token> &output);
   static std::optional<double> calcRpn(std::stack<Token> &output, double x_value);
   static double unaryFnCalc(double number1, Type type);
@@ -88,6 +88,7 @@ class Model {
   static void flipStack(std::stack<Token> input, std::stack<Token> &output);
 };
 
+
 }  //  namespace s21
 
-#endif  //  SRC_MODEL_MODEL_H
+#endif  //  SRC_MODEL_MODEL_H 

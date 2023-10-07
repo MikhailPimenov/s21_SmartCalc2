@@ -29,7 +29,96 @@ int Model::Calculate(const std::string &input_str, double *result,
   return ex_code;
 }
 
-int Model::parcer(const std::string &input_str, std::stack<Token> &head) {
+//"cos(x)" -> cos, (, x, )
+// "cos(x)" -> ), x, (, cos
+// "coa(x)" -> std::nullopt
+// "(cos(1/3)*sin(1.352^9/(4+3))/76.56)*log(150)"
+
+
+
+
+    // Mod = 8,
+    // Cos = 11,
+    // Sin = 12,
+    // Tan = 13,
+    // Acos = 14,
+    // Asin = 15,
+    // Atan = 16,
+    // Sqrt = 17,
+    // Ln = 18,
+    // Log = 19,
+
+
+std::optional<std::stack<Token>> Model::parcer(const std::string &input_str) {
+// пройтись по всей входной строке
+// если число, добавить число
+// если скобка, добавить скобку
+// если функция (+-*/ синус косинус и почее), добавить функцию
+  std::stack<Token> result;
+  
+  for(int i = 0; i < input_str.size(); i++) {
+    const char s = input_str[i];
+    if(s == '(') {
+      result.push(Token(0.0, Type::OpenBracket, 0));
+    } else if(s == ')') {
+      result.push(Token(0.0, Type::CloseBracket, 0));
+    } else if (s == '+') {
+      result.push(Token(0.0, Type::Sum, 6));
+    } else if (s == '-') {
+      result.push(Token(0.0, Type::Minus, 6));
+    } else if (s == '/') {
+      result.push(Token(0.0, Type::Div, 8));
+    } else if (s == '*') {
+      result.push(Token(0.0, Type::Mult, 8));
+    } else if (s == '^') {
+      result.push(Token(0.0, Type::Power, 9));
+    } else if (s == 'c') {
+      if (i + 2 > input_str.size())
+        return std::nullopt;
+      const char s1 = input_str[i+1];
+      const char s2 = input_str[i+2];
+      if (s1 == 'o') {
+        if (s2 == 's')
+          result.push(Token(0.0, Type::Cos, 8));
+        else if (s2 == 't') {
+          // result.push(Token(0.0, Type::, 8));  // Cot is not supported
+        } else {
+          return std::nullopt;
+        }
+        i += 2;
+      } else {
+          return std::nullopt;
+      }
+    } else if (s == 's') {
+      if (i + 2 > input_str.size())
+        return std::nullopt;
+      const char s1 = input_str[i+1];
+      const char s2 = input_str[i+2];
+      if (s1 == 'i' && s2 == 'n') {
+        result.push(Token(0.0, Type::Sin, 8));
+        i += 2;
+      } else {
+          return std::nullopt;
+      }
+    } else if (s == 't') {
+      if (i + 2 > input_str.size())
+        return std::nullopt;
+      const char s1 = input_str[i+1];
+      const char s2 = input_str[i+2];
+      if (s1 == 'a' && s2 == 'n') {
+        result.push(Token(0.0, Type::Tan, 8));
+        i += 2;
+      } else {
+          return std::nullopt;
+      }
+    }
+
+
+  } 
+
+}
+
+int Model::parcer2(const std::string &input_str, std::stack<Token> &head) {
   int ex_code = 0;
   const int len = static_cast<int>(input_str.size());
   if (len == 0) ex_code = 1;
