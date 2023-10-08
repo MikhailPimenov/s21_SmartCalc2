@@ -55,8 +55,6 @@ int Model::Calculate(const std::string &input_str, double *result,
 // ln(123.4) -> ln, (, 123.4, )
 // 1234*5
  std::pair<double, int> number(const std::string& string, int index) {
-  // if (index >= string.size())
-    // return std::make_pair(0.0, index);
 
   std::istringstream iss(string);
   iss.seekg(index);
@@ -68,18 +66,11 @@ int Model::Calculate(const std::string &input_str, double *result,
   bool eof = iss.eof();
 
   if (iss.eof())
-    index = string.size();
-  else if (!iss.fail()) {
-    index = iss.tellg();
-  }
-  
-  // if (!iss.fail()) {
-  //   if (-1 != iss.tellg())
-  //     index = iss.tellg();
-  //   else 
-  //     index = string.size();
-  // }
-  
+    index = static_cast<int>(string.size());
+  else if (!iss.fail())
+    index = static_cast<int>(iss.tellg());
+
+    
   return std::make_pair(result, index);
  }
 
@@ -97,14 +88,20 @@ std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_s
   for(int i = 0; i < input_str.size(); i++) {
     std::cout << "aaa\n"; 
     const char s = input_str[i];
+
+
     if(s == '(') {
       result.push(Token(0.0, Type::OpenBracket, 0));
+    } else if (const auto& [n, index] = number(input_str, i); index > i) {
+      result.push(Token(n, Type::Number, 1));
+      std::cout << index << '\n';
+      i = (index - 1);
     } else if(s == ')') {
       result.push(Token(0.0, Type::CloseBracket, 0));
     } else if (s == '+') {
       result.push(Token(0.0, Type::Sum, 6));
     } else if (s == '-') {
-      result.push(Token(0.0, Type::Minus, 6));
+      result.push(Token(1.0, Type::Minus, 6));
     } else if (s == '/') {
       result.push(Token(0.0, Type::Div, 8));
     } else if (s == '*') {
@@ -148,14 +145,9 @@ std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_s
     } else if (input_str.find("log", i) != std::string::npos) {
       result.push(Token(0.0, Type::Log, 8));
       i += 2;
-    } else if (const auto& [n, index] = number(input_str, i); index > i) {
-      result.push(Token(n, Type::Number, 1));
-      std::cout << index << '\n';
-      i += index;
     } else {
       return std::nullopt;
     }
-
   } 
   return std::optional<std::stack<Token>>(result);  
 }
