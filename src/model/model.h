@@ -80,6 +80,7 @@ class Model {
 
  private:
   static std::optional<std::stack<Token>> parcer(const std::string& input);
+
   static int parcer2(const std::string &input_str, std::stack<Token> &head);
   static void shuntingYard(std::stack<Token> &head, std::stack<Token> &output);
   static std::optional<double> calcRpn(std::stack<Token> &output, double x_value);

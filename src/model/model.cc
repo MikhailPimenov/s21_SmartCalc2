@@ -13,7 +13,8 @@ int Model::Calculate(const std::string &input_str, double *result,
   std::stack<Token> head;
   std::stack<Token> output;
   std::stack<Token> input;
-  const int ex_code = parcer(input_str, head);
+  // const int ex_code = parcer(input_str, head);
+  const int ex_code = 1;
   if (ex_code == 0) {
     shuntingYard(head, output);
     flipStack(output, input);
@@ -48,8 +49,9 @@ int Model::Calculate(const std::string &input_str, double *result,
     // Ln = 18,
     // Log = 19,
 
+ 
 
-std::optional<std::stack<Token>> Model::parcer(const std::string &input_str) {
+std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_str) {
 // пройтись по всей входной строке
 // если число, добавить число
 // если скобка, добавить скобку
@@ -72,50 +74,49 @@ std::optional<std::stack<Token>> Model::parcer(const std::string &input_str) {
       result.push(Token(0.0, Type::Mult, 8));
     } else if (s == '^') {
       result.push(Token(0.0, Type::Power, 9));
-    } else if (s == 'c') {
-      if (i + 2 > input_str.size())
-        return std::nullopt;
-      const char s1 = input_str[i+1];
-      const char s2 = input_str[i+2];
-      if (s1 == 'o') {
-        if (s2 == 's')
-          result.push(Token(0.0, Type::Cos, 8));
-        else if (s2 == 't') {
-          // result.push(Token(0.0, Type::, 8));  // Cot is not supported
-        } else {
-          return std::nullopt;
-        }
-        i += 2;
-      } else {
-          return std::nullopt;
-      }
-    } else if (s == 's') {
-      if (i + 2 > input_str.size())
-        return std::nullopt;
-      const char s1 = input_str[i+1];
-      const char s2 = input_str[i+2];
-      if (s1 == 'i' && s2 == 'n') {
-        result.push(Token(0.0, Type::Sin, 8));
-        i += 2;
-      } else {
-          return std::nullopt;
-      }
-    } else if (s == 't') {
-      if (i + 2 > input_str.size())
-        return std::nullopt;
-      const char s1 = input_str[i+1];
-      const char s2 = input_str[i+2];
-      if (s1 == 'a' && s2 == 'n') {
-        result.push(Token(0.0, Type::Tan, 8));
-        i += 2;
-      } else {
-          return std::nullopt;
-      }
+    } else if (input_str.find("x", i) != std::string::npos) {
+      result.push(Token(0.0, Type::X, 1));
+    }
+    else if (input_str.find("cos", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Cos, 8));
+      i += 2;
+    } // else if (input_str.find("cot", i)) {
+    //   result.push(Token(0.0, Type::Cos, 8));
+    //   i += 2;
+    //}
+    else if (input_str.find("sin", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Sin, 8));
+      i += 2;
+    } else if (input_str.find("mod", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Mod, 8));
+      i += 2;
+    } else if (input_str.find("tan", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Tan, 8));
+      i += 2;
+    } else if (input_str.find("acos", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Acos, 8));
+      i += 3;
+    } else if (input_str.find("asin", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Asin, 8));
+      i += 3;
+    } else if (input_str.find("atan", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Atan, 8));
+      i += 3;
+    } else if (input_str.find("sqrt", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Sqrt, 8));
+      i += 3;
+    } else if (input_str.find("ln", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Ln, 8));
+      i += 1;
+    } else if (input_str.find("log", i) != std::string::npos) {
+      result.push(Token(0.0, Type::Log, 8));
+      i += 2;
+    } else {
+      return std::nullopt;
     }
 
-
   } 
-
+  return std::optional<std::stack<Token>>(result);  
 }
 
 int Model::parcer2(const std::string &input_str, std::stack<Token> &head) {

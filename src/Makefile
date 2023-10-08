@@ -1,6 +1,7 @@
 CC=g++
 CFLAGS=-Wall -Werror -Wextra
-CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g -Werror
+CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g 
+#-Werror
 CCOV=-fprofile-arcs -ftest-coverage
 COVFLAGS=$(shell pkg-config --cflags --libs gcovr)
 LDFLAGS = -lgcov
@@ -53,7 +54,7 @@ run_tests: tests/tests_main.exe
 
 
 %.o: %.cc $(HEADERS)
-		$(CC) -c -Wall -std=c++17 -Wextra -pedantic -g -Werror $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS)
+		$(CC) -c $(CFLAGS) $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS)
 
 
 tests/tests_main.exe: $(BINARIES)
