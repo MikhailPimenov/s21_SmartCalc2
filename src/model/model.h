@@ -27,7 +27,8 @@ struct CreditResult;
  * Calculates deposit
  */
 class Model {
- private:
+//  private:
+ public:
   /**
    * @brief Token type. Either number, or function, or bracket, or placeholder X
    *
@@ -78,7 +79,7 @@ class Model {
   static int CalculateGraph(const Protocol::GraphParameters &gp,
                             Protocol::GraphResult &gr);
 
- private:
+//  private:
   static std::optional<std::stack<Token>> parcer(const std::string& input);
 
   static int parcer2(const std::string &input_str, std::stack<Token> &head);

@@ -18,7 +18,8 @@ GTEST_LFLAGS=-lgtest -lgtest_main
 HEADERS=model/model.h
 
 SOURCES=tests/tests_main.cc
-SOURCES+=tests/test.cc
+# SOURCES+=tests/test.cc
+SOURCES+=tests/test_parcer.cc
 SOURCES+=model/model.cc
 SOURCES+=model/bonus_model.cc
 

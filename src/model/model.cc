@@ -5,6 +5,10 @@
 
 #include "../protocol/protocol.h"
 
+#include "iostream"
+#include "iomanip"
+#include "sstream"
+
 
 namespace s21 {
 
@@ -48,8 +52,40 @@ int Model::Calculate(const std::string &input_str, double *result,
     // Sqrt = 17,
     // Ln = 18,
     // Log = 19,
+// ln(123.4) -> ln, (, 123.4, )
+// 1234*5
+ std::pair<double, int> number(const std::string& string, int index) {
+  // if (index >= string.size())
+    // return std::make_pair(0.0, index);
 
- 
+  std::istringstream iss(string);
+  iss.seekg(index);
+  double result = 0.0;
+  int i1 = iss.tellg();
+  iss >> result;
+  int i2 = iss.tellg();
+  bool fail = iss.fail();
+  bool eof = iss.eof();
+
+  if (iss.eof())
+    index = string.size();
+  else if (!iss.fail()) {
+    index = iss.tellg();
+  }
+  
+  // if (!iss.fail()) {
+  //   if (-1 != iss.tellg())
+  //     index = iss.tellg();
+  //   else 
+  //     index = string.size();
+  // }
+  
+  return std::make_pair(result, index);
+ }
+
+
+
+
 
 std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_str) {
 // пройтись по всей входной строке
@@ -57,8 +93,9 @@ std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_s
 // если скобка, добавить скобку
 // если функция (+-*/ синус косинус и почее), добавить функцию
   std::stack<Token> result;
-  
+  // return std::nullopt;
   for(int i = 0; i < input_str.size(); i++) {
+    std::cout << "aaa\n"; 
     const char s = input_str[i];
     if(s == '(') {
       result.push(Token(0.0, Type::OpenBracket, 0));
@@ -111,6 +148,10 @@ std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_s
     } else if (input_str.find("log", i) != std::string::npos) {
       result.push(Token(0.0, Type::Log, 8));
       i += 2;
+    } else if (const auto& [n, index] = number(input_str, i); index > i) {
+      result.push(Token(n, Type::Number, 1));
+      std::cout << index << '\n';
+      i += index;
     } else {
       return std::nullopt;
     }
