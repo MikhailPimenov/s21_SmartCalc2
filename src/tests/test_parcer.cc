@@ -106,9 +106,11 @@ TEST(Parcer, T3Simple) {
 }
 
 TEST(Parcer, T4Simple) {
-  const std::string input_str("-666.555");  // -1 * 666.555 ^ 2
+  const std::string input_str("cos666.555ln");
   std::stack<s21::Model::Token> expected;
-  expected.push(s21::Model::Token(-666.555, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Cos, 8));
+  expected.push(s21::Model::Token(666.555, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Ln, 8));
    
   s21::Model model;
   const std::optional<std::stack<s21::Model::Token>> actual = model.parcer(input_str);
@@ -118,11 +120,26 @@ TEST(Parcer, T4Simple) {
     EXPECT_EQ(expected, actual.value());
 }
 
-TEST(Parcer, T5Simple) {
+TEST(Parcer, T0Minus) {
+  const std::string input_str("-666.555");  // -1 * 666.555 ^ 2
+  std::stack<s21::Model::Token> expected;
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Minus, 6));
+  expected.push(s21::Model::Token(666.555, s21::Model::Type::Number, 1));
+   
+  s21::Model model;
+  const std::optional<std::stack<s21::Model::Token>> actual = model.parcer(input_str);
+
+  EXPECT_EQ(actual.has_value(), true);
+  if (actual.has_value())
+    EXPECT_EQ(expected, actual.value());
+}
+
+TEST(Parcer, T1Minus) {
   const std::string input_str("(-666.555)");
   std::stack<s21::Model::Token> expected;
   expected.push(s21::Model::Token(0.0, s21::Model::Type::OpenBracket, 0));
-  expected.push(s21::Model::Token(-666.555, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Minus, 6));
+  expected.push(s21::Model::Token(666.555, s21::Model::Type::Number, 1));
   expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
    
   s21::Model model;
@@ -133,11 +150,12 @@ TEST(Parcer, T5Simple) {
     EXPECT_EQ(expected, actual.value());
 }
 
-TEST(Parcer, T6Simple) {
+TEST(Parcer, T2Minus) {
   const std::string input_str("(-666.555))))))");
   std::stack<s21::Model::Token> expected;
   expected.push(s21::Model::Token(0.0, s21::Model::Type::OpenBracket, 0));
-  expected.push(s21::Model::Token(-666.555, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Minus, 6));
+  expected.push(s21::Model::Token(666.555, s21::Model::Type::Number, 1));
   expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
   expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
   expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
@@ -153,11 +171,12 @@ TEST(Parcer, T6Simple) {
     EXPECT_EQ(expected, actual.value());
 }
 
-TEST(Parcer, T7Simple) {
+TEST(Parcer, T3Minus) {
   const std::string input_str("(-666.555))))))*13");
   std::stack<s21::Model::Token> expected;
   expected.push(s21::Model::Token(0.0, s21::Model::Type::OpenBracket, 0));
-  expected.push(s21::Model::Token(-666.555, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Minus, 6));
+  expected.push(s21::Model::Token(666.555, s21::Model::Type::Number, 1));
   expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
   expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
   expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
@@ -166,6 +185,38 @@ TEST(Parcer, T7Simple) {
   expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
   expected.push(s21::Model::Token(0.0, s21::Model::Type::Mult, 8));
   expected.push(s21::Model::Token(13.0, s21::Model::Type::Number, 1));
+   
+  s21::Model model;
+  const std::optional<std::stack<s21::Model::Token>> actual = model.parcer(input_str);
+
+  EXPECT_EQ(actual.has_value(), true);
+  if (actual.has_value())
+    EXPECT_EQ(expected, actual.value());
+}
+
+TEST(Parcer, T4Long) {
+  const std::string input_str("cos((-666.5sqrt(55))))*13+14/88-x");
+  std::stack<s21::Model::Token> expected;
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Cos, 8));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::OpenBracket, 0));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::OpenBracket, 0));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Minus, 6));
+  expected.push(s21::Model::Token(666.5, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Sqrt, 8));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::OpenBracket, 0));
+  expected.push(s21::Model::Token(55.0, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Mult, 8));
+  expected.push(s21::Model::Token(13.0, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Sum, 6));
+  expected.push(s21::Model::Token(14.0, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Div, 8));
+  expected.push(s21::Model::Token(88.0, s21::Model::Type::Number, 1));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::Minus, 6));
+  expected.push(s21::Model::Token(0.0, s21::Model::Type::X, 1));
    
   s21::Model model;
   const std::optional<std::stack<s21::Model::Token>> actual = model.parcer(input_str);

@@ -86,22 +86,18 @@ std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_s
   std::stack<Token> result;
   // return std::nullopt;
   for(int i = 0; i < input_str.size(); i++) {
-    std::cout << "aaa\n"; 
+    // std::cout << "aaa\n"; 
     const char s = input_str[i];
 
 
     if(s == '(') {
       result.push(Token(0.0, Type::OpenBracket, 0));
-    } else if (const auto& [n, index] = number(input_str, i); index > i) {
-      result.push(Token(n, Type::Number, 1));
-      std::cout << index << '\n';
-      i = (index - 1);
     } else if(s == ')') {
       result.push(Token(0.0, Type::CloseBracket, 0));
     } else if (s == '+') {
       result.push(Token(0.0, Type::Sum, 6));
     } else if (s == '-') {
-      result.push(Token(1.0, Type::Minus, 6));
+      result.push(Token(0.0, Type::Minus, 6));
     } else if (s == '/') {
       result.push(Token(0.0, Type::Div, 8));
     } else if (s == '*') {
@@ -145,6 +141,12 @@ std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_s
     } else if (input_str.find("log", i) != std::string::npos) {
       result.push(Token(0.0, Type::Log, 8));
       i += 2;
+    } else if (const auto& [n, index] = number(input_str, i); index > i) {
+      result.push(Token(n, Type::Number, 1));
+      // std::cout << index << '\n';
+      i = (index - 1);
+    } else if(s == 'x') {
+      result.push(Token(0.0, Type::X, 1));
     } else {
       return std::nullopt;
     }
