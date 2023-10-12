@@ -300,6 +300,36 @@ int Model::parcer2(const std::string &input_str, std::stack<Token> &head) {
   return ex_code;
 }
 
+static bool validateBraces(std::stack<Model::Token> tokens) {
+  std::stack<Model::Token> stack;
+
+  while (!tokens.empty()) {
+    const auto token = tokens.top();
+    tokens.pop();
+    if (token.type != Model::Type::OpenBracket && token.type != Model::Type::CloseBracket)
+      continue;
+
+
+    
+  }
+  return true;
+}
+
+static bool validateUnary(std::stack<Model::Token> tokens) {
+  return true;
+}
+
+bool Model::validate(std::stack<Token> tokens) {
+
+  if (!validateBraces(tokens))
+    return false;
+
+  if (!validateUnary(tokens))
+    return false;
+
+  return true;  
+}
+
 std::optional<double> Model::calcRpn(std::stack<Token> &input, double x_value) {
   double result = 0.0;
   std::stack<Token> stack;

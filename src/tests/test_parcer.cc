@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <iostream>
+#include <optional>
 
 #include "../model/model.h"
 

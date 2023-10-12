@@ -20,6 +20,7 @@ HEADERS=model/model.h
 SOURCES=tests/tests_main.cc
 # SOURCES+=tests/test.cc
 SOURCES+=tests/test_parcer.cc
+SOURCES+=tests/test_validator.cc
 SOURCES+=model/model.cc
 SOURCES+=model/bonus_model.cc
 
@@ -55,7 +56,7 @@ run_tests: tests/tests_main.exe
 
 
 %.o: %.cc $(HEADERS)
-		$(CC) -c $(CFLAGS) $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS)
+		$(CC) -c $(CFLAGS) $< -o $@ $(GCOVR_CFLAGS) $(GTEST_CFLAGS) 
 
 
 tests/tests_main.exe: $(BINARIES)
