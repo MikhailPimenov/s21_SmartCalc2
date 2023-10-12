@@ -194,7 +194,7 @@ TEST(Parcer, T3Minus) {
     EXPECT_EQ(expected, actual.value());
 }
 
-TEST(Parcer, T4Long) {
+TEST(Parcer, T0Long) {
   const std::string input_str("cos((-666.5sqrt(55))))*13+14/88-x");
   std::stack<s21::Model::Token> expected;
   expected.push(s21::Model::Token(0.0, s21::Model::Type::Cos, 8));
@@ -226,5 +226,100 @@ TEST(Parcer, T4Long) {
     EXPECT_EQ(expected, actual.value());
 }
 
+
+TEST(Parcer, T1Long) {
+  // valid string
+  const std::string input_str("14.88+89(^44.666cossqrt-123.99)))))--+-0-0-)))xxx1x1x333xsinx)ln)logatanmodasin/tan");
+  std::stack<s21::Model::Token> expected;
+  expected.push(s21::Model::Token(14.88,    s21::Model::Type::Number,       1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Sum,          6));
+  expected.push(s21::Model::Token(89.0,     s21::Model::Type::Number,       1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::OpenBracket,  0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Power,        9));
+  expected.push(s21::Model::Token(44.666,   s21::Model::Type::Number,       1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Cos,          8));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Sqrt,         8));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Minus,        6));
+  expected.push(s21::Model::Token(123.99,   s21::Model::Type::Number,       1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Minus,        6));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Minus,        6));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Sum,          6));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Minus,        6));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Number,       1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Minus,        6));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Number,       1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Minus,        6));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::X,            1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::X,            1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::X,            1));
+  expected.push(s21::Model::Token(1.0,      s21::Model::Type::Number,       1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::X,            1));
+  expected.push(s21::Model::Token(1.0,      s21::Model::Type::Number,       1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::X,            1));
+  expected.push(s21::Model::Token(333.0,    s21::Model::Type::Number,       1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::X,            1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Sin,          8));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::X,            1));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Ln,           8));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::CloseBracket, 0));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Log,          8));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Atan,         8));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Mod,          8));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Asin,         8));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Div,          8));
+  expected.push(s21::Model::Token(0.0,      s21::Model::Type::Tan,          8));
+   
+  s21::Model model;
+  const std::optional<std::stack<s21::Model::Token>> actual = model.parcer(input_str);
+
+  EXPECT_EQ(actual.has_value(), true);
+  if (actual.has_value())
+    EXPECT_EQ(expected, actual.value());
+}
+
+
+
+
+
+
+
+
+TEST(Parcer, T0IncorrectStringToParce) {
+  const std::string input_str("cocksucker");
+  std::stack<s21::Model::Token> expected;
+  
+  s21::Model model;
+  const std::optional<std::stack<s21::Model::Token>> actual = model.parcer(input_str);
+
+  EXPECT_EQ(actual.has_value(), false);
+}
+
+TEST(Parcer, T1IncorrectStringToParce) {
+  const std::string input_str("cos(13.99*x)+cocksucker");
+  std::stack<s21::Model::Token> expected;
+  
+  s21::Model model;
+  const std::optional<std::stack<s21::Model::Token>> actual = model.parcer(input_str);
+
+  EXPECT_EQ(actual.has_value(), false);
+}
+TEST(Parcer, T2IncorrectStringToParce) {
+  const std::string input_str("cos((-666.5seqrt(55))))*13+14/88-x");
+  std::stack<s21::Model::Token> expected;
+  
+  s21::Model model;
+  const std::optional<std::stack<s21::Model::Token>> actual = model.parcer(input_str);
+
+  EXPECT_EQ(actual.has_value(), false);
+}
 
 } // namespace
