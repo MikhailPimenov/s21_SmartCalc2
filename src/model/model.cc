@@ -104,49 +104,47 @@ std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_s
       result.push(Token(0.0, Type::Mult, 8));
     } else if (s == '^') {
       result.push(Token(0.0, Type::Power, 9));
-    } else if (input_str.find("x", i) != std::string::npos) {
+    } else if (s == 'x') {
       result.push(Token(0.0, Type::X, 1));
     }
-    else if (input_str.find("cos", i) != std::string::npos) {
+    else if (input_str.compare(i, 3, "cos") == 0) {
       result.push(Token(0.0, Type::Cos, 8));
       i += 2;
     } // else if (input_str.find("cot", i)) {
     //   result.push(Token(0.0, Type::Cos, 8));
     //   i += 2;
     //}
-    else if (input_str.find("sin", i) != std::string::npos) {
+    else if (input_str.compare(i, 3, "sin") == 0) {
       result.push(Token(0.0, Type::Sin, 8));
       i += 2;
-    } else if (input_str.find("mod", i) != std::string::npos) {
+    } else if (input_str.compare(i, 3, "mod") == 0) {
       result.push(Token(0.0, Type::Mod, 8));
       i += 2;
-    } else if (input_str.find("tan", i) != std::string::npos) {
+    } else if (input_str.compare(i, 3, "tan") == 0) {
       result.push(Token(0.0, Type::Tan, 8));
       i += 2;
-    } else if (input_str.find("acos", i) != std::string::npos) {
+    } else if (input_str.compare(i, 4, "acos") == 0) {
       result.push(Token(0.0, Type::Acos, 8));
       i += 3;
-    } else if (input_str.find("asin", i) != std::string::npos) {
+    } else if (input_str.compare(i, 4, "asin") == 0) {
       result.push(Token(0.0, Type::Asin, 8));
       i += 3;
-    } else if (input_str.find("atan", i) != std::string::npos) {
+    } else if (input_str.compare(i, 4, "atan") == 0) {
       result.push(Token(0.0, Type::Atan, 8));
       i += 3;
-    } else if (input_str.find("sqrt", i) != std::string::npos) {
+    } else if (input_str.compare(i, 4, "sqrt") == 0) {
       result.push(Token(0.0, Type::Sqrt, 8));
       i += 3;
-    } else if (input_str.find("ln", i) != std::string::npos) {
+    } else if (input_str.compare(i, 2, "ln") == 0) {
       result.push(Token(0.0, Type::Ln, 8));
       i += 1;
-    } else if (input_str.find("log", i) != std::string::npos) {
+    } else if (input_str.compare(i, 3, "log") == 0) {
       result.push(Token(0.0, Type::Log, 8));
       i += 2;
     } else if (const auto& [n, index] = number(input_str, i); index > i) {
       result.push(Token(n, Type::Number, 1));
       // std::cout << index << '\n';
       i = (index - 1);
-    } else if(s == 'x') {
-      result.push(Token(0.0, Type::X, 1));
     } else {
       return std::nullopt;
     }
