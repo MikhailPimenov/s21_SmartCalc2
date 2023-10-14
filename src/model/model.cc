@@ -319,7 +319,14 @@ static bool validateUnary(std::stack<Model::Token> tokens) {
   return true;
 }
 
+static bool validateBinary(std::stack<Model::Token> tokens) {
+  return true;
+}
+
 bool Model::validate(std::stack<Token> tokens) {
+
+  if (!validateBinary(tokens))
+    return false;
 
   if (!validateBraces(tokens))
     return false;
