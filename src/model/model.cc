@@ -301,26 +301,103 @@ int Model::parcer2(const std::string &input_str, std::stack<Token> &head) {
   return ex_code;
 }
 
-static bool validateBraces(const std::vector<Model::Token>& tokens) {
-  std::stack<Model::Token> stack;
-
-  // while (!tokens.empty()) {
-  //   const auto token = tokens.top();
-  //   tokens.pop();
-  //   if (token.type != Model::Type::OpenBracket && token.type != Model::Type::CloseBracket)
-  //     continue;
 
 
-    
-  // }
-  return true;
+
+
+bool isBinaryFunction(const Model::Token& token) {
+  return token.type == Model::Type::Sum ||
+         token.type == Model::Type::Minus ||
+         token.type == Model::Type::Mult ||
+         token.type == Model::Type::Div ||
+         token.type == Model::Type::Mod ||
+         token.type == Model::Type::Power ||
+         token.type == Model::Type::Log;    // ???    5log3 or log(5, 3)    ???
 }
 
+bool isUnaryLeftFunction(const Model::Token& token) {
+  return token.type == Model::Type::Sum ||
+         token.type == Model::Type::Minus;
+}
+
+bool isUnaryRightFunction(const Model::Token& token) {
+  return token.type == Model::Type::Sin ||
+         token.type == Model::Type::Cos ||
+         token.type == Model::Type::Tan ||
+         token.type == Model::Type::Asin ||
+         token.type == Model::Type::Acos ||
+         token.type == Model::Type::Atan ||
+         token.type == Model::Type::Sqrt ||
+         token.type == Model::Type::Ln;
+}
+
+bool isOperand(const Model::Token& token) {
+  return token.type == Model::Type::Number ||
+         token.type == Model::Type::X;
+}
+
+bool isClosingBrace(const Model::Token& token) {
+  return token.type == Model::Type::CloseBracket;
+}
+
+bool isOpeningBrace(const Model::Token& token) {
+  return token.type == Model::Type::OpenBracket;
+}
+
+static bool validateBraces(const std::vector<Model::Token>& tokens) {
+  int open = 0;
+  int close = 0;
+  bool isPreviousOpen = false;
+  for (const auto& token : tokens) {
+    if (isOpeningBrace(token)) {
+      ++open;
+      isPreviousOpen = true;
+    }
+    else if (isClosingBrace(token)) {
+      if (isPreviousOpen)
+        return false;
+      ++close;
+    } else {
+      isPreviousOpen = false;
+    }
+  }
+
+  return open == close;
+}
+// --+5     false
+// +5       true
+// -5       true
+// -(-(+5)) true
+
+// 5-5      true
+// )-5      true
+// (-5)     true
+
 static bool validateUnary(const std::vector<Model::Token>& tokens) {
+  for (int i = 1; i < tokens.size(); ++i)
+    if (isUnaryLeftFunction(tokens[i]) && isUnaryLeftFunction(tokens[i - 1]))
+      return false;
+
   return true;
 }
 
 static bool validateBinary(const std::vector<Model::Token>& tokens) {
+  if (isBinaryFunction(tokens.front()) && !isUnaryLeftFunction(tokens.front()))
+    return false;
+
+  for (int i = 1; i < tokens.size() - 1; ++i) {
+    if (!isBinaryFunction(tokens[i]) || isUnaryLeftFunction(tokens[i]))
+      continue;
+    if (!isOperand(tokens[i - 1]) && !isClosingBrace(tokens[i - 1]))
+      return false;
+    if (!isOperand(tokens[i + 1]) && !isOpeningBrace(tokens[i + 1]))
+      return false;
+  }
+  if (isBinaryFunction(tokens.back()))
+    return false;
+  if (isUnaryRightFunction(tokens.back()))
+    return false;
+
   return true;
 }
 

@@ -259,4 +259,214 @@ TEST(Validator, T5SimpleBinaryFail) {
   EXPECT_EQ(expected, actual);
 }
 
+TEST(Validator, T0MixedFail) {
+  const std::string input_str("-*5");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T1MixedFail) {
+  const std::string input_str("--+5");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T2MixedFail) {
+  const std::string input_str("--+");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T3MixedFail) {
+  const std::string input_str("--+(");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T0NoOperandFail) {
+  const std::string input_str("()(())(5)");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T1NoOperandFail) {
+  const std::string input_str("+");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T0BracesFail) {
+  const std::string input_str("(6))");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T1BracesFail) {
+  const std::string input_str("(+(-(-6))");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+
+
+
+
+TEST(Validator, T0UnaryFail) {
+  const std::string input_str("--+56");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T1UnaryFail) {
+  const std::string input_str("3--+56");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+
+
+
+
+
+TEST(Validator, T0Unary) {
+  const std::string input_str("-(-5)");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = true;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T1Unary) {
+  const std::string input_str("-(-5)");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = true;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T2Unary) {
+  const std::string input_str("+5");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = true;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T3Unary) {
+  const std::string input_str("-5");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = true;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T4Unary) {
+  const std::string input_str("5-5");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = true;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T5Unary) {
+  const std::string input_str("(-5)");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = true;
+  EXPECT_EQ(expected, actual);
+}
+
+// --+5     false
+// +5       true
+// -5       true
+// -(-(+5)) true
+
+// 5-5      true
+// )-5      true
+// (-5)     true
+
 } // namespace
