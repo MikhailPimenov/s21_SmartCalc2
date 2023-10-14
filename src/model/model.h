@@ -80,8 +80,8 @@ class Model {
                             Protocol::GraphResult &gr);
 
 //  private:
-  static std::optional<std::stack<Token>> parcer(const std::string& input);
-  bool validate(std::stack<Token> tokens);
+  static std::optional<std::vector<Token>> parcer(const std::string& input);
+  bool validate(const std::vector<Token>& tokens);
 
   static int parcer2(const std::string &input_str, std::stack<Token> &head);
   static void shuntingYard(std::stack<Token> &head, std::stack<Token> &output);

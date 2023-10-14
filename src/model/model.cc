@@ -78,12 +78,13 @@ int Model::Calculate(const std::string &input_str, double *result,
 
 
 
-std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_str) {
+std::optional<std::vector<Model::Token>> Model::parcer(const std::string &input_str) {
 // пройтись по всей входной строке
 // если число, добавить число
 // если скобка, добавить скобку
 // если функция (+-*/ синус косинус и почее), добавить функцию
-  std::stack<Token> result;
+  std::vector<Model::Token> result;
+  result.reserve(input_str.size());
   // return std::nullopt;
   for(int i = 0; i < input_str.size(); i++) {
     // std::cout << "aaa\n"; 
@@ -91,65 +92,65 @@ std::optional<std::stack<Model::Token>> Model::parcer(const std::string &input_s
 
 
     if(s == '(') {
-      result.push(Token(0.0, Type::OpenBracket, 0));
+      result.push_back(Token(0.0, Type::OpenBracket, 0));
     } else if(s == ')') {
-      result.push(Token(0.0, Type::CloseBracket, 0));
+      result.push_back(Token(0.0, Type::CloseBracket, 0));
     } else if (s == '+') {
-      result.push(Token(0.0, Type::Sum, 6));
+      result.push_back(Token(0.0, Type::Sum, 6));
     } else if (s == '-') {
-      result.push(Token(0.0, Type::Minus, 6));
+      result.push_back(Token(0.0, Type::Minus, 6));
     } else if (s == '/') {
-      result.push(Token(0.0, Type::Div, 8));
+      result.push_back(Token(0.0, Type::Div, 8));
     } else if (s == '*') {
-      result.push(Token(0.0, Type::Mult, 8));
+      result.push_back(Token(0.0, Type::Mult, 8));
     } else if (s == '^') {
-      result.push(Token(0.0, Type::Power, 9));
+      result.push_back(Token(0.0, Type::Power, 9));
     } else if (s == 'x') {
-      result.push(Token(0.0, Type::X, 1));
+      result.push_back(Token(0.0, Type::X, 1));
     }
     else if (input_str.compare(i, 3, "cos") == 0) {
-      result.push(Token(0.0, Type::Cos, 8));
+      result.push_back(Token(0.0, Type::Cos, 8));
       i += 2;
     } // else if (input_str.find("cot", i)) {
-    //   result.push(Token(0.0, Type::Cos, 8));
+    //   result.push_back(Token(0.0, Type::Cos, 8));
     //   i += 2;
     //}
     else if (input_str.compare(i, 3, "sin") == 0) {
-      result.push(Token(0.0, Type::Sin, 8));
+      result.push_back(Token(0.0, Type::Sin, 8));
       i += 2;
     } else if (input_str.compare(i, 3, "mod") == 0) {
-      result.push(Token(0.0, Type::Mod, 8));
+      result.push_back(Token(0.0, Type::Mod, 8));
       i += 2;
     } else if (input_str.compare(i, 3, "tan") == 0) {
-      result.push(Token(0.0, Type::Tan, 8));
+      result.push_back(Token(0.0, Type::Tan, 8));
       i += 2;
     } else if (input_str.compare(i, 4, "acos") == 0) {
-      result.push(Token(0.0, Type::Acos, 8));
+      result.push_back(Token(0.0, Type::Acos, 8));
       i += 3;
     } else if (input_str.compare(i, 4, "asin") == 0) {
-      result.push(Token(0.0, Type::Asin, 8));
+      result.push_back(Token(0.0, Type::Asin, 8));
       i += 3;
     } else if (input_str.compare(i, 4, "atan") == 0) {
-      result.push(Token(0.0, Type::Atan, 8));
+      result.push_back(Token(0.0, Type::Atan, 8));
       i += 3;
     } else if (input_str.compare(i, 4, "sqrt") == 0) {
-      result.push(Token(0.0, Type::Sqrt, 8));
+      result.push_back(Token(0.0, Type::Sqrt, 8));
       i += 3;
     } else if (input_str.compare(i, 2, "ln") == 0) {
-      result.push(Token(0.0, Type::Ln, 8));
+      result.push_back(Token(0.0, Type::Ln, 8));
       i += 1;
     } else if (input_str.compare(i, 3, "log") == 0) {
-      result.push(Token(0.0, Type::Log, 8));
+      result.push_back(Token(0.0, Type::Log, 8));
       i += 2;
     } else if (const auto& [n, index] = number(input_str, i); index > i) {
-      result.push(Token(n, Type::Number, 1));
+      result.push_back(Token(n, Type::Number, 1));
       // std::cout << index << '\n';
       i = (index - 1);
     } else {
       return std::nullopt;
     }
   } 
-  return std::optional<std::stack<Token>>(result);  
+  return std::optional<std::vector<Model::Token>>(result);  
 }
 
 int Model::parcer2(const std::string &input_str, std::stack<Token> &head) {
@@ -300,30 +301,30 @@ int Model::parcer2(const std::string &input_str, std::stack<Token> &head) {
   return ex_code;
 }
 
-static bool validateBraces(std::stack<Model::Token> tokens) {
+static bool validateBraces(const std::vector<Model::Token>& tokens) {
   std::stack<Model::Token> stack;
 
-  while (!tokens.empty()) {
-    const auto token = tokens.top();
-    tokens.pop();
-    if (token.type != Model::Type::OpenBracket && token.type != Model::Type::CloseBracket)
-      continue;
+  // while (!tokens.empty()) {
+  //   const auto token = tokens.top();
+  //   tokens.pop();
+  //   if (token.type != Model::Type::OpenBracket && token.type != Model::Type::CloseBracket)
+  //     continue;
 
 
     
-  }
+  // }
   return true;
 }
 
-static bool validateUnary(std::stack<Model::Token> tokens) {
+static bool validateUnary(const std::vector<Model::Token>& tokens) {
   return true;
 }
 
-static bool validateBinary(std::stack<Model::Token> tokens) {
+static bool validateBinary(const std::vector<Model::Token>& tokens) {
   return true;
 }
 
-bool Model::validate(std::stack<Token> tokens) {
+bool Model::validate(const std::vector<Model::Token>& tokens) {
 
   if (!validateBinary(tokens))
     return false;
