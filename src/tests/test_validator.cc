@@ -355,8 +355,67 @@ TEST(Validator, T1BracesFail) {
   EXPECT_EQ(expected, actual);
 }
 
+TEST(Validator, T2BracesFail) {
+  const std::string input_str("(+(-(-6))))((");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
 
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
 
+TEST(Validator, T3BracesFail) {
+  const std::string input_str("(12+6))8*3(");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+//(5)(+)
+
+TEST(Validator, T4BracesFail) {
+  const std::string input_str("(5)(+)");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T5BracesFail) {
+  const std::string input_str("(5)(cos)");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
+
+TEST(Validator, T6BracesFail) {
+  const std::string input_str("(5)()");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
+
+  const bool expected = false;
+  EXPECT_EQ(expected, actual);
+}
 
 
 TEST(Validator, T0UnaryFail) {

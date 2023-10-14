@@ -18,7 +18,21 @@ int Model::Calculate(const std::string &input_str, double *result,
   std::stack<Token> output;
   std::stack<Token> input;
   // const int ex_code = parcer(input_str, head);
-  const int ex_code = 1;
+  int ex_code = 1;
+  const std::optional<std::vector<Token>> tokens = parcer(input_str);
+  if (!tokens.has_value())
+    return ex_code;
+
+  if (!validate(tokens.value()))
+    return ex_code;
+
+  for (auto it = tokens.value().crbegin(); it != tokens.value().crend(); ++it)
+    head.push(*it);
+
+  // for (const Token& token : tokens.value())
+  //   head.push(token);
+
+  ex_code = 0;
   if (ex_code == 0) {
     shuntingYard(head, output);
     flipStack(output, input);
@@ -34,26 +48,6 @@ int Model::Calculate(const std::string &input_str, double *result,
   return ex_code;
 }
 
-//"cos(x)" -> cos, (, x, )
-// "cos(x)" -> ), x, (, cos
-// "coa(x)" -> std::nullopt
-// "(cos(1/3)*sin(1.352^9/(4+3))/76.56)*log(150)"
-
-
-
-
-    // Mod = 8,
-    // Cos = 11,
-    // Sin = 12,
-    // Tan = 13,
-    // Acos = 14,
-    // Asin = 15,
-    // Atan = 16,
-    // Sqrt = 17,
-    // Ln = 18,
-    // Log = 19,
-// ln(123.4) -> ln, (, 123.4, )
-// 1234*5
  std::pair<double, int> number(const std::string& string, int index) {
 
   std::istringstream iss(string);
@@ -302,9 +296,6 @@ int Model::parcer2(const std::string &input_str, std::stack<Token> &head) {
 }
 
 
-
-
-
 bool isBinaryFunction(const Model::Token& token) {
   return token.type == Model::Type::Sum ||
          token.type == Model::Type::Minus ||
@@ -343,35 +334,40 @@ bool isClosingBrace(const Model::Token& token) {
 bool isOpeningBrace(const Model::Token& token) {
   return token.type == Model::Type::OpenBracket;
 }
-
+//(5)(+)
 static bool validateBraces(const std::vector<Model::Token>& tokens) {
-  int open = 0;
-  int close = 0;
   bool isPreviousOpen = false;
-  for (const auto& token : tokens) {
+  for (const Model::Token& token : tokens) {
     if (isOpeningBrace(token)) {
-      ++open;
       isPreviousOpen = true;
     }
     else if (isClosingBrace(token)) {
       if (isPreviousOpen)
         return false;
-      ++close;
-    } else {
+    } else if (isOperand(token)) {
       isPreviousOpen = false;
     }
   }
+  std::stack<Model::Token> stack;
 
-  return open == close;
+
+  for (const Model::Token& token : tokens) {
+    if (!isOpeningBrace(token) && !isClosingBrace(token))
+      continue;
+
+    if (isOpeningBrace(token))
+      stack.push(token);
+    if (isClosingBrace(token)) {
+      if (stack.empty())
+        return false;
+      else
+        stack.pop();
+    }
+  }
+
+  return stack.empty(); 
 }
-// --+5     false
-// +5       true
-// -5       true
-// -(-(+5)) true
 
-// 5-5      true
-// )-5      true
-// (-5)     true
 
 static bool validateUnary(const std::vector<Model::Token>& tokens) {
   for (int i = 1; i < tokens.size(); ++i)
@@ -402,7 +398,6 @@ static bool validateBinary(const std::vector<Model::Token>& tokens) {
 }
 
 bool Model::validate(const std::vector<Model::Token>& tokens) {
-
   if (!validateBinary(tokens))
     return false;
 
