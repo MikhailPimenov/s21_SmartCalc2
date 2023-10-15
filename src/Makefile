@@ -19,12 +19,13 @@ HEADERS=model/model.h
 
 SOURCES=tests/tests_main.cc
 SOURCES+=tests/test_calculation.cc
-# SOURCES+=tests/test_graph.cc
-# SOURCES+=tests/test_credit.cc
-# SOURCES+=tests/test_deposit.cc
-# SOURCES+=tests/test_parcer.cc
-# SOURCES+=tests/test_validator.cc
+SOURCES+=tests/test_graph.cc
+SOURCES+=tests/test_credit.cc
+SOURCES+=tests/test_deposit.cc
+SOURCES+=tests/test_parcer.cc
+SOURCES+=tests/test_validator.cc
 SOURCES+=model/model.cc
+SOURCES+=model/calculatorRpn.cc
 SOURCES+=model/bonus_model.cc
 
 REPORT_DIRECTORY=report

@@ -5,10 +5,11 @@
 
 #include "../protocol/protocol.h"
 
-#include "iostream"
-#include "iomanip"
-#include "sstream"
+#include <iostream>
+#include <iomanip>
+#include <sstream>
 
+#include "calculatorRpn.h"
 
 namespace s21 {
 
@@ -76,7 +77,9 @@ int Model::Calculate(const std::string &input_str, double *result,
   if (ex_code == 0) {
     shuntingYard(head, output);
     flipStack(output, input);
-    const std::optional<double> opt = calcRpn(input, x_value);
+    // const std::optional<double> opt = calcRpn(input, x_value);
+    CalculatorRpn calculator(input, x_value);
+    const std::optional<double> opt = calculator.Run();
     if (!opt.has_value())
       return 1;
     *result = opt.value();
@@ -446,63 +449,40 @@ bool Model::validate(const std::vector<Model::Token>& tokens) {
   return true;  
 }
 
-std::optional<double> Model::calcRpn(std::stack<Token> &input, double x_value) {
-  double result = 0.0;
-  std::stack<Token> stack;
-  while (!input.empty()) {
-    if (input.top().type == Type::Number) {
-      stack.push(input.top());
-      input.pop();
-    } else if (input.top().type == Type::X) {
-      input.top().value = x_value;
-      stack.push(input.top());
-      input.pop();
-    } else if (input.top().type >= Type::Sum && input.top().type <= Type::Mod &&
-               !stack.empty()) {
-      double number2 = stack.top().value;
-      stack.pop();
-      if (stack.empty())
-        return std::nullopt;
-      result = binaryFnCalc(stack.top().value, number2, input.top().type);
-      stack.pop();
-      input.pop();
-      stack.push(Token(result, Type::Number, 1));
-    } else if (input.top().type >= Type::Cos && !stack.empty()) {
-      result = unaryFnCalc(stack.top().value, input.top().type);
-      stack.pop();
-      input.pop();
-      stack.push(Token(result, Type::Number, 1));
-    }
-  }
-  if (!stack.empty()) result = stack.top().value;
-  stack.pop();
-  return result;
-}
+// std::optional<double> Model::calcRpn(std::stack<Token> &input, double x_value) {
+//   double result = 0.0;
+//   std::stack<Token> stack;
+//   while (!input.empty()) {
+//     if (input.top().type == Type::Number) {
+//       stack.push(input.top());
+//       input.pop();
+//     } else if (input.top().type == Type::X) {
+//       input.top().value = x_value;
+//       stack.push(input.top());
+//       input.pop();
+//     } else if (input.top().type >= Type::Sum && input.top().type <= Type::Mod &&
+//                !stack.empty()) {
+//       double number2 = stack.top().value;
+//       stack.pop();
+//       if (stack.empty())
+//         return std::nullopt;
+//       result = binaryFnCalc(stack.top().value, number2, input.top().type);
+//       stack.pop();
+//       input.pop();
+//       stack.push(Token(result, Type::Number, 1));
+//     } else if (input.top().type >= Type::Cos && !stack.empty()) {
+//       result = unaryFnCalc(stack.top().value, input.top().type);
+//       stack.pop();
+//       input.pop();
+//       stack.push(Token(result, Type::Number, 1));
+//     }
+//   }
+//   if (!stack.empty()) result = stack.top().value;
+//   stack.pop();
+//   return result;
+// }
 
-double Model::unaryFnCalc(double number1, Type type) {
-  double result = 0;
-  if (type == Type::Cos) result = std::cos(number1);
-  if (type == Type::Sin) result = std::sin(number1);
-  if (type == Type::Tan) result = std::tan(number1);
-  if (type == Type::Acos) result = std::acos(number1);
-  if (type == Type::Asin) result = std::asin(number1);
-  if (type == Type::Atan) result = std::atan(number1);
-  if (type == Type::Sqrt) result = std::sqrt(number1);
-  if (type == Type::Ln) result = std::log(number1);
-  if (type == Type::Log) result = std::log10(number1);
-  return result;
-}
 
-double Model::binaryFnCalc(double number1, double number2, Type type) {
-  double result = 0;
-  if (type == Type::Sum) result = number1 + number2;
-  if (type == Type::Minus) result = number1 - number2;
-  if (type == Type::Mult) result = number1 * number2;
-  if (type == Type::Div) result = number1 / number2;
-  if (type == Type::Power) result = std::pow(number1, number2);
-  if (type == Type::Mod) result = std::fmod(number1, number2);
-  return result;
-}
 
 void Model::shuntingYard(std::stack<Token> &head, std::stack<Token> &output) {
   std::stack<Token> stack;
