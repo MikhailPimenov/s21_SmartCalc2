@@ -80,7 +80,7 @@ class Model {
                             Protocol::GraphResult &gr);
 
 //  private:
-  static std::optional<std::vector<Token>> parcer(const std::string& input);
+  // static std::optional<std::vector<Token>> parcer(const std::string& input);
   static bool validate(const std::vector<Token>& tokens);
 
   static int parcer2(const std::string &input_str, std::stack<Token> &head);
@@ -91,6 +91,18 @@ class Model {
   static void flipStack(std::stack<Token> input, std::stack<Token> &output);
 };
 
+
+// calcRPN
+//  parce
+//  validate
+//  transform to RPN
+//  calculateRPN (x) -> y
+
+// graph
+//  parce
+//  validate
+//  transform to RPN
+//  calculate (x1,x2,x3,...) -> y1,y2,y3,...
 
 }  //  namespace s21
 

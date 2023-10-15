@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "../model/model.h"
+#include "../model/parcer.h"
 
 
 namespace s21 {
@@ -58,7 +59,8 @@ TEST(Parcer, T0Simple) {
   expected.emplace_back(1.0, s21::Model::Type::Number, 1);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -72,7 +74,8 @@ TEST(Parcer, T1Simple) {
   expected.emplace_back(0.0, s21::Model::Type::Cos, 8);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -86,7 +89,8 @@ TEST(Parcer, T2Simple) {
   expected.emplace_back(0.0, s21::Model::Type::Sqrt, 8);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -99,7 +103,8 @@ TEST(Parcer, T3Simple) {
   expected.emplace_back(666.555, s21::Model::Type::Number, 1);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -114,7 +119,8 @@ TEST(Parcer, T4Simple) {
   expected.emplace_back(0.0,      s21::Model::Type::Ln,     8);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -128,7 +134,8 @@ TEST(Parcer, T0Minus) {
   expected.emplace_back(666.555,  s21::Model::Type::Number, 1);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -144,7 +151,8 @@ TEST(Parcer, T1Minus) {
   expected.emplace_back(0.0,      s21::Model::Type::CloseBracket, 0);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -165,7 +173,8 @@ TEST(Parcer, T2Minus) {
   expected.emplace_back(0.0,      s21::Model::Type::CloseBracket, 0);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -188,7 +197,8 @@ TEST(Parcer, T3Minus) {
   expected.emplace_back(13.0,     s21::Model::Type::Number,       1);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -220,7 +230,8 @@ TEST(Parcer, T0Long) {
   expected.emplace_back(0.0,    s21::Model::Type::X,            1);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -280,7 +291,8 @@ TEST(Parcer, T1Long) {
   expected.emplace_back(0.0,      s21::Model::Type::Tan,          8);
    
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
   if (actual.has_value())
@@ -299,7 +311,8 @@ TEST(Parcer, T0IncorrectStringToParce) {
   std::vector<s21::Model::Token> expected;
   
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), false);
 }
@@ -309,7 +322,8 @@ TEST(Parcer, T1IncorrectStringToParce) {
   std::vector<s21::Model::Token> expected;
   
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), false);
 }
@@ -318,7 +332,8 @@ TEST(Parcer, T2IncorrectStringToParce) {
   std::vector<s21::Model::Token> expected;
   
   s21::Model model;
-  const std::optional<std::vector<s21::Model::Token>> actual = model.parcer(input_str);
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), false);
 }

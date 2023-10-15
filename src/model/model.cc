@@ -5,11 +5,10 @@
 
 #include "../protocol/protocol.h"
 
-#include <iostream>
-#include <iomanip>
-#include <sstream>
+
 
 #include "calculatorRpn.h"
+#include "parcer.h"
 
 namespace s21 {
 
@@ -59,7 +58,9 @@ int Model::Calculate(const std::string &input_str, double *result,
   std::stack<Token> input;
   // const int ex_code = parcer(input_str, head);
   int ex_code = 1;
-  std::optional<std::vector<Token>> tokens = parcer(input_str);
+  // std::optional<std::vector<Token>> tokens = parcer(input_str);
+  Parcer parcer3(input_str);
+  std::optional<std::vector<Token> > tokens = parcer3.Run();
   if (!tokens.has_value())
     return ex_code;
 
@@ -91,253 +92,161 @@ int Model::Calculate(const std::string &input_str, double *result,
   return ex_code;
 }
 
- std::pair<double, int> number(const std::string& string, int index) {
-  if (string[index] == '.')
-    return std::make_pair(0.0, index);
-
-  std::istringstream iss(string);
-  iss.seekg(index);
-  double result = 0.0;
-  int i1 = iss.tellg();
-  iss >> result;
-  int i2 = iss.tellg();
-  bool fail = iss.fail();
-  bool eof = iss.eof();
-
-  if (iss.eof())
-    index = static_cast<int>(string.size());
-  else if (!iss.fail())
-    index = static_cast<int>(iss.tellg());
-
-    
-  return std::make_pair(result, index);
- }
 
 
 
 
 
-std::optional<std::vector<Model::Token>> Model::parcer(const std::string &input_str) {
-// пройтись по всей входной строке
-// если число, добавить число
-// если скобка, добавить скобку
-// если функция (+-*/ синус косинус и почее), добавить функцию
-  std::vector<Model::Token> result;
-  result.reserve(input_str.size());
-  // return std::nullopt;
-  for(int i = 0; i < input_str.size(); i++) {
-    // std::cout << "aaa\n"; 
-    const char s = input_str[i];
 
-    if (s == '(') {
-      result.push_back(Token(0.0, Type::OpenBracket, 0));
-    } else if(s == ')') {
-      result.push_back(Token(0.0, Type::CloseBracket, 0));
-    } else if (s == '+') {
-      result.push_back(Token(0.0, Type::Sum, 6));
-    } else if (s == '-') {
-      result.push_back(Token(0.0, Type::Minus, 6));
-    } else if (s == '/') {
-      result.push_back(Token(0.0, Type::Div, 8));
-    } else if (s == '*') {
-      result.push_back(Token(0.0, Type::Mult, 8));
-    } else if (s == '^') {
-      result.push_back(Token(0.0, Type::Power, 9));
-    } else if (s == 'x') {
-      result.push_back(Token(0.0, Type::X, 1));
-    }
-    else if (input_str.compare(i, 3, "cos") == 0) {
-      result.push_back(Token(0.0, Type::Cos, 8));
-      i += 2;
-    } // else if (input_str.find("cot", i)) {
-    //   result.push_back(Token(0.0, Type::Cos, 8));
-    //   i += 2;
-    //}
-    else if (input_str.compare(i, 3, "sin") == 0) {
-      result.push_back(Token(0.0, Type::Sin, 8));
-      i += 2;
-    } else if (input_str.compare(i, 3, "mod") == 0) {
-      result.push_back(Token(0.0, Type::Mod, 8));
-      i += 2;
-    } else if (input_str.compare(i, 3, "tan") == 0) {
-      result.push_back(Token(0.0, Type::Tan, 8));
-      i += 2;
-    } else if (input_str.compare(i, 4, "acos") == 0) {
-      result.push_back(Token(0.0, Type::Acos, 8));
-      i += 3;
-    } else if (input_str.compare(i, 4, "asin") == 0) {
-      result.push_back(Token(0.0, Type::Asin, 8));
-      i += 3;
-    } else if (input_str.compare(i, 4, "atan") == 0) {
-      result.push_back(Token(0.0, Type::Atan, 8));
-      i += 3;
-    } else if (input_str.compare(i, 4, "sqrt") == 0) {
-      result.push_back(Token(0.0, Type::Sqrt, 8));
-      i += 3;
-    } else if (input_str.compare(i, 2, "ln") == 0) {
-      result.push_back(Token(0.0, Type::Ln, 8));
-      i += 1;
-    } else if (input_str.compare(i, 3, "log") == 0) {
-      result.push_back(Token(0.0, Type::Log, 8));
-      i += 2;
-    } else if (const auto& [n, index] = number(input_str, i); index > i) {
-      result.push_back(Token(n, Type::Number, 1));
-      // std::cout << index << '\n';
-      i = (index - 1);
-    } else {
-      return std::nullopt;
-    }
-  } 
-  return std::optional<std::vector<Model::Token>>(result);  
-}
 
-int Model::parcer2(const std::string &input_str, std::stack<Token> &head) {
-  int ex_code = 0;
-  const int len = static_cast<int>(input_str.size());
-  if (len == 0) ex_code = 1;
-  double number = 0;
-  int dot_qty = 0;
-  int open_bracket_qty = 0;
-  int close_bracket_qty = 0;
-  int operand_qty = 0;
-  int use_double_operand_operator = 0;  // false
-  int no_operand = 1;                   // true
-  for (int i = len - 1;
-       i >= 0 && ex_code == 0 && open_bracket_qty <= close_bracket_qty;) {
-    switch (input_str[i]) {
-      case '1':
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '8':
-      case '9':
-      case '0':
-      case '.':
-        dot_qty = 0;
-        while (i >= 0 && ((input_str[i] > 47 && input_str[i] < 58) ||
-                          input_str[i] == '.')) {
-          if (input_str[i] == '.') dot_qty += 1;
-          if (dot_qty > 1) {
-            ex_code = 1;
-            break;
-          }
-          i--;
-        }
-        i++;
-        number = strtod(&input_str[i], NULL);
-        head.push(Token(number, Type::Number, 1));
-        no_operand = 0;
-        ++operand_qty;
-        i--;
-        break;
-      case '(':
-        open_bracket_qty += 1;
-        head.push(Token(0, Type::OpenBracket, 0));
-        i--;
-        break;
-      case ')':
-        close_bracket_qty += 1;
-        head.push(Token(0, Type::CloseBracket, 0));
-        i--;
-        break;
-      case '+':
-        if (i == 0 || input_str[i - 1] == '(') {
-          head.push(Token(0, Type::Number, 1));
-        }
-        head.push(Token(0, Type::Sum, 6));
-        use_double_operand_operator = 1;  // true
-        i--;
-        break;
-      case '-':
-        if (i == 0 || input_str[i - 1] == '(') {
-          head.push(Token(-1.0, Type::Number, 1));
-          head.push(Token(0, Type::Mult, 6));
-          ++operand_qty;
-        } else {
-          head.push(Token(0, Type::Minus, 6));
-        }
-        use_double_operand_operator = 1;  // true
-        i--;
-        break;
-      case '*':
-        head.push(Token(0, Type::Mult, 8));
-        use_double_operand_operator = 1;  // true
-        no_operand = 1;
-        i--;
-        break;
-      case '/':
-        head.push(Token(0, Type::Div, 8));
-        use_double_operand_operator = 1;  // true
-        i--;
-        break;
-      case '^':
-        head.push(Token(0, Type::Power, 9));
-        use_double_operand_operator = 1;  // true
-        i--;
-        break;
-      case 'd':
-        head.push(Token(0, Type::Mod, 8));
-        use_double_operand_operator = 1;  // true
-        i = i - 3;
-        break;
-      case 's':
-        if (i > 2 && input_str[i - 3] == 'a') {
-          head.push(Token(0, Type::Acos, 8));
-          i = i - 4;
-        } else {
-          head.push(Token(0, Type::Cos, 8));
-          i = i - 3;
-        }
-        break;
-      case 'n':
-        if (i > 0 && input_str[i - 1] == 'l') {
-          head.push(Token(0, Type::Ln, 8));
-          i = i - 2;
-        } else if (i > 0 && input_str[i - 1] == 'a') {
-          if (i > 2 && input_str[i - 3] == 'a') {
-            head.push(Token(0, Type::Atan, 8));
-            i = i - 4;
-          } else {
-            head.push(Token(0, Type::Tan, 8));
-            i = i - 3;
-          }
-        } else if (i > 0 && input_str[i - 1] == 'i') {
-          if (i > 2 && input_str[i - 3] == 'a') {
-            head.push(Token(0, Type::Asin, 8));
-            i = i - 4;
-          } else {
-            head.push(Token(0, Type::Sin, 8));
-            i = i - 3;
-          }
-        }
-        break;
-      case 't':
-        head.push(Token(0, Type::Sqrt, 8));
-        i = i - 4;
-        break;
-      case 'g':
-        head.push(Token(0, Type::Log, 8));
-        i = i - 3;
-        break;
-      case 'x':
-        head.push(Token(0, Type::X, 1));
-        no_operand = 0;
-        ++operand_qty;
-        i--;
-        break;
-      default:
-        ex_code = 1;
-        break;
-    }
-  }
-  if (open_bracket_qty != close_bracket_qty) ex_code = 1;
-  if (no_operand) ex_code = 1;
-  if (use_double_operand_operator && operand_qty < 2) ex_code = 1;
-  return ex_code;
-}
+
+// int Model::parcer2(const std::string &input_str, std::stack<Token> &head) {
+//   int ex_code = 0;
+//   const int len = static_cast<int>(input_str.size());
+//   if (len == 0) ex_code = 1;
+//   double number = 0;
+//   int dot_qty = 0;
+//   int open_bracket_qty = 0;
+//   int close_bracket_qty = 0;
+//   int operand_qty = 0;
+//   int use_double_operand_operator = 0;  // false
+//   int no_operand = 1;                   // true
+//   for (int i = len - 1;
+//        i >= 0 && ex_code == 0 && open_bracket_qty <= close_bracket_qty;) {
+//     switch (input_str[i]) {
+//       case '1':
+//       case '2':
+//       case '3':
+//       case '4':
+//       case '5':
+//       case '6':
+//       case '7':
+//       case '8':
+//       case '9':
+//       case '0':
+//       case '.':
+//         dot_qty = 0;
+//         while (i >= 0 && ((input_str[i] > 47 && input_str[i] < 58) ||
+//                           input_str[i] == '.')) {
+//           if (input_str[i] == '.') dot_qty += 1;
+//           if (dot_qty > 1) {
+//             ex_code = 1;
+//             break;
+//           }
+//           i--;
+//         }
+//         i++;
+//         number = strtod(&input_str[i], NULL);
+//         head.push(Token(number, Type::Number, 1));
+//         no_operand = 0;
+//         ++operand_qty;
+//         i--;
+//         break;
+//       case '(':
+//         open_bracket_qty += 1;
+//         head.push(Token(0, Type::OpenBracket, 0));
+//         i--;
+//         break;
+//       case ')':
+//         close_bracket_qty += 1;
+//         head.push(Token(0, Type::CloseBracket, 0));
+//         i--;
+//         break;
+//       case '+':
+//         if (i == 0 || input_str[i - 1] == '(') {
+//           head.push(Token(0, Type::Number, 1));
+//         }
+//         head.push(Token(0, Type::Sum, 6));
+//         use_double_operand_operator = 1;  // true
+//         i--;
+//         break;
+//       case '-':
+//         if (i == 0 || input_str[i - 1] == '(') {
+//           head.push(Token(-1.0, Type::Number, 1));
+//           head.push(Token(0, Type::Mult, 6));
+//           ++operand_qty;
+//         } else {
+//           head.push(Token(0, Type::Minus, 6));
+//         }
+//         use_double_operand_operator = 1;  // true
+//         i--;
+//         break;
+//       case '*':
+//         head.push(Token(0, Type::Mult, 8));
+//         use_double_operand_operator = 1;  // true
+//         no_operand = 1;
+//         i--;
+//         break;
+//       case '/':
+//         head.push(Token(0, Type::Div, 8));
+//         use_double_operand_operator = 1;  // true
+//         i--;
+//         break;
+//       case '^':
+//         head.push(Token(0, Type::Power, 9));
+//         use_double_operand_operator = 1;  // true
+//         i--;
+//         break;
+//       case 'd':
+//         head.push(Token(0, Type::Mod, 8));
+//         use_double_operand_operator = 1;  // true
+//         i = i - 3;
+//         break;
+//       case 's':
+//         if (i > 2 && input_str[i - 3] == 'a') {
+//           head.push(Token(0, Type::Acos, 8));
+//           i = i - 4;
+//         } else {
+//           head.push(Token(0, Type::Cos, 8));
+//           i = i - 3;
+//         }
+//         break;
+//       case 'n':
+//         if (i > 0 && input_str[i - 1] == 'l') {
+//           head.push(Token(0, Type::Ln, 8));
+//           i = i - 2;
+//         } else if (i > 0 && input_str[i - 1] == 'a') {
+//           if (i > 2 && input_str[i - 3] == 'a') {
+//             head.push(Token(0, Type::Atan, 8));
+//             i = i - 4;
+//           } else {
+//             head.push(Token(0, Type::Tan, 8));
+//             i = i - 3;
+//           }
+//         } else if (i > 0 && input_str[i - 1] == 'i') {
+//           if (i > 2 && input_str[i - 3] == 'a') {
+//             head.push(Token(0, Type::Asin, 8));
+//             i = i - 4;
+//           } else {
+//             head.push(Token(0, Type::Sin, 8));
+//             i = i - 3;
+//           }
+//         }
+//         break;
+//       case 't':
+//         head.push(Token(0, Type::Sqrt, 8));
+//         i = i - 4;
+//         break;
+//       case 'g':
+//         head.push(Token(0, Type::Log, 8));
+//         i = i - 3;
+//         break;
+//       case 'x':
+//         head.push(Token(0, Type::X, 1));
+//         no_operand = 0;
+//         ++operand_qty;
+//         i--;
+//         break;
+//       default:
+//         ex_code = 1;
+//         break;
+//     }
+//   }
+//   if (open_bracket_qty != close_bracket_qty) ex_code = 1;
+//   if (no_operand) ex_code = 1;
+//   if (use_double_operand_operator && operand_qty < 2) ex_code = 1;
+//   return ex_code;
+// }
 
 
 bool isBinaryFunction(const Model::Token& token) {

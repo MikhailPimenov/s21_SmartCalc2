@@ -5,7 +5,6 @@ namespace s21 {
 
 CalculatorRpn::CalculatorRpn(std::stack<Model::Token> rpn, double x /* = 0.0 */) : rpn_{rpn}, x_{x} {}
 
-    // std::optional<double> Model::calcRpn(std::stack<Token> &input, double x_value) {
 std::optional<double> CalculatorRpn::Run() {
   double result = 0.0;
   std::stack<Model::Token> stack;

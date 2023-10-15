@@ -25,6 +25,7 @@ SOURCES+=tests/test_deposit.cc
 SOURCES+=tests/test_parcer.cc
 SOURCES+=tests/test_validator.cc
 SOURCES+=model/model.cc
+SOURCES+=model/parcer.cc
 SOURCES+=model/calculatorRpn.cc
 SOURCES+=model/bonus_model.cc
 
