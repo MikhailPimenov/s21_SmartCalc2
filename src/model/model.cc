@@ -12,6 +12,45 @@
 
 namespace s21 {
 
+bool isUnaryLeftFunction(const Model::Token& token) {
+  return token.type == Model::Type::Sum ||
+         token.type == Model::Type::Minus;
+}
+
+bool isOpeningBrace(const Model::Token& token) {
+  return token.type == Model::Type::OpenBracket;
+}
+
+static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& tokens) {
+  std::vector<Model::Token> result;
+  result.reserve(4ull * tokens.size());
+
+  if (!isUnaryLeftFunction(tokens.front())) {
+    result.push_back(tokens.front());
+  } else if (tokens.front().type == Model::Type::Minus) {
+    result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
+    result.emplace_back(-1.0, Model::Type::Number,        1);
+    result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
+    result.emplace_back( 0.0, Model::Type::Mult,          8);
+  }
+
+  for (int i = 1; i < tokens.size(); ++i) {
+    if (tokens[i].type == Model::Type::Sum && isOpeningBrace(tokens[i - 1]))
+      continue;
+
+    if (tokens[i].type == Model::Type::Minus && isOpeningBrace(tokens[i - 1])) {
+      result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
+      result.emplace_back(-1.0, Model::Type::Number,        1);
+      result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
+      result.emplace_back( 0.0, Model::Type::Mult,          8);
+      continue;
+    }
+    result.push_back(tokens[i]);
+  }
+
+  return result;
+}
+
 int Model::Calculate(const std::string &input_str, double *result,
                      double x_value) {
   std::stack<Token> head;
@@ -19,14 +58,15 @@ int Model::Calculate(const std::string &input_str, double *result,
   std::stack<Token> input;
   // const int ex_code = parcer(input_str, head);
   int ex_code = 1;
-  const std::optional<std::vector<Token>> tokens = parcer(input_str);
+  std::optional<std::vector<Token>> tokens = parcer(input_str);
   if (!tokens.has_value())
     return ex_code;
 
   if (!validate(tokens.value()))
     return ex_code;
 
-  for (auto it = tokens.value().crbegin(); it != tokens.value().crend(); ++it)
+  const std::vector<Model::Token> tokensReplaced = replaceUnary(tokens.value());
+  for (auto it = tokensReplaced.crbegin(); it != tokensReplaced.crend(); ++it)
     head.push(*it);
 
   // for (const Token& token : tokens.value())
@@ -49,6 +89,8 @@ int Model::Calculate(const std::string &input_str, double *result,
 }
 
  std::pair<double, int> number(const std::string& string, int index) {
+  if (string[index] == '.')
+    return std::make_pair(0.0, index);
 
   std::istringstream iss(string);
   iss.seekg(index);
@@ -84,8 +126,7 @@ std::optional<std::vector<Model::Token>> Model::parcer(const std::string &input_
     // std::cout << "aaa\n"; 
     const char s = input_str[i];
 
-
-    if(s == '(') {
+    if (s == '(') {
       result.push_back(Token(0.0, Type::OpenBracket, 0));
     } else if(s == ')') {
       result.push_back(Token(0.0, Type::CloseBracket, 0));
@@ -302,23 +343,20 @@ bool isBinaryFunction(const Model::Token& token) {
          token.type == Model::Type::Mult ||
          token.type == Model::Type::Div ||
          token.type == Model::Type::Mod ||
-         token.type == Model::Type::Power ||
-         token.type == Model::Type::Log;    // ???    5log3 or log(5, 3)    ???
+         token.type == Model::Type::Power;
 }
 
-bool isUnaryLeftFunction(const Model::Token& token) {
-  return token.type == Model::Type::Sum ||
-         token.type == Model::Type::Minus;
-}
+
 
 bool isUnaryRightFunction(const Model::Token& token) {
-  return token.type == Model::Type::Sin ||
-         token.type == Model::Type::Cos ||
-         token.type == Model::Type::Tan ||
-         token.type == Model::Type::Asin ||
+  return token.type == Model::Type::Asin ||
          token.type == Model::Type::Acos ||
          token.type == Model::Type::Atan ||
          token.type == Model::Type::Sqrt ||
+         token.type == Model::Type::Sin ||
+         token.type == Model::Type::Cos ||
+         token.type == Model::Type::Tan ||
+         token.type == Model::Type::Log ||
          token.type == Model::Type::Ln;
 }
 
@@ -331,9 +369,7 @@ bool isClosingBrace(const Model::Token& token) {
   return token.type == Model::Type::CloseBracket;
 }
 
-bool isOpeningBrace(const Model::Token& token) {
-  return token.type == Model::Type::OpenBracket;
-}
+
 //(5)(+)
 static bool validateBraces(const std::vector<Model::Token>& tokens) {
   bool isPreviousOpen = false;
@@ -386,7 +422,7 @@ static bool validateBinary(const std::vector<Model::Token>& tokens) {
       continue;
     if (!isOperand(tokens[i - 1]) && !isClosingBrace(tokens[i - 1]))
       return false;
-    if (!isOperand(tokens[i + 1]) && !isOpeningBrace(tokens[i + 1]))
+    if (!isOperand(tokens[i + 1]) && !isOpeningBrace(tokens[i + 1]) && !isUnaryRightFunction(tokens[i + 1]))
       return false;
   }
   if (isBinaryFunction(tokens.back()))

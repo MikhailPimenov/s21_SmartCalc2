@@ -139,7 +139,17 @@ TEST(Validator, T10BracesUnary) {
   EXPECT_EQ(expected, actual);
 }
 
+TEST(Validator, T0MixedBraces) {
+  const std::string input_str("sqrt(4)-1/2*sin(3^2-2)");
+  s21::Model model;
+  
+  const std::optional<std::vector<s21::Model::Token>> tokens = model.parcer(input_str);
+  const bool actual = model.validate(tokens.value());
+   
 
+  const bool expected = true;
+  EXPECT_EQ(expected, actual);
+}
 
 
 TEST(Validator, T0SimpleBinaryFail) {
