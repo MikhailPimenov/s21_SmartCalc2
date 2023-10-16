@@ -5,6 +5,7 @@
 
 #include "../model/model.h"
 #include "../model/parcer.h"
+#include "../model/validator.h"
 
 namespace {
 
@@ -14,7 +15,8 @@ TEST(Validator, T0Simple) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -27,7 +29,8 @@ TEST(Validator, T1Simple) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -40,7 +43,8 @@ TEST(Validator, T2Simple) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -53,7 +57,8 @@ TEST(Validator, T3Braces) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -66,7 +71,8 @@ TEST(Validator, T4Braces) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -79,7 +85,8 @@ TEST(Validator, T5Braces) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -92,7 +99,8 @@ TEST(Validator, T6BracesUnary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -105,7 +113,8 @@ TEST(Validator, T7BracesUnary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -118,7 +127,8 @@ TEST(Validator, T8BracesUnary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -131,7 +141,8 @@ TEST(Validator, T9BracesUnary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -144,7 +155,8 @@ TEST(Validator, T10BracesUnary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -157,7 +169,8 @@ TEST(Validator, T0MixedBraces) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -171,7 +184,8 @@ TEST(Validator, T0SimpleBinaryFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -184,7 +198,8 @@ TEST(Validator, T1SimpleBinaryFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -197,7 +212,8 @@ TEST(Validator, T2SimpleBinaryFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -210,7 +226,8 @@ TEST(Validator, T3SimpleBinaryFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -223,7 +240,8 @@ TEST(Validator, T4SimpleBinaryFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -236,7 +254,8 @@ TEST(Validator, T5SimpleBinaryFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -249,7 +268,8 @@ TEST(Validator, T0MixedFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -262,7 +282,8 @@ TEST(Validator, T1MixedFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -275,7 +296,8 @@ TEST(Validator, T2MixedFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -288,7 +310,8 @@ TEST(Validator, T3MixedFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -301,7 +324,8 @@ TEST(Validator, T0NoOperandFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -314,7 +338,8 @@ TEST(Validator, T1NoOperandFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -327,7 +352,8 @@ TEST(Validator, T0BracesFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -340,7 +366,8 @@ TEST(Validator, T1BracesFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -353,7 +380,8 @@ TEST(Validator, T2BracesFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -366,7 +394,8 @@ TEST(Validator, T3BracesFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -381,7 +410,8 @@ TEST(Validator, T4BracesFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -394,7 +424,8 @@ TEST(Validator, T5BracesFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -407,7 +438,8 @@ TEST(Validator, T6BracesFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -421,7 +453,8 @@ TEST(Validator, T0UnaryFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -434,7 +467,8 @@ TEST(Validator, T1UnaryFail) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = false;
@@ -452,7 +486,8 @@ TEST(Validator, T0Unary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -465,7 +500,8 @@ TEST(Validator, T1Unary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -478,7 +514,8 @@ TEST(Validator, T2Unary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -491,7 +528,8 @@ TEST(Validator, T3Unary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -504,7 +542,8 @@ TEST(Validator, T4Unary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;
@@ -517,7 +556,8 @@ TEST(Validator, T5Unary) {
   
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
-  const bool actual = model.validate(tokens.value());
+  s21::Validator validator(tokens.value());
+const bool actual = validator.Run();
    
 
   const bool expected = true;

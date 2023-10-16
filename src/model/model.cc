@@ -9,23 +9,24 @@
 
 #include "calculatorRpn.h"
 #include "parcer.h"
+#include "validator.h"
 
 namespace s21 {
 
-bool isUnaryLeftFunction(const Model::Token& token) {
-  return token.type == Model::Type::Sum ||
-         token.type == Model::Type::Minus;
-}
+// bool isUnaryLeftFunction(const Model::Token& token) {
+//   return token.type == Model::Type::Sum ||
+//          token.type == Model::Type::Minus;
+// }
 
-bool isOpeningBrace(const Model::Token& token) {
-  return token.type == Model::Type::OpenBracket;
-}
+// bool isOpeningBrace(const Model::Token& token) {
+//   return token.type == Model::Type::OpenBracket;
+// }
 
 static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& tokens) {
   std::vector<Model::Token> result;
   result.reserve(4ull * tokens.size());
 
-  if (!isUnaryLeftFunction(tokens.front())) {
+  if (!Validator::isUnaryLeftFunction(tokens.front())) {
     result.push_back(tokens.front());
   } else if (tokens.front().type == Model::Type::Minus) {
     result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
@@ -35,10 +36,10 @@ static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& t
   }
 
   for (int i = 1; i < tokens.size(); ++i) {
-    if (tokens[i].type == Model::Type::Sum && isOpeningBrace(tokens[i - 1]))
+    if (tokens[i].type == Model::Type::Sum && Validator::isOpeningBrace(tokens[i - 1]))
       continue;
 
-    if (tokens[i].type == Model::Type::Minus && isOpeningBrace(tokens[i - 1])) {
+    if (tokens[i].type == Model::Type::Minus && Validator::isOpeningBrace(tokens[i - 1])) {
       result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
       result.emplace_back(-1.0, Model::Type::Number,        1);
       result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
@@ -64,8 +65,12 @@ int Model::Calculate(const std::string &input_str, double *result,
   if (!tokens.has_value())
     return ex_code;
 
-  if (!validate(tokens.value()))
+  Validator validator(tokens.value());
+  if (!validator.Run())
     return ex_code;
+
+  // if (!validate(tokens.value()))
+  //   return ex_code;
 
   const std::vector<Model::Token> tokensReplaced = replaceUnary(tokens.value());
   for (auto it = tokensReplaced.crbegin(); it != tokensReplaced.crend(); ++it)
@@ -249,114 +254,114 @@ int Model::Calculate(const std::string &input_str, double *result,
 // }
 
 
-bool isBinaryFunction(const Model::Token& token) {
-  return token.type == Model::Type::Sum ||
-         token.type == Model::Type::Minus ||
-         token.type == Model::Type::Mult ||
-         token.type == Model::Type::Div ||
-         token.type == Model::Type::Mod ||
-         token.type == Model::Type::Power;
-}
+// bool isBinaryFunction(const Model::Token& token) {
+//   return token.type == Model::Type::Sum ||
+//          token.type == Model::Type::Minus ||
+//          token.type == Model::Type::Mult ||
+//          token.type == Model::Type::Div ||
+//          token.type == Model::Type::Mod ||
+//          token.type == Model::Type::Power;
+// }
 
 
 
-bool isUnaryRightFunction(const Model::Token& token) {
-  return token.type == Model::Type::Asin ||
-         token.type == Model::Type::Acos ||
-         token.type == Model::Type::Atan ||
-         token.type == Model::Type::Sqrt ||
-         token.type == Model::Type::Sin ||
-         token.type == Model::Type::Cos ||
-         token.type == Model::Type::Tan ||
-         token.type == Model::Type::Log ||
-         token.type == Model::Type::Ln;
-}
+// bool isUnaryRightFunction(const Model::Token& token) {
+//   return token.type == Model::Type::Asin ||
+//          token.type == Model::Type::Acos ||
+//          token.type == Model::Type::Atan ||
+//          token.type == Model::Type::Sqrt ||
+//          token.type == Model::Type::Sin ||
+//          token.type == Model::Type::Cos ||
+//          token.type == Model::Type::Tan ||
+//          token.type == Model::Type::Log ||
+//          token.type == Model::Type::Ln;
+// }
 
-bool isOperand(const Model::Token& token) {
-  return token.type == Model::Type::Number ||
-         token.type == Model::Type::X;
-}
+// bool isOperand(const Model::Token& token) {
+//   return token.type == Model::Type::Number ||
+//          token.type == Model::Type::X;
+// }
 
-bool isClosingBrace(const Model::Token& token) {
-  return token.type == Model::Type::CloseBracket;
-}
+// bool isClosingBrace(const Model::Token& token) {
+//   return token.type == Model::Type::CloseBracket;
+// }
 
 
 //(5)(+)
-static bool validateBraces(const std::vector<Model::Token>& tokens) {
-  bool isPreviousOpen = false;
-  for (const Model::Token& token : tokens) {
-    if (isOpeningBrace(token)) {
-      isPreviousOpen = true;
-    }
-    else if (isClosingBrace(token)) {
-      if (isPreviousOpen)
-        return false;
-    } else if (isOperand(token)) {
-      isPreviousOpen = false;
-    }
-  }
-  std::stack<Model::Token> stack;
+// static bool validateBraces(const std::vector<Model::Token>& tokens) {
+//   bool isPreviousOpen = false;
+//   for (const Model::Token& token : tokens) {
+//     if (isOpeningBrace(token)) {
+//       isPreviousOpen = true;
+//     }
+//     else if (isClosingBrace(token)) {
+//       if (isPreviousOpen)
+//         return false;
+//     } else if (isOperand(token)) {
+//       isPreviousOpen = false;
+//     }
+//   }
+//   std::stack<Model::Token> stack;
 
 
-  for (const Model::Token& token : tokens) {
-    if (!isOpeningBrace(token) && !isClosingBrace(token))
-      continue;
+//   for (const Model::Token& token : tokens) {
+//     if (!isOpeningBrace(token) && !isClosingBrace(token))
+//       continue;
 
-    if (isOpeningBrace(token))
-      stack.push(token);
-    if (isClosingBrace(token)) {
-      if (stack.empty())
-        return false;
-      else
-        stack.pop();
-    }
-  }
+//     if (isOpeningBrace(token))
+//       stack.push(token);
+//     if (isClosingBrace(token)) {
+//       if (stack.empty())
+//         return false;
+//       else
+//         stack.pop();
+//     }
+//   }
 
-  return stack.empty(); 
-}
+//   return stack.empty(); 
+// }
 
 
-static bool validateUnary(const std::vector<Model::Token>& tokens) {
-  for (int i = 1; i < tokens.size(); ++i)
-    if (isUnaryLeftFunction(tokens[i]) && isUnaryLeftFunction(tokens[i - 1]))
-      return false;
+// static bool validateUnary(const std::vector<Model::Token>& tokens) {
+//   for (int i = 1; i < tokens.size(); ++i)
+//     if (isUnaryLeftFunction(tokens[i]) && isUnaryLeftFunction(tokens[i - 1]))
+//       return false;
 
-  return true;
-}
+//   return true;
+// }
 
-static bool validateBinary(const std::vector<Model::Token>& tokens) {
-  if (isBinaryFunction(tokens.front()) && !isUnaryLeftFunction(tokens.front()))
-    return false;
+// static bool validateBinary(const std::vector<Model::Token>& tokens) {
+//   if (isBinaryFunction(tokens.front()) && !isUnaryLeftFunction(tokens.front()))
+//     return false;
 
-  for (int i = 1; i < tokens.size() - 1; ++i) {
-    if (!isBinaryFunction(tokens[i]) || isUnaryLeftFunction(tokens[i]))
-      continue;
-    if (!isOperand(tokens[i - 1]) && !isClosingBrace(tokens[i - 1]))
-      return false;
-    if (!isOperand(tokens[i + 1]) && !isOpeningBrace(tokens[i + 1]) && !isUnaryRightFunction(tokens[i + 1]))
-      return false;
-  }
-  if (isBinaryFunction(tokens.back()))
-    return false;
-  if (isUnaryRightFunction(tokens.back()))
-    return false;
+//   for (int i = 1; i < tokens.size() - 1; ++i) {
+//     if (!isBinaryFunction(tokens[i]) || isUnaryLeftFunction(tokens[i]))
+//       continue;
+//     if (!isOperand(tokens[i - 1]) && !isClosingBrace(tokens[i - 1]))
+//       return false;
+//     if (!isOperand(tokens[i + 1]) && !isOpeningBrace(tokens[i + 1]) && !isUnaryRightFunction(tokens[i + 1]))
+//       return false;
+//   }
+//   if (isBinaryFunction(tokens.back()))
+//     return false;
+//   if (isUnaryRightFunction(tokens.back()))
+//     return false;
 
-  return true;
-}
+//   return true;
+// }
 
-bool Model::validate(const std::vector<Model::Token>& tokens) {
-  if (!validateBinary(tokens))
-    return false;
+// bool Model::validate(const std::vector<Model::Token>& tokens) {
+//   if (!validateBinary(tokens))
+//     return false;
 
-  if (!validateBraces(tokens))
-    return false;
+//   if (!validateBraces(tokens))
+//     return false;
 
-  if (!validateUnary(tokens))
-    return false;
+//   if (!validateUnary(tokens))
+//     return false;
 
-  return true;  
-}
+//   return true;  
+// }
 
 // std::optional<double> Model::calcRpn(std::stack<Token> &input, double x_value) {
 //   double result = 0.0;

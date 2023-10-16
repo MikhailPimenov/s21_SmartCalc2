@@ -27,6 +27,8 @@ SOURCES+=tests/test_validator.cc
 SOURCES+=model/model.cc
 SOURCES+=model/parcer.cc
 SOURCES+=model/calculatorRpn.cc
+SOURCES+=model/validator.h
+SOURCES+=model/validator.cc
 SOURCES+=model/bonus_model.cc
 
 REPORT_DIRECTORY=report
