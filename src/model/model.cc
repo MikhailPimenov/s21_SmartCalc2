@@ -22,11 +22,54 @@ namespace s21 {
 //   return token.type == Model::Type::OpenBracket;
 // }
 
+
+bool Model::Token::isUnaryLeftFunction() const {
+  return type == Type::Sum ||
+         type == Type::Minus;
+}
+
+bool Model::Token::isOpeningBrace() const {
+  return type == Type::OpenBracket;
+}
+
+bool Model::Token::isBinaryFunction() const {
+  return type == Type::Sum ||
+         type == Type::Minus ||
+         type == Type::Mult ||
+         type == Type::Div ||
+         type == Type::Mod ||
+         type == Type::Power;
+}
+
+bool Model::Token::isUnaryRightFunction() const {
+  return type == Type::Asin ||
+         type == Type::Acos ||
+         type == Type::Atan ||
+         type == Type::Sqrt ||
+         type == Type::Sin ||
+         type == Type::Cos ||
+         type == Type::Tan ||
+         type == Type::Log ||
+         type == Type::Ln;
+}
+
+bool Model::Token::isOperand() const {
+  return type == Type::Number ||
+         type == Type::X;
+}
+
+bool Model::Token::isClosingBrace() const {
+  return type == Type::CloseBracket;
+}
+
+
+
+
 static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& tokens) {
   std::vector<Model::Token> result;
   result.reserve(4ull * tokens.size());
 
-  if (!Validator::isUnaryLeftFunction(tokens.front())) {
+  if (!tokens.front().isUnaryLeftFunction()) {
     result.push_back(tokens.front());
   } else if (tokens.front().type == Model::Type::Minus) {
     result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
@@ -36,10 +79,10 @@ static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& t
   }
 
   for (int i = 1; i < tokens.size(); ++i) {
-    if (tokens[i].type == Model::Type::Sum && Validator::isOpeningBrace(tokens[i - 1]))
+    if (tokens[i].type == Model::Type::Sum && tokens[i - 1].isOpeningBrace())
       continue;
 
-    if (tokens[i].type == Model::Type::Minus && Validator::isOpeningBrace(tokens[i - 1])) {
+    if (tokens[i].type == Model::Type::Minus && tokens[i - 1].isOpeningBrace()) {
       result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
       result.emplace_back(-1.0, Model::Type::Number,        1);
       result.emplace_back( 0.0, Model::Type::CloseBracket,  0);

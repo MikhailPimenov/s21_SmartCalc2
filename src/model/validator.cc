@@ -7,47 +7,7 @@ namespace s21 {
 Validator::Validator(const std::vector<Model::Token>& input) : input_{input} {}
 
 
-bool Validator::isUnaryLeftFunction(const Model::Token& token) {
-  return token.type == Model::Type::Sum ||
-         token.type == Model::Type::Minus;
-}
 
-bool Validator::isOpeningBrace(const Model::Token& token) {
-  return token.type == Model::Type::OpenBracket;
-}
-
-
-bool Validator::isBinaryFunction(const Model::Token& token) {
-  return token.type == Model::Type::Sum ||
-         token.type == Model::Type::Minus ||
-         token.type == Model::Type::Mult ||
-         token.type == Model::Type::Div ||
-         token.type == Model::Type::Mod ||
-         token.type == Model::Type::Power;
-}
-
-
-
-bool Validator::isUnaryRightFunction(const Model::Token& token) {
-  return token.type == Model::Type::Asin ||
-         token.type == Model::Type::Acos ||
-         token.type == Model::Type::Atan ||
-         token.type == Model::Type::Sqrt ||
-         token.type == Model::Type::Sin ||
-         token.type == Model::Type::Cos ||
-         token.type == Model::Type::Tan ||
-         token.type == Model::Type::Log ||
-         token.type == Model::Type::Ln;
-}
-
-bool Validator::isOperand(const Model::Token& token) {
-  return token.type == Model::Type::Number ||
-         token.type == Model::Type::X;
-}
-
-bool Validator::isClosingBrace(const Model::Token& token) {
-  return token.type == Model::Type::CloseBracket;
-}
 
 
 
@@ -55,13 +15,13 @@ bool Validator::isClosingBrace(const Model::Token& token) {
 bool Validator::validateBraces() const {
   bool isPreviousOpen = false;
   for (const Model::Token& token : input_) {
-    if (isOpeningBrace(token)) {
+    if (token.isOpeningBrace()) {
       isPreviousOpen = true;
     }
-    else if (isClosingBrace(token)) {
+    else if (token.isClosingBrace()) {
       if (isPreviousOpen)
         return false;
-    } else if (isOperand(token)) {
+    } else if (token.isOperand()) {
       isPreviousOpen = false;
     }
   }
@@ -69,12 +29,12 @@ bool Validator::validateBraces() const {
 
 
   for (const Model::Token& token : input_) {
-    if (!isOpeningBrace(token) && !isClosingBrace(token))
+    if (!token.isOpeningBrace() && !token.isClosingBrace())
       continue;
 
-    if (isOpeningBrace(token))
+    if (token.isOpeningBrace())
       stack.push(token);
-    if (isClosingBrace(token)) {
+    if (token.isClosingBrace()) {
       if (stack.empty())
         return false;
       else
@@ -86,20 +46,20 @@ bool Validator::validateBraces() const {
 }
 
 bool Validator::validateBinary() const {
-  if (isBinaryFunction(input_.front()) && !isUnaryLeftFunction(input_.front()))
+  if (input_.front().isBinaryFunction() && !input_.front().isUnaryLeftFunction())
     return false;
 
   for (int i = 1; i < input_.size() - 1; ++i) {
-    if (!isBinaryFunction(input_[i]) || isUnaryLeftFunction(input_[i]))
+    if (!input_[i].isBinaryFunction() || input_[i].isUnaryLeftFunction())
       continue;
-    if (!isOperand(input_[i - 1]) && !isClosingBrace(input_[i - 1]))
+    if (!input_[i - 1].isOperand() && !input_[i - 1].isClosingBrace())
       return false;
-    if (!isOperand(input_[i + 1]) && !isOpeningBrace(input_[i + 1]) && !isUnaryRightFunction(input_[i + 1]))
+    if (!input_[i + 1].isOperand() && !input_[i + 1].isOpeningBrace() && !input_[i + 1].isUnaryRightFunction())
       return false;
   }
-  if (isBinaryFunction(input_.back()))
+  if (input_.back().isBinaryFunction())
     return false;
-  if (isUnaryRightFunction(input_.back()))
+  if (input_.back().isUnaryRightFunction())
     return false;
 
   return true;
@@ -107,7 +67,7 @@ bool Validator::validateBinary() const {
 
 bool Validator::validateUnary() const {
   for (int i = 1; i < input_.size(); ++i)
-    if (isUnaryLeftFunction(input_[i]) && isUnaryLeftFunction(input_[i - 1]))
+    if (input_[i].isUnaryLeftFunction() && input_[i - 1].isUnaryLeftFunction())
       return false;
 
   return true;

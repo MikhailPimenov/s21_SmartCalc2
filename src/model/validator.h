@@ -23,12 +23,7 @@ private:
 
 
 public:
-    static bool isUnaryLeftFunction(const Model::Token& token);
-    static bool isOpeningBrace(const Model::Token& token);
-    static bool isBinaryFunction(const Model::Token& token);
-    static bool isUnaryRightFunction(const Model::Token& token);
-    static bool isOperand(const Model::Token& token);
-    static bool isClosingBrace(const Model::Token& token);
+
 
 };  // class Validator
 
