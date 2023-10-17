@@ -78,13 +78,15 @@ class Model {
   };
 
  public:
-  static int Calculate(const std::string &input_str, double *result,
-                       double x_value);
-  static bool CalculateDeposit(const Protocol::DepositParameters &parameters,
+  // static int Calculate(const std::string &input_str, double *result,
+  //                      double x_value);
+  std::optional<double> Calculate(const std::string &input_str, double x_value);
+                       
+  bool CalculateDeposit(const Protocol::DepositParameters &parameters,
                                Protocol::DepositResult &result);
-  static bool CalculateCredit(const Protocol::CreditParameters &cp,
+  bool CalculateCredit(const Protocol::CreditParameters &cp,
                               Protocol::CreditResult &cr);
-  static int CalculateGraph(const Protocol::GraphParameters &gp,
+  int CalculateGraph(const Protocol::GraphParameters &gp,
                             Protocol::GraphResult &gr);
 
 //  private:

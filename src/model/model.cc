@@ -95,49 +95,28 @@ static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& t
   return result;
 }
 
-int Model::Calculate(const std::string &input_str, double *result,
-                     double x_value) {
+std::optional<double> Model::Calculate(const std::string &input_str, double x_value) {
   std::stack<Token> head;
   std::stack<Token> output;
   std::stack<Token> input;
-  // const int ex_code = parcer(input_str, head);
-  int ex_code = 1;
-  // std::optional<std::vector<Token>> tokens = parcer(input_str);
+
   Parcer parcer3(input_str);
   std::optional<std::vector<Token> > tokens = parcer3.Run();
   if (!tokens.has_value())
-    return ex_code;
+    return std::nullopt;
 
   Validator validator(tokens.value());
   if (!validator.Run())
-    return ex_code;
-
-  // if (!validate(tokens.value()))
-  //   return ex_code;
+    return std::nullopt;
 
   const std::vector<Model::Token> tokensReplaced = replaceUnary(tokens.value());
   for (auto it = tokensReplaced.crbegin(); it != tokensReplaced.crend(); ++it)
     head.push(*it);
 
-  // for (const Token& token : tokens.value())
-  //   head.push(token);
-
-  ex_code = 0;
-  if (ex_code == 0) {
-    shuntingYard(head, output);
-    flipStack(output, input);
-    // const std::optional<double> opt = calcRpn(input, x_value);
-    CalculatorRpn calculator(input, x_value);
-    const std::optional<double> opt = calculator.Run();
-    if (!opt.has_value())
-      return 1;
-    *result = opt.value();
-  } else {
-    while (!head.empty()) {
-      head.pop();
-    }
-  }
-  return ex_code;
+  shuntingYard(head, output);
+  flipStack(output, input);
+  CalculatorRpn calculator(input, x_value);
+  return calculator.Run();
 }
 
 
@@ -510,9 +489,11 @@ int Model::CalculateGraph(const Protocol::GraphParameters &gp,
   gr.y.resize(x_range);
   for (int i = 0; i < x_range && ex_code == 0; ++i) {
     gr.x[i] = gp.x_min + x_step * i;
-    double result = 0.0;
-    ex_code = Calculate(gp.input_string, &result, gr.x[i]);
-    gr.y[i] = result;
+    // double result = 0.0;
+    const std::optional<double> result = Calculate(gp.input_string, gr.x[i]);
+    if (!result.has_value())
+      return 1;
+    gr.y[i] = result.value();
   }
   return ex_code;
 }
