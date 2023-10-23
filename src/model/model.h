@@ -61,12 +61,12 @@ class Model {
    * Precedence defines the order of calculations
    */
   struct Token {
-    double value;     // TODO: rename value -> value_
-    Type type;
-    int precedence;
+    double value_;     // TODO: rename value -> value_
+    Type type_;
+    int precedence_;
 
    public:
-    Token(double v, Type t, int p) : value(v), type(t), precedence(p) {}
+    Token(double v, Type t, int p) : value_(v), type_(t), precedence_(p) {}
 
 
     bool isUnaryLeftFunction() const;

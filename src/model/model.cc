@@ -24,42 +24,42 @@ namespace s21 {
 
 
 bool Model::Token::isUnaryLeftFunction() const {
-  return type == Type::Sum ||
-         type == Type::Minus;
+  return type_ == Type::Sum ||
+         type_ == Type::Minus;
 }
 
 bool Model::Token::isOpeningBrace() const {
-  return type == Type::OpenBracket;
+  return type_ == Type::OpenBracket;
 }
 
 bool Model::Token::isBinaryFunction() const {
-  return type == Type::Sum ||
-         type == Type::Minus ||
-         type == Type::Mult ||
-         type == Type::Div ||
-         type == Type::Mod ||
-         type == Type::Power;
+  return type_ == Type::Sum ||
+         type_ == Type::Minus ||
+         type_ == Type::Mult ||
+         type_ == Type::Div ||
+         type_ == Type::Mod ||
+         type_ == Type::Power;
 }
 
 bool Model::Token::isUnaryRightFunction() const {
-  return type == Type::Asin ||
-         type == Type::Acos ||
-         type == Type::Atan ||
-         type == Type::Sqrt ||
-         type == Type::Sin ||
-         type == Type::Cos ||
-         type == Type::Tan ||
-         type == Type::Log ||
-         type == Type::Ln;
+  return type_ == Type::Asin ||
+         type_ == Type::Acos ||
+         type_ == Type::Atan ||
+         type_ == Type::Sqrt ||
+         type_ == Type::Sin ||
+         type_ == Type::Cos ||
+         type_ == Type::Tan ||
+         type_ == Type::Log ||
+         type_ == Type::Ln;
 }
 
 bool Model::Token::isOperand() const {
-  return type == Type::Number ||
-         type == Type::X;
+  return type_ == Type::Number ||
+         type_ == Type::X;
 }
 
 bool Model::Token::isClosingBrace() const {
-  return type == Type::CloseBracket;
+  return type_ == Type::CloseBracket;
 }
 
 
@@ -71,7 +71,7 @@ static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& t
 
   if (!tokens.front().isUnaryLeftFunction()) {
     result.push_back(tokens.front());
-  } else if (tokens.front().type == Model::Type::Minus) {
+  } else if (tokens.front().type_ == Model::Type::Minus) {
     result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
     result.emplace_back(-1.0, Model::Type::Number,        1);
     result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
@@ -79,10 +79,10 @@ static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& t
   }
 
   for (int i = 1; i < tokens.size(); ++i) {
-    if (tokens[i].type == Model::Type::Sum && tokens[i - 1].isOpeningBrace())
+    if (tokens[i].type_ == Model::Type::Sum && tokens[i - 1].isOpeningBrace())
       continue;
 
-    if (tokens[i].type == Model::Type::Minus && tokens[i - 1].isOpeningBrace()) {
+    if (tokens[i].type_ == Model::Type::Minus && tokens[i - 1].isOpeningBrace()) {
       result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
       result.emplace_back(-1.0, Model::Type::Number,        1);
       result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
@@ -423,44 +423,44 @@ std::optional<double> Model::Calculate(const std::string &input_str, double x_va
 void Model::shuntingYard(std::stack<Token> &head, std::stack<Token> &output) {
   std::stack<Token> stack;
   while (!head.empty()) {
-    if (head.top().type == Type::Number || head.top().type == Type::X) {
+    if (head.top().type_ == Type::Number || head.top().type_ == Type::X) {
       output.push(head.top());
       head.pop();
-    } else if (head.top().type == Type::OpenBracket) {
+    } else if (head.top().type_ == Type::OpenBracket) {
       stack.push(head.top());
       head.pop();
-    } else if (head.top().type == Type::CloseBracket) {
-      while (!stack.empty() && stack.top().type != Type::OpenBracket) {
+    } else if (head.top().type_ == Type::CloseBracket) {
+      while (!stack.empty() && stack.top().type_ != Type::OpenBracket) {
         output.push(stack.top());
         stack.pop();
       }
       stack.pop();
-      if (!stack.empty() && static_cast<int>(stack.top().type) > 10) {
+      if (!stack.empty() && static_cast<int>(stack.top().type_) > 10) {
         output.push(stack.top());
         stack.pop();
       }
       head.pop();
-    } else if (static_cast<int>(head.top().type) >=
+    } else if (static_cast<int>(head.top().type_) >=
                    static_cast<int>(Type::Sum) &&
-               static_cast<int>(head.top().type) <=
+               static_cast<int>(head.top().type_) <=
                    static_cast<int>(Type::Mod) &&
-               head.top().type != Type::Power) {
+               head.top().type_ != Type::Power) {
       while (!stack.empty() &&
-             (stack.top().precedence >= head.top().precedence)) {
+             (stack.top().precedence_ >= head.top().precedence_)) {
         output.push(stack.top());
         stack.pop();
       }
       stack.push(head.top());
       head.pop();
-    } else if (head.top().type == Type::Power) {
+    } else if (head.top().type_ == Type::Power) {
       while (!stack.empty() &&
-             (stack.top().precedence > head.top().precedence)) {
+             (stack.top().precedence_ > head.top().precedence_)) {
         output.push(stack.top());
         stack.pop();
       }
       stack.push(head.top());
       head.pop();
-    } else if (static_cast<int>(head.top().type) >=
+    } else if (static_cast<int>(head.top().type_) >=
                static_cast<int>(Type::Cos)) {
       stack.push(head.top());
       head.pop();

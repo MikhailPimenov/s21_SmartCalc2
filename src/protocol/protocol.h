@@ -1,8 +1,11 @@
 #ifndef SRC_PROTOCOL_PROTOCOL_H
 #define SRC_PROTOCOL_PROTOCOL_H
 
+#include <list>
 #include <string>
 #include <vector>
+
+#include "../model/model.h"
 
 namespace s21 {
 
@@ -175,7 +178,7 @@ namespace Protocol {
   struct GraphParameters {
     double x_max = 30.0;
     double x_min = -30.0;
-    std::string input_string;
+    std::list<Model::Token> input_string;
   };
   /**
    * @brief Parameters of calculated graph from model

@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <string>
 
 #include "../model/model.h"
 #include "../protocol/protocol.h"
@@ -203,7 +204,8 @@ TEST(Graph, T3IncorrectInput) {
   s21::Protocol::GraphParameters gp;
   gp.x_min = -30.0;
   gp.x_max = 30.0;
-  gp.input_string = "x + 1";
+  const std::string input_string = "x + 1";
+  
 
   s21::Protocol::GraphResult actual;
   const int status = s21::Model::CalculateGraph(gp, actual);

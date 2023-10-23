@@ -10,14 +10,14 @@
 namespace s21 {
 
 bool operator==(const Model::Token& left, const Model::Token& right) {
-    return left.type == right.type && left.precedence == right.precedence && std::abs(left.value - right.value) < 1e-6;
+    return left.type_ == right.type_ && left.precedence_ == right.precedence_ && std::abs(left.value_ - right.value_) < 1e-6;
 }
 bool operator!=(const Model::Token& left, const Model::Token& right) {
     return !(left == right);
 }
 
 std::ostream& operator<<(std::ostream& out, const Model::Token& object) {
-  out << "Token(" << object.value << ", " << static_cast<int>(object.type) << ", " << object.precedence << ')';
+  out << "Token(" << object.value_ << ", " << static_cast<int>(object.type_) << ", " << object.precedence_ << ')';
   return out;
 }
 

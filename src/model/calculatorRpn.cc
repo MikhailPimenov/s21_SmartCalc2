@@ -9,31 +9,31 @@ std::optional<double> CalculatorRpn::Run() {
   double result = 0.0;
   std::stack<Model::Token> stack;
   while (!rpn_.empty()) {
-    if (rpn_.top().type == Model::Type::Number) {
+    if (rpn_.top().type_ == Model::Type::Number) {
       stack.push(rpn_.top());
       rpn_.pop();
-    } else if (rpn_.top().type == Model::Type::X) {
-      rpn_.top().value = x_;
+    } else if (rpn_.top().type_ == Model::Type::X) {
+      rpn_.top().value_ = x_;
       stack.push(rpn_.top());
       rpn_.pop();
-    } else if (rpn_.top().type >= Model::Type::Sum && rpn_.top().type <= Model::Type::Mod &&
+    } else if (rpn_.top().type_ >= Model::Type::Sum && rpn_.top().type_ <= Model::Type::Mod &&
                !stack.empty()) {
-      double number2 = stack.top().value;
+      double number2 = stack.top().value_;
       stack.pop();
       if (stack.empty())
         return std::nullopt;
-      result = binaryFnCalc(stack.top().value, number2, rpn_.top().type);
+      result = binaryFnCalc(stack.top().value_, number2, rpn_.top().type_);
       stack.pop();
       rpn_.pop();
       stack.push(Model::Token(result, Model::Type::Number, 1));
-    } else if (rpn_.top().type >= Model::Type::Cos && !stack.empty()) {
-      result = unaryFnCalc(stack.top().value, rpn_.top().type);
+    } else if (rpn_.top().type_ >= Model::Type::Cos && !stack.empty()) {
+      result = unaryFnCalc(stack.top().value_, rpn_.top().type_);
       stack.pop();
       rpn_.pop();
       stack.push(Model::Token(result, Model::Type::Number, 1));
     }
   }
-  if (!stack.empty()) result = stack.top().value;
+  if (!stack.empty()) result = stack.top().value_;
   stack.pop();
   return result;
 }
