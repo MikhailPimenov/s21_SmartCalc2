@@ -65,7 +65,7 @@ bool Model::Token::isClosingBrace() const {
 
 
 
-static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& tokens) {
+std::vector<Model::Token> Model::replaceUnary(const std::vector<Model::Token>& tokens) {
   std::vector<Model::Token> result;
   result.reserve(4ull * tokens.size());
 
