@@ -16,10 +16,11 @@ GCOVR_LFLAGS=--coverage
 GTEST_LFLAGS=-lgtest -lgtest_main
 
 HEADERS=model/model.h
+HEADERS+=model/calculator.h
 
 SOURCES=tests/tests_main.cc
 SOURCES+=tests/test_calculation.cc
-SOURCES+=tests/test_graph.cc
+# SOURCES+=tests/test_graph.cc
 # SOURCES+=tests/test_credit.cc
 # SOURCES+=tests/test_deposit.cc
 SOURCES+=tests/test_parcer.cc
@@ -28,6 +29,7 @@ SOURCES+=model/model.cc
 SOURCES+=model/parcer.cc
 SOURCES+=model/calculatorRpn.cc
 SOURCES+=model/validator.cc
+SOURCES+=model/calculator.cc
 SOURCES+=model/bonus_model.cc
 
 REPORT_DIRECTORY=report

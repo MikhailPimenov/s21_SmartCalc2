@@ -78,8 +78,8 @@ class Model {
   };
 
  public:
-  // static int Calculate(const std::string &input_str, double *result,
-  //                      double x_value);
+  static int Calculate(const std::string &input_str, double *result,
+                       double x_value);
   std::optional<double> Calculate(const std::string &input_str, double x_value);
                        
   bool CalculateDeposit(const Protocol::DepositParameters &parameters,
@@ -89,9 +89,9 @@ class Model {
   int CalculateGraph(const Protocol::GraphParameters &gp,
                             Protocol::GraphResult &gr);
 
-//  private:
-  // static std::optional<std::vector<Token>> parcer(const std::string& input);
-  // static bool validate(const std::vector<Token>& tokens);
+ private:
+  static std::optional<std::vector<Token>> parcer(const std::string& input);
+  static bool validate(const std::vector<Token>& tokens);
 
   static int parcer2(const std::string &input_str, std::stack<Token> &head);
   static void shuntingYard(std::stack<Token> &head, std::stack<Token> &output);

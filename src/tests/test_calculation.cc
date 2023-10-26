@@ -5,6 +5,7 @@
 #include <optional>
 
 #include "../model/model.h"
+#include "../model/calculator.h"
 #include "../protocol/protocol.h"
 
 #define EPS 1e-7
@@ -16,10 +17,10 @@ namespace {
 
 TEST(ExpressionComputation, T0Simple) {
   const std::string input_str("1+2*3");
-  s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+  const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 7.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -31,7 +32,8 @@ TEST(ExpressionComputation, T1Simple) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+  const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 2.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -43,7 +45,8 @@ TEST(ExpressionComputation, T2SimpleBraces) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 26.9;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -55,7 +58,8 @@ TEST(ExpressionComputation, T3Simple) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 110.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -67,7 +71,8 @@ TEST(ExpressionComputation, T4SimpleMod) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 2.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -79,7 +84,8 @@ TEST(ExpressionComputation, T5SimpleBraces) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.5;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -91,7 +97,8 @@ TEST(ExpressionComputation, T6MoreBraces) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = -1.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -103,7 +110,8 @@ TEST(ExpressionComputation, T7MoreBraces) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 18.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -115,7 +123,8 @@ TEST(ExpressionComputation, T8MoreBraces) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 1.6715067;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -127,7 +136,8 @@ TEST(ExpressionComputation, T1Pows) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 512.0;
 
   EXPECT_EQ(result.has_value(), true);
@@ -140,7 +150,8 @@ TEST(ExpressionComputation, T4Simple) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 7.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -152,7 +163,8 @@ TEST(ExpressionComputation, T1Mod) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = -2.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -164,7 +176,8 @@ TEST(ExpressionComputation, T1LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 2.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -176,7 +189,8 @@ TEST(ExpressionComputation, T2LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 7.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -188,7 +202,8 @@ TEST(ExpressionComputation, T3LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = -8.0;
 
   EXPECT_EQ(result.has_value(), true);
@@ -201,7 +216,8 @@ TEST(ExpressionComputation, T4LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 7.0;
 
   EXPECT_EQ(result.has_value(), true);
@@ -214,7 +230,8 @@ TEST(ExpressionComputation, T5LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 7.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -226,7 +243,8 @@ TEST(ExpressionComputation, T6LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 7.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -238,7 +256,8 @@ TEST(ExpressionComputation, T7LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 7.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -250,7 +269,8 @@ TEST(ExpressionComputation, T8LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 7.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -262,7 +282,8 @@ TEST(ExpressionComputation, T9LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 7.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -274,7 +295,8 @@ TEST(ExpressionComputation, T10LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 251.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -286,7 +308,8 @@ TEST(ExpressionComputation, T11LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 2.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -298,7 +321,8 @@ TEST(ExpressionComputation, T12LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = -60.5;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -310,7 +334,8 @@ TEST(ExpressionComputation, T13LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 2.7950166;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -322,7 +347,8 @@ TEST(ExpressionComputation, T14LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 512.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -334,7 +360,8 @@ TEST(ExpressionComputation, T15LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 64.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -346,7 +373,8 @@ TEST(ExpressionComputation, T16LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = -0.3902501;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -358,7 +386,8 @@ TEST(ExpressionComputation, T17LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 1.2363555;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -370,7 +399,8 @@ TEST(ExpressionComputation, T18LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 215.6;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -382,7 +412,8 @@ TEST(ExpressionComputation, T19LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.7421823;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -393,7 +424,8 @@ TEST(ExpressionComputation, T20LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.8615000;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -404,7 +436,8 @@ TEST(ExpressionComputation, T21LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.0615000;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -416,7 +449,8 @@ TEST(ExpressionComputation, T22LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = -16.6666667;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -427,7 +461,8 @@ TEST(ExpressionComputation, T23LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.7876032;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -439,7 +474,8 @@ TEST(ExpressionComputation, T24LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.0223863;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -450,7 +486,8 @@ TEST(ExpressionComputation, T25LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 3.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -461,7 +498,8 @@ TEST(ExpressionComputation, T26LongEpression) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.1320633;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -472,7 +510,8 @@ TEST(ExpressionComputation, T1EpressionError) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   EXPECT_EQ(result.has_value(), false);
 }
 
@@ -481,7 +520,8 @@ TEST(ExpressionComputation, T2EpressionError) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   EXPECT_EQ(result.has_value(), false);
 }
 
@@ -490,7 +530,8 @@ TEST(ExpressionComputation, T3EpressionError) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   EXPECT_EQ(result.has_value(), false);
 }
 
@@ -499,7 +540,8 @@ TEST(ExpressionComputation, T4ExpressionCos) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -511,7 +553,8 @@ TEST(ExpressionComputation, T5ExpressionAcos) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 1.0471975;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -523,7 +566,8 @@ TEST(ExpressionComputation, T1ExpressionAtan) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const int ex_expected = 0;
   const double expected = 0.7853981;
   EXPECT_EQ(result.has_value(), true);
@@ -536,7 +580,8 @@ TEST(ExpressionComputation, T2ExpressionAtan) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 1.5042281;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -548,7 +593,8 @@ TEST(ExpressionComputation, T3ExpressionAsin) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 1.5707963;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -560,7 +606,8 @@ TEST(ExpressionComputation, T4ExpressionAsin) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.5235987;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -572,7 +619,8 @@ TEST(ExpressionComputation, T5ExpressionLen) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 0.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -584,7 +632,8 @@ TEST(ExpressionComputation, T6ExpressionLen) {
   s21::Model model;
 
   double x_value = 0.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 2.7080502;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -596,7 +645,8 @@ TEST(ExpressionComputation, T7ExpressionPow) {
   s21::Model model;
 
   double x_value = 3.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   const double expected = 15.0;
   EXPECT_EQ(result.has_value(), true);
   if (result.has_value())
@@ -608,7 +658,8 @@ TEST(ExpressionComputation, T0IncorrectStringInput) {
   s21::Model model;
 
   double x_value = 3.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   EXPECT_EQ(result.has_value(), false);
 }
 
@@ -617,7 +668,8 @@ TEST(ExpressionComputation, T1IncorrectStringInput) {
   s21::Model model;
 
   double x_value = 3.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   EXPECT_EQ(result.has_value(), false);
 }
 
@@ -626,7 +678,8 @@ TEST(ExpressionComputation, T2IncorrectStringInput) {
   s21::Model model;
 
   double x_value = 3.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   EXPECT_EQ(result.has_value(), false);
 }
 
@@ -635,7 +688,8 @@ TEST(ExpressionComputation, T3IncorrectStringInput) {
   s21::Model model;
 
   double x_value = 3.0;
-  const std::optional<double> result = model.Calculate(input_str, x_value);
+    const s21::Calculator calculator(input_str, x_value);
+  const std::optional<double> result = calculator.Run();
   EXPECT_EQ(result.has_value(), false);
 }
 

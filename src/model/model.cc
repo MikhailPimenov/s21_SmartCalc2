@@ -490,7 +490,8 @@ int Model::CalculateGraph(const Protocol::GraphParameters &gp,
   for (int i = 0; i < x_range && ex_code == 0; ++i) {
     gr.x[i] = gp.x_min + x_step * i;
     // double result = 0.0;
-    const std::optional<double> result = Calculate(gp.input_string, gr.x[i]);
+    // const std::optional<double> result = Calculate(gp.input_string, gr.x[i]);
+    const std::optional<double> result = std::nullopt;
     if (!result.has_value())
       return 1;
     gr.y[i] = result.value();

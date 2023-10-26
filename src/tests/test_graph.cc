@@ -6,6 +6,8 @@
 
 #include "../model/model.h"
 #include "../protocol/protocol.h"
+#include "../model/graphCalculator.h"
+#include "../model/parcer.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2
@@ -206,9 +208,15 @@ TEST(Graph, T3IncorrectInput) {
   gp.x_max = 30.0;
   const std::string input_string = "x + 1";
   
+  s21::Parcer parcer(input_string);
+  const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
+
 
   s21::Protocol::GraphResult actual;
-  const int status = s21::Model::CalculateGraph(gp, actual);
+  // const int status = s21::Model::CalculateGraph(gp, actual);
+  s21::GraphCalculator graphCalculator()
+  const std::optional<s21::Protocol::GraphResult>
+
   EXPECT_EQ(status, 1);
 }
 

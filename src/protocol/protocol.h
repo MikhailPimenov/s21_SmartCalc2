@@ -178,7 +178,7 @@ namespace Protocol {
   struct GraphParameters {
     double x_max = 30.0;
     double x_min = -30.0;
-    std::list<Model::Token> input_string;
+    std::stack<Model::Token> input_string;
   };
   /**
    * @brief Parameters of calculated graph from model

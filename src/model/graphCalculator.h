@@ -15,7 +15,7 @@ private:
     int numberOfPoints_;
 
 public:
-    explicit GraphCalculator(std::stack<Model::Token> rpn, double min = -30.0, double max = 30.0, int n = 10000);
+    GraphCalculator(std::stack<Model::Token> rpn, double min = -30.0, double max = 30.0, int n = 10000);
     std::optional<Protocol::GraphResult> Run();
 
 // private:
