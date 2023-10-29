@@ -18,20 +18,20 @@ GraphCalculator::GraphCalculator(std::stack<Model::Token> rpn,
 std::optional<Protocol::GraphResult> GraphCalculator::Run() {
   const double step = abs(maxX_ - minX_) / static_cast<double>(numberOfPoints_);
 
-  std::optional<Protocol::GraphResult> gr;
-  gr->x.resize(numberOfPoints_);
-  gr->y.resize(numberOfPoints_);
+  Protocol::GraphResult gr;
+  gr.x.resize(numberOfPoints_);
+  gr.y.resize(numberOfPoints_);
   for (int i = 0; i < numberOfPoints_; ++i) {
-    gr->x[i] = minX_ + step * i;
+    gr.x[i] = minX_ + step * i;
     
-    CalculatorRpn calculator(rpn_, gr->x[i]);
+    CalculatorRpn calculator(rpn_, gr.x[i]);
     const std::optional<double> result = calculator.Run();
     if (!result.has_value())
         return std::nullopt;
-    gr->y[i] = result.value();
-    std::cout << i << ' ' << gr->x[i] << ' ' << gr->y[i] << '\n';
+    gr.y[i] = result.value();
+    std::cout << i << ' ' << gr.x[i] << ' ' << gr.y[i] << '\n';
   }
-  return gr;
+  return std::optional<Protocol::GraphResult>(gr);
 }
 
 }   // namespace s21
