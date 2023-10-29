@@ -2,19 +2,18 @@
 #include "calculatorRpn.h"
 #include "parcer.h"
 #include "validator.h"
+#include "shuntingYard.h"
+#include "flipStack.h"
 
 #include "model.h"
 
 namespace s21 {
 
-Calculator::Calculator(const std::string& input, double x) : input_{input}, x_{x} {
-
-}
+Calculator::Calculator(const std::string& input, double x) : input_{input}, x_{x} {}
 
 std::optional<double> Calculator::Run() const {
-
-  Parcer parcer3(input_);
-  std::optional<std::vector<Model::Token> > tokens = parcer3.Run();
+  Parcer parcer(input_);
+  std::optional<std::vector<Model::Token> > tokens = parcer.Run();
   if (!tokens.has_value())
     return std::nullopt;
 
@@ -27,12 +26,13 @@ std::optional<double> Calculator::Run() const {
   for (auto it = tokensReplaced.crbegin(); it != tokensReplaced.crend(); ++it)
     head.push(*it);
 
-    // TODO: refactor that in OOP style
-  std::stack<Model::Token> output;
-  Model::shuntingYard(head, output);
-  std::stack<Model::Token> input;
-  Model::flipStack(output, input);
-  CalculatorRpn calculator(input, x_);
+  ShuntingYard shuntingYard(head);
+  std::stack<Model::Token> pn = shuntingYard.Run();
+
+  FlipStack flipStack(pn);
+  std::stack<Model::Token> rpn = flipStack.Run();
+
+  CalculatorRpn calculator(rpn, x_);
   return calculator.Run();
 }
 

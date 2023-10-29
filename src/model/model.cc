@@ -420,64 +420,64 @@ std::optional<double> Model::Calculate(const std::string &input_str, double x_va
 
 
 
-void Model::shuntingYard(std::stack<Token> &head, std::stack<Token> &output) {
-  std::stack<Token> stack;
-  while (!head.empty()) {
-    if (head.top().type_ == Type::Number || head.top().type_ == Type::X) {
-      output.push(head.top());
-      head.pop();
-    } else if (head.top().type_ == Type::OpenBracket) {
-      stack.push(head.top());
-      head.pop();
-    } else if (head.top().type_ == Type::CloseBracket) {
-      while (!stack.empty() && stack.top().type_ != Type::OpenBracket) {
-        output.push(stack.top());
-        stack.pop();
-      }
-      stack.pop();
-      if (!stack.empty() && static_cast<int>(stack.top().type_) > 10) {
-        output.push(stack.top());
-        stack.pop();
-      }
-      head.pop();
-    } else if (static_cast<int>(head.top().type_) >=
-                   static_cast<int>(Type::Sum) &&
-               static_cast<int>(head.top().type_) <=
-                   static_cast<int>(Type::Mod) &&
-               head.top().type_ != Type::Power) {
-      while (!stack.empty() &&
-             (stack.top().precedence_ >= head.top().precedence_)) {
-        output.push(stack.top());
-        stack.pop();
-      }
-      stack.push(head.top());
-      head.pop();
-    } else if (head.top().type_ == Type::Power) {
-      while (!stack.empty() &&
-             (stack.top().precedence_ > head.top().precedence_)) {
-        output.push(stack.top());
-        stack.pop();
-      }
-      stack.push(head.top());
-      head.pop();
-    } else if (static_cast<int>(head.top().type_) >=
-               static_cast<int>(Type::Cos)) {
-      stack.push(head.top());
-      head.pop();
-    }
-  }
-  while (!stack.empty()) {
-    output.push(stack.top());
-    stack.pop();
-  }
-}
+// void Model::shuntingYard(std::stack<Token> &head, std::stack<Token> &output) {
+//   std::stack<Token> stack;
+//   while (!head.empty()) {
+//     if (head.top().type_ == Type::Number || head.top().type_ == Type::X) {
+//       output.push(head.top());
+//       head.pop();
+//     } else if (head.top().type_ == Type::OpenBracket) {
+//       stack.push(head.top());
+//       head.pop();
+//     } else if (head.top().type_ == Type::CloseBracket) {
+//       while (!stack.empty() && stack.top().type_ != Type::OpenBracket) {
+//         output.push(stack.top());
+//         stack.pop();
+//       }
+//       stack.pop();
+//       if (!stack.empty() && static_cast<int>(stack.top().type_) > 10) {
+//         output.push(stack.top());
+//         stack.pop();
+//       }
+//       head.pop();
+//     } else if (static_cast<int>(head.top().type_) >=
+//                    static_cast<int>(Type::Sum) &&
+//                static_cast<int>(head.top().type_) <=
+//                    static_cast<int>(Type::Mod) &&
+//                head.top().type_ != Type::Power) {
+//       while (!stack.empty() &&
+//              (stack.top().precedence_ >= head.top().precedence_)) {
+//         output.push(stack.top());
+//         stack.pop();
+//       }
+//       stack.push(head.top());
+//       head.pop();
+//     } else if (head.top().type_ == Type::Power) {
+//       while (!stack.empty() &&
+//              (stack.top().precedence_ > head.top().precedence_)) {
+//         output.push(stack.top());
+//         stack.pop();
+//       }
+//       stack.push(head.top());
+//       head.pop();
+//     } else if (static_cast<int>(head.top().type_) >=
+//                static_cast<int>(Type::Cos)) {
+//       stack.push(head.top());
+//       head.pop();
+//     }
+//   }
+//   while (!stack.empty()) {
+//     output.push(stack.top());
+//     stack.pop();
+//   }
+// }
 
-void Model::flipStack(std::stack<Token> input, std::stack<Token> &output) {
-  while (!input.empty()) {
-    output.push(input.top());
-    input.pop();
-  }
-}
+// void Model::flipStack(std::stack<Token> input, std::stack<Token> &output) {
+//   while (!input.empty()) {
+//     output.push(input.top());
+//     input.pop();
+//   }
+// }
 
 int Model::CalculateGraph(const Protocol::GraphParameters &gp,
                           Protocol::GraphResult &gr) {

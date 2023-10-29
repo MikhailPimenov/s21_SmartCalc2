@@ -95,12 +95,12 @@ public:
   static bool validate(const std::vector<Token>& tokens);
 
   static int parcer2(const std::string &input_str, std::stack<Token> &head);
-  static void shuntingYard(std::stack<Token> &head, std::stack<Token> &output);
+  // static void shuntingYard(std::stack<Token> &head, std::stack<Token> &output);
   // static std::optional<double> calcRpn(std::stack<Token> &output, double x_value);
   static std::vector<Model::Token> replaceUnary(const std::vector<Model::Token>& tokens);
   static double unaryFnCalc(double number1, Type type);
   static double binaryFnCalc(double number1, double number2, Type type);
-  static void flipStack(std::stack<Token> input, std::stack<Token> &output);
+  // static void flipStack(std::stack<Token> input, std::stack<Token> &output);
 };
 
 
