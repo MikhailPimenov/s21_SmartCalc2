@@ -75,7 +75,6 @@ bool Validator::validateUnary() const {
 
 
 bool Validator::Run() const {
-    // bool Model::validate(const std::vector<Model::Token>& tokens) {
   if (!validateBinary())
     return false;
 

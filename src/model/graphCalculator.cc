@@ -1,20 +1,19 @@
 #include "graphCalculator.h"
 #include "calculatorRpn.h"
 
+#include <iostream>
+
 namespace s21 {
 
 
 GraphCalculator::GraphCalculator(std::stack<Model::Token> rpn, 
-                                 double min = -30.0, 
-                                 double max = 30.0, 
-                                 int n = 10000) : 
+                                 double min /* = -30.0 */, 
+                                 double max /* = 30.0 */, 
+                                 int n /* = 10000 */) : 
                                  rpn_{rpn},
                                  minX_{min},
                                  maxX_{max},
-                                 numberOfPoints_{n}
-{
-
-}
+                                 numberOfPoints_{n} {}
 
 std::optional<Protocol::GraphResult> GraphCalculator::Run() {
   const double step = abs(maxX_ - minX_) / static_cast<double>(numberOfPoints_);
@@ -30,6 +29,7 @@ std::optional<Protocol::GraphResult> GraphCalculator::Run() {
     if (!result.has_value())
         return std::nullopt;
     gr->y[i] = result.value();
+    std::cout << i << ' ' << gr->x[i] << ' ' << gr->y[i] << '\n';
   }
   return gr;
 }

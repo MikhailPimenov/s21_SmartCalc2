@@ -9,16 +9,10 @@ Parcer::Parcer(const std::string& input) : input_{input} {}
 
 std::optional<std::vector<Model::Token> > Parcer::Run() const {
 
-// std::optional<std::vector<Model::Token>> Model::parcer(const std::string &input_str) {
-// пройтись по всей входной строке
-// если число, добавить число
-// если скобка, добавить скобку
-// если функция (+-*/ синус косинус и почее), добавить функцию
   std::vector<Model::Token> result;
   result.reserve(input_.size());
-  // return std::nullopt;
+  
   for(int i = 0; i < input_.size(); i++) {
-    // std::cout << "aaa\n"; 
     const char s = input_[i];
 
     if (s == '(') {

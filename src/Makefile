@@ -20,7 +20,7 @@ HEADERS+=model/calculator.h
 
 SOURCES=tests/tests_main.cc
 SOURCES+=tests/test_calculation.cc
-# SOURCES+=tests/test_graph.cc
+SOURCES+=tests/test_graph.cc
 # SOURCES+=tests/test_credit.cc
 # SOURCES+=tests/test_deposit.cc
 SOURCES+=tests/test_parcer.cc
@@ -33,6 +33,7 @@ SOURCES+=model/unaryReplacer.cc
 SOURCES+=model/shuntingYard.cc
 SOURCES+=model/flipStack.cc
 SOURCES+=model/calculator.cc
+SOURCES+=model/graphCalculator.cc
 SOURCES+=model/bonus_model.cc
 
 REPORT_DIRECTORY=report
