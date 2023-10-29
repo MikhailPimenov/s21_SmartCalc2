@@ -65,59 +65,59 @@ bool Model::Token::isClosingBrace() const {
 
 
 
-std::vector<Model::Token> Model::replaceUnary(const std::vector<Model::Token>& tokens) {
-  std::vector<Model::Token> result;
-  result.reserve(4ull * tokens.size());
+// std::vector<Model::Token> Model::replaceUnary(const std::vector<Model::Token>& tokens) {
+//   std::vector<Model::Token> result;
+//   result.reserve(4ull * tokens.size());
 
-  if (!tokens.front().isUnaryLeftFunction()) {
-    result.push_back(tokens.front());
-  } else if (tokens.front().type_ == Model::Type::Minus) {
-    result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
-    result.emplace_back(-1.0, Model::Type::Number,        1);
-    result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
-    result.emplace_back( 0.0, Model::Type::Mult,          8);
-  }
+//   if (!tokens.front().isUnaryLeftFunction()) {
+//     result.push_back(tokens.front());
+//   } else if (tokens.front().type_ == Model::Type::Minus) {
+//     result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
+//     result.emplace_back(-1.0, Model::Type::Number,        1);
+//     result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
+//     result.emplace_back( 0.0, Model::Type::Mult,          8);
+//   }
 
-  for (int i = 1; i < tokens.size(); ++i) {
-    if (tokens[i].type_ == Model::Type::Sum && tokens[i - 1].isOpeningBrace())
-      continue;
+//   for (int i = 1; i < tokens.size(); ++i) {
+//     if (tokens[i].type_ == Model::Type::Sum && tokens[i - 1].isOpeningBrace())
+//       continue;
 
-    if (tokens[i].type_ == Model::Type::Minus && tokens[i - 1].isOpeningBrace()) {
-      result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
-      result.emplace_back(-1.0, Model::Type::Number,        1);
-      result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
-      result.emplace_back( 0.0, Model::Type::Mult,          8);
-      continue;
-    }
-    result.push_back(tokens[i]);
-  }
+//     if (tokens[i].type_ == Model::Type::Minus && tokens[i - 1].isOpeningBrace()) {
+//       result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
+//       result.emplace_back(-1.0, Model::Type::Number,        1);
+//       result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
+//       result.emplace_back( 0.0, Model::Type::Mult,          8);
+//       continue;
+//     }
+//     result.push_back(tokens[i]);
+//   }
 
-  return result;
-}
+//   return result;
+// }
 
-std::optional<double> Model::Calculate(const std::string &input_str, double x_value) {
-  std::stack<Token> head;
-  std::stack<Token> output;
-  std::stack<Token> input;
+// std::optional<double> Model::Calculate(const std::string &input_str, double x_value) {
+//   std::stack<Token> head;
+//   std::stack<Token> output;
+//   std::stack<Token> input;
 
-  Parcer parcer3(input_str);
-  std::optional<std::vector<Token> > tokens = parcer3.Run();
-  if (!tokens.has_value())
-    return std::nullopt;
+//   Parcer parcer3(input_str);
+//   std::optional<std::vector<Token> > tokens = parcer3.Run();
+//   if (!tokens.has_value())
+//     return std::nullopt;
 
-  Validator validator(tokens.value());
-  if (!validator.Run())
-    return std::nullopt;
+//   Validator validator(tokens.value());
+//   if (!validator.Run())
+//     return std::nullopt;
 
-  const std::vector<Model::Token> tokensReplaced = replaceUnary(tokens.value());
-  for (auto it = tokensReplaced.crbegin(); it != tokensReplaced.crend(); ++it)
-    head.push(*it);
+//   const std::vector<Model::Token> tokensReplaced = replaceUnary(tokens.value());
+//   for (auto it = tokensReplaced.crbegin(); it != tokensReplaced.crend(); ++it)
+//     head.push(*it);
 
-  shuntingYard(head, output);
-  flipStack(output, input);
-  CalculatorRpn calculator(input, x_value);
-  return calculator.Run();
-}
+//   shuntingYard(head, output);
+//   flipStack(output, input);
+//   CalculatorRpn calculator(input, x_value);
+//   return calculator.Run();
+// }
 
 
 

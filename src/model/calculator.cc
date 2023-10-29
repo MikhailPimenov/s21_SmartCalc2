@@ -4,6 +4,7 @@
 #include "validator.h"
 #include "shuntingYard.h"
 #include "flipStack.h"
+#include "unaryReplacer.h"
 
 #include "model.h"
 
@@ -21,7 +22,9 @@ std::optional<double> Calculator::Run() const {
   if (!validator.Run())
     return std::nullopt;
 
-  const std::vector<Model::Token> tokensReplaced = Model::replaceUnary(tokens.value());
+  UnaryReplacer unaryReplacer(tokens.value());
+  const std::vector<Model::Token> tokensReplaced = unaryReplacer.Run();
+
   std::stack<Model::Token> head;
   for (auto it = tokensReplaced.crbegin(); it != tokensReplaced.crend(); ++it)
     head.push(*it);

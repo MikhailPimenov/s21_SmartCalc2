@@ -12,7 +12,7 @@ private:
 
 public:
     ShuntingYard(std::stack<Model::Token> &input);
-    std::stack<Model::Token> ShuntingYard::Run();
+    std::stack<Model::Token> Run();
 };
 
 }   // namespace s21

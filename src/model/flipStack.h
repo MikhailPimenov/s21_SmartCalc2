@@ -12,7 +12,7 @@ private:
 
 public:
     FlipStack(std::stack<Model::Token> &input);
-    std::stack<Model::Token> FlipStack::Run();
+    std::stack<Model::Token> Run();
 };
 
 }   // namespace s21
