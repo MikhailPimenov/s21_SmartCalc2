@@ -52,77 +52,152 @@ bool operator==(const Protocol::GraphResult &left,
 
 namespace {
 
-// TEST(Graph, T0Simple) {
-//   s21::Protocol::GraphParameters gp;
-//   gp.x_min = -30.0;
-//   gp.x_max = 30.0;
-//   gp.input_string = "x";
-//   s21::Protocol::GraphResult expected;
+TEST(Graph, T0Simple) {
+  const std::string input_string = "x";
+  s21::Parcer parcer(input_string);
+  const auto parced = parcer.Run();
+  EXPECT_TRUE(parced.has_value());
+  if (!parced.has_value())
+    return;
+  
+  s21::Validator validator(parced.value());
+  const bool isValid = validator.Run();
+  EXPECT_TRUE(isValid);
+  if (!isValid)
+    return;
 
-//   static constexpr double x_range = 10000.0;
-//   double x_step = abs(gp.x_max - gp.x_min) / x_range;
-//   int ex_code = 0;
+  s21::UnaryReplacer unaryReplacer(parced.value());
+  const auto replaced = unaryReplacer.Run();
 
-//   expected.x.resize(x_range);
-//   expected.y.resize(x_range);
-//   for (int i = 0; i < x_range && ex_code == 0; ++i) {
-//     expected.x[i] = gp.x_min + x_step * i;
-//     expected.y[i] = expected.x[i];
-//   }
+  std::stack<s21::Model::Token> head;
+  for (auto it = replaced.crbegin(); it != replaced.crend(); ++it)
+    head.push(*it);
 
-//   s21::Protocol::GraphResult actual;
-//   const int status = s21::Model::CalculateGraph(gp, actual);
-//   EXPECT_EQ(status, 0);
-//   EXPECT_EQ(expected, actual);
-// }
+  s21::ShuntingYard shuntingYard(head);
+  std::stack<s21::Model::Token> pn = shuntingYard.Run();
 
-// TEST(Graph, T1Simple) {
-//   s21::Protocol::GraphParameters gp;
-//   gp.x_min = -30.0;
-//   gp.x_max = 30.0;
-//   gp.input_string = "2*x";
-//   s21::Protocol::GraphResult expected;
+  s21::FlipStack flipStack(pn);
+  std::stack<s21::Model::Token> rpn = flipStack.Run();
 
-//   static constexpr double x_range = 10000.0;
-//   double x_step = abs(gp.x_max - gp.x_min) / x_range;
-//   int ex_code = 0;
+  const double x_max = 30.0;
+  const double x_min = -30.0;
+  static constexpr int x_range = 10000;
+  const double x_step = abs(x_max - x_min) / static_cast<double>(x_range);
 
-//   expected.x.resize(x_range);
-//   expected.y.resize(x_range);
-//   for (int i = 0; i < x_range && ex_code == 0; ++i) {
-//     expected.x[i] = gp.x_min + x_step * i;
-//     expected.y[i] = 2.0 * expected.x[i];
-//   }
+  s21::Protocol::GraphResult expected;
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range; ++i) {
+    expected.x[i] = x_min + x_step * static_cast<double>(i);
+    expected.y[i] = expected.x[i];
+  }
 
-//   s21::Protocol::GraphResult actual;
-//   const int status = s21::Model::CalculateGraph(gp, actual);
-//   EXPECT_EQ(status, 0);
-//   EXPECT_EQ(expected, actual);
-// }
+  s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
+  
+  EXPECT_TRUE(actual.has_value());
+  if (!actual.has_value())
+    return;
+  EXPECT_EQ(expected, actual.value());
+}
 
-// TEST(Graph, T2Simple) {
-//   s21::Protocol::GraphParameters gp;
-//   gp.x_min = -30.0;
-//   gp.x_max = 30.0;
-//   gp.input_string = "2*x+1";
-//   s21::Protocol::GraphResult expected;
+TEST(Graph, T1Simple) {
+  const std::string input_string = "2*x";
+  s21::Parcer parcer(input_string);
+  const auto parced = parcer.Run();
+  EXPECT_TRUE(parced.has_value());
+  if (!parced.has_value())
+    return;
+  
+  s21::Validator validator(parced.value());
+  const bool isValid = validator.Run();
+  EXPECT_TRUE(isValid);
+  if (!isValid)
+    return;
 
-//   static constexpr double x_range = 10000.0;
-//   double x_step = abs(gp.x_max - gp.x_min) / x_range;
-//   int ex_code = 0;
+  s21::UnaryReplacer unaryReplacer(parced.value());
+  const auto replaced = unaryReplacer.Run();
 
-//   expected.x.resize(x_range);
-//   expected.y.resize(x_range);
-//   for (int i = 0; i < x_range && ex_code == 0; ++i) {
-//     expected.x[i] = gp.x_min + x_step * i;
-//     expected.y[i] = 2.0 * expected.x[i] + 1.0;
-//   }
+  std::stack<s21::Model::Token> head;
+  for (auto it = replaced.crbegin(); it != replaced.crend(); ++it)
+    head.push(*it);
 
-//   s21::Protocol::GraphResult actual;
-//   const int status = s21::Model::CalculateGraph(gp, actual);
-//   EXPECT_EQ(status, 0);
-//   EXPECT_EQ(expected, actual);
-// }
+  s21::ShuntingYard shuntingYard(head);
+  std::stack<s21::Model::Token> pn = shuntingYard.Run();
+
+  s21::FlipStack flipStack(pn);
+  std::stack<s21::Model::Token> rpn = flipStack.Run();
+
+  const double x_max = 30.0;
+  const double x_min = -30.0;
+  static constexpr int x_range = 10000;
+  const double x_step = abs(x_max - x_min) / static_cast<double>(x_range);
+
+  s21::Protocol::GraphResult expected;
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range; ++i) {
+    expected.x[i] = x_min + x_step * static_cast<double>(i);
+    expected.y[i] = 2.0 * expected.x[i];
+  }
+
+  s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
+  
+  EXPECT_TRUE(actual.has_value());
+  if (!actual.has_value())
+    return;
+  EXPECT_EQ(expected, actual.value());
+}
+
+TEST(Graph, T2Simple) {
+  const std::string input_string = "2*x+1";
+  s21::Parcer parcer(input_string);
+  const auto parced = parcer.Run();
+  EXPECT_TRUE(parced.has_value());
+  if (!parced.has_value())
+    return;
+  
+  s21::Validator validator(parced.value());
+  const bool isValid = validator.Run();
+  EXPECT_TRUE(isValid);
+  if (!isValid)
+    return;
+
+  s21::UnaryReplacer unaryReplacer(parced.value());
+  const auto replaced = unaryReplacer.Run();
+
+  std::stack<s21::Model::Token> head;
+  for (auto it = replaced.crbegin(); it != replaced.crend(); ++it)
+    head.push(*it);
+
+  s21::ShuntingYard shuntingYard(head);
+  std::stack<s21::Model::Token> pn = shuntingYard.Run();
+
+  s21::FlipStack flipStack(pn);
+  std::stack<s21::Model::Token> rpn = flipStack.Run();
+
+  const double x_max = 30.0;
+  const double x_min = -30.0;
+  static constexpr int x_range = 10000;
+  const double x_step = abs(x_max - x_min) / static_cast<double>(x_range);
+
+  s21::Protocol::GraphResult expected;
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range; ++i) {
+    expected.x[i] = x_min + x_step * static_cast<double>(i);
+    expected.y[i] = 2.0 * expected.x[i] + 1.0;
+  }
+
+  s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
+  
+  EXPECT_TRUE(actual.has_value());
+  if (!actual.has_value())
+    return;
+  EXPECT_EQ(expected, actual.value());
+}
 
 TEST(Graph, T3Simple) {
   const std::string input_string = "-x";
@@ -164,27 +239,9 @@ TEST(Graph, T3Simple) {
     expected.y[i] = -1.0 * expected.x[i];
   }
 
-  // s21::Protocol::GraphResult actual;
   s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
-
-
-
   
-//   for (int i = 0; i < result.value(); ++i) {
-//     gr->x[i] = minX_ + step * i;
-    
-//     CalculatorRpn calculator(rpn_, gr->x[i]);
-//     const std::optional<double> result = calculator.Run();
-//     if (!result.has_value())
-//         return std::nullopt;
-//     gr->y[i] = result.value();
-//     std::cout << i << ' ' << gr->x[i] << ' ' << gr->y[i] << '\n';
-//   }
-//   return gr;
-// }
-
-
 
   EXPECT_TRUE(actual.has_value());
   if (!actual.has_value())
@@ -192,81 +249,55 @@ TEST(Graph, T3Simple) {
   EXPECT_EQ(expected, actual.value());
 }
 
-// TEST(Graph, T0Complex) {
-//   s21::Protocol::GraphParameters gp;
-//   gp.x_min = -30.0;
-//   gp.x_max = 30.0;
-//   gp.input_string = "2*(x+1)*sin(4-x)*x";
-//   s21::Protocol::GraphResult expected;
-
-//   static constexpr double x_range = 10000.0;
-//   double x_step = abs(gp.x_max - gp.x_min) / x_range;
-//   int ex_code = 0;
-
-//   expected.x.resize(x_range);
-//   expected.y.resize(x_range);
-//   for (int i = 0; i < x_range && ex_code == 0; ++i) {
-//     expected.x[i] = gp.x_min + x_step * i;
-//     expected.y[i] = 2.0 * (expected.x[i] + 1.0) *
-//                     std::sin(4.0 - expected.x[i]) * expected.x[i];
-//   }
-
-//   s21::Protocol::GraphResult actual;
-//   const int status = s21::Model::CalculateGraph(gp, actual);
-//   EXPECT_EQ(status, 0);
-//   EXPECT_EQ(expected, actual);
-// }
-
-// TEST(Graph, T0IncorrectInput) {
-//   s21::Protocol::GraphParameters gp;
-//   gp.x_min = -30.0;
-//   gp.x_max = 30.0;
-//   gp.input_string = "2*(x+1(*sin(4-x)*x";
-
-//   s21::Protocol::GraphResult actual;
-//   const int status = s21::Model::CalculateGraph(gp, actual);
-//   EXPECT_EQ(status, 1);
-// }
-
-// TEST(Graph, T1IncorrectInput) {
-//   s21::Protocol::GraphParameters gp;
-//   gp.x_min = -30.0;
-//   gp.x_max = 30.0;
-//   gp.input_string = "2*(x+1()(((*sin(4-x)*x";
-
-//   s21::Protocol::GraphResult actual;
-//   const int status = s21::Model::CalculateGraph(gp, actual);
-//   EXPECT_EQ(status, 1);
-// }
-
-// TEST(Graph, T2IncorrectInput) {
-//   s21::Protocol::GraphParameters gp;
-//   gp.x_min = -30.0;
-//   gp.x_max = 30.0;
-//   gp.input_string = "hello";
-
-//   s21::Protocol::GraphResult actual;
-//   const int status = s21::Model::CalculateGraph(gp, actual);
-//   EXPECT_EQ(status, 1);
-// }
-
-// TEST(Graph, T3IncorrectInput) {
-//   s21::Protocol::GraphParameters gp;
-//   gp.x_min = -30.0;
-//   gp.x_max = 30.0;
-//   const std::string input_string = "x + 1";
+TEST(Graph, T0Complex) {
+  const std::string input_string = "2*(x+1)*sin(4-x)*x";
+  s21::Parcer parcer(input_string);
+  const auto parced = parcer.Run();
+  EXPECT_TRUE(parced.has_value());
+  if (!parced.has_value())
+    return;
   
-//   s21::Parcer parcer(input_string);
-//   const std::optional<std::vector<s21::Model::Token>> tokens = parcer.Run();
+  s21::Validator validator(parced.value());
+  const bool isValid = validator.Run();
+  EXPECT_TRUE(isValid);
+  if (!isValid)
+    return;
 
+  s21::UnaryReplacer unaryReplacer(parced.value());
+  const auto replaced = unaryReplacer.Run();
 
-//   s21::Protocol::GraphResult actual;
-//   // const int status = s21::Model::CalculateGraph(gp, actual);
-//   s21::GraphCalculator graphCalculator()
-//   const std::optional<s21::Protocol::GraphResult>
+  std::stack<s21::Model::Token> head;
+  for (auto it = replaced.crbegin(); it != replaced.crend(); ++it)
+    head.push(*it);
 
-//   EXPECT_EQ(status, 1);
-// }
+  s21::ShuntingYard shuntingYard(head);
+  std::stack<s21::Model::Token> pn = shuntingYard.Run();
+
+  s21::FlipStack flipStack(pn);
+  std::stack<s21::Model::Token> rpn = flipStack.Run();
+
+  const double x_max = 30.0;
+  const double x_min = -30.0;
+  static constexpr int x_range = 10000;
+  const double x_step = abs(x_max - x_min) / static_cast<double>(x_range);
+
+  s21::Protocol::GraphResult expected;
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range; ++i) {
+    expected.x[i] = x_min + x_step * static_cast<double>(i);
+    expected.y[i] = 2.0 * (expected.x[i] + 1.0) *
+                    std::sin(4.0 - expected.x[i]) * expected.x[i];
+  }
+
+  s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
+  
+  EXPECT_TRUE(actual.has_value());
+  if (!actual.has_value())
+    return;
+  EXPECT_EQ(expected, actual.value());
+}
 
 }  // namespace
 

@@ -1,8 +1,6 @@
 #include "graphCalculator.h"
 #include "calculatorRpn.h"
 
-#include <iostream>
-
 namespace s21 {
 
 
@@ -29,7 +27,6 @@ std::optional<Protocol::GraphResult> GraphCalculator::Run() {
     if (!result.has_value())
         return std::nullopt;
     gr.y[i] = result.value();
-    std::cout << i << ' ' << gr.x[i] << ' ' << gr.y[i] << '\n';
   }
   return std::optional<Protocol::GraphResult>(gr);
 }
