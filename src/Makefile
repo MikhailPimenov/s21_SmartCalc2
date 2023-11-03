@@ -4,7 +4,7 @@ CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g
 #-Werror
 CCOV=-fprofile-arcs -ftest-coverage
 COVFLAGS=$(shell pkg-config --cflags --libs gcovr)
-LDFLAGS = -lgcov
+LDFLAGS=-lgcov
 TFLAGS=$(shell pkg-config --libs check)
 
 

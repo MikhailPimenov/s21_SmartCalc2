@@ -3,15 +3,19 @@
 
 #include <optional>
 #include "model.h"
+#include "../protocol/protocol.h"
 
 namespace s21 {
 
 class CreditCalculator {
 private:
+    Protocol::CreditParameters cp_;
+    Protocol::CreditResult cr_;
+    bool success_;
 
 public:
-    CreditCalculator(const std::string& input);
-    bool Run() const;
+    CreditCalculator(const Protocol::CreditParameters &cp);
+    bool Run();
     std::optional
 
 
