@@ -85,8 +85,8 @@ namespace Model {
   //                      double x_value);
   // std::optional<double> Calculate(const std::string &input_str, double x_value);
                        
-  bool CalculateDeposit(const Protocol::DepositParameters &parameters,
-                               Protocol::DepositResult &result);
+  // bool CalculateDeposit(const Protocol::DepositParameters &parameters,
+  //                              Protocol::DepositResult &result);
   bool CalculateCredit(const Protocol::CreditParameters &cp,
                               Protocol::CreditResult &cr);
   int CalculateGraph(const Protocol::GraphParameters &gp,

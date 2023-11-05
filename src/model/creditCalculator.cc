@@ -44,7 +44,7 @@ bool CreditCalculator::Run() {
           */
   {
     double monthlyLoan = cp_.creditSum_ / cp_.creditTerm_;
-    cr_.totalSum_ = 0;
+    cr_.totalSum_ = 0.0;
     for (int i = 0; i < cp_.creditTerm_; i++) {
       const double delta = monthlyLoan + (cp_.creditSum_ - monthlyLoan * i) *
                                              cp_.creditPercent_ / 100.0 / months;

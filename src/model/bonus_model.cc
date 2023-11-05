@@ -52,93 +52,93 @@ bool Model::CalculateCredit(const Protocol::CreditParameters &cp,
   return true;
 }
 
-/**
- * @brief Calculates deposit
- *
- * @param parameters Input parameters
- * @param result Calculated result
- * @return true if success
- * @return false if failed (incorrect input)
- */
-bool Model::CalculateDeposit(const Protocol::DepositParameters &parameters,
-                             Protocol::DepositResult &result) {
-  static constexpr std::array<int, 12> daysPerMonth{
-      31,  // jan
-      28,  // feb
-      31,  // mar
-      30,  // apr
-      31,  // may
-      30,  // jun
-      31,  // jul
-      31,  // aug
-      30,  // sep
-      31,  // oct
-      30,  // nov
-      31,  // dec
-  };
-  static constexpr int months = 12;
-  static constexpr int days = 365;
+// /**
+//  * @brief Calculates deposit
+//  *
+//  * @param parameters Input parameters
+//  * @param result Calculated result
+//  * @return true if success
+//  * @return false if failed (incorrect input)
+//  */
+// bool Model::CalculateDeposit(const Protocol::DepositParameters &parameters,
+//                              Protocol::DepositResult &result) {
+//   static constexpr std::array<int, 12> daysPerMonth{
+//       31,  // jan
+//       28,  // feb
+//       31,  // mar
+//       30,  // apr
+//       31,  // may
+//       30,  // jun
+//       31,  // jul
+//       31,  // aug
+//       30,  // sep
+//       31,  // oct
+//       30,  // nov
+//       31,  // dec
+//   };
+//   static constexpr int months = 12;
+//   static constexpr int days = 365;
 
-  if (parameters.capitalization_ ==
-      Protocol::DepositParameters::Capitalization::Undefined)
-    return false;
-  if (parameters.frequency_ ==
-      Protocol::DepositParameters::PaymentFrequency::Undefined)
-    return false;
-  if (parameters.amount_ < 0.01) return false;
-  if (parameters.interest_ < 0.0) return false;
-  if (parameters.interest_ > 99.9999999) return false;
-  if (parameters.tax_ < 0.0) return false;
-  if (parameters.tax_ > 99.9999999) return false;
-  if (parameters.period_ < 1) return false;
-  if (parameters.period_ > 600) return false;
+//   if (parameters.capitalization_ ==
+//       Protocol::DepositParameters::Capitalization::Undefined)
+//     return false;
+//   if (parameters.frequency_ ==
+//       Protocol::DepositParameters::PaymentFrequency::Undefined)
+//     return false;
+//   if (parameters.amount_ < 0.01) return false;
+//   if (parameters.interest_ < 0.0) return false;
+//   if (parameters.interest_ > 99.9999999) return false;
+//   if (parameters.tax_ < 0.0) return false;
+//   if (parameters.tax_ > 99.9999999) return false;
+//   if (parameters.period_ < 1) return false;
+//   if (parameters.period_ > 600) return false;
 
-  double sum = parameters.amount_;
-  result.amountTotal_ = parameters.amount_;
-  result.taxTotal_ = 0.0;
-  result.accruedTotal_ = 0.0;
+//   double sum = parameters.amount_;
+//   result.amountTotal_ = parameters.amount_;
+//   result.taxTotal_ = 0.0;
+//   result.accruedTotal_ = 0.0;
 
-  if (parameters.frequency_ ==
-      Protocol::DepositParameters::PaymentFrequency::Monthly) {
-    result.accruedMonthly_.reserve(parameters.period_);
-    result.percentMonthly_.reserve(parameters.period_);
-  }
+//   if (parameters.frequency_ ==
+//       Protocol::DepositParameters::PaymentFrequency::Monthly) {
+//     result.accruedMonthly_.reserve(parameters.period_);
+//     result.percentMonthly_.reserve(parameters.period_);
+//   }
 
-  const bool monthlyChanges =
-      static_cast<int>(parameters.depositOrWithdrawal_.size()) ==
-      parameters.period_;
+//   const bool monthlyChanges =
+//       static_cast<int>(parameters.depositOrWithdrawal_.size()) ==
+//       parameters.period_;
 
-  for (int i = 0; i < parameters.period_; ++i) {
-    const int daysDelta = daysPerMonth[i % months];
-    const double deltaInterest =
-        sum / 100.0 * parameters.interest_ / days * daysDelta;
-    const double deltaTax = deltaInterest / 100.0 * parameters.tax_;
-    const double deltaSum = deltaInterest - deltaTax;
+//   for (int i = 0; i < parameters.period_; ++i) {
+//     const int daysDelta = daysPerMonth[i % months];
+//     const double deltaInterest =
+//         sum / 100.0 * parameters.interest_ / days * daysDelta;
+//     const double deltaTax = deltaInterest / 100.0 * parameters.tax_;
+//     const double deltaSum = deltaInterest - deltaTax;
 
-    if (monthlyChanges) sum += parameters.depositOrWithdrawal_[i];
+//     if (monthlyChanges) sum += parameters.depositOrWithdrawal_[i];
 
-    if (parameters.capitalization_ ==
-            Protocol::DepositParameters::Capitalization::Monthly &&
-        parameters.frequency_ ==
-            Protocol::DepositParameters::PaymentFrequency::Total)
-      sum += deltaSum;
+//     if (parameters.capitalization_ ==
+//             Protocol::DepositParameters::Capitalization::Monthly &&
+//         parameters.frequency_ ==
+//             Protocol::DepositParameters::PaymentFrequency::Total)
+//       sum += deltaSum;
 
-    if (monthlyChanges)
-      result.amountTotal_ += parameters.depositOrWithdrawal_[i];
+//     if (monthlyChanges)
+//       result.amountTotal_ += parameters.depositOrWithdrawal_[i];
 
-    if (result.amountTotal_ < 0.0) return false;
+//     if (result.amountTotal_ < 0.0) return false;
 
-    result.amountTotal_ += deltaSum;
+//     result.amountTotal_ += deltaSum;
 
-    result.accruedMonthly_.push_back(sum);
+//     result.accruedMonthly_.push_back(sum);
 
-    result.taxTotal_ += deltaTax;
-    result.accruedTotal_ += deltaInterest;
+//     result.taxTotal_ += deltaTax;
+//     result.accruedTotal_ += deltaInterest;
 
-    result.percentMonthly_.push_back(deltaSum);
-  }
+//     result.percentMonthly_.push_back(deltaSum);
+//   }
 
-  return true;
-}
+//   return true;
+// }
 
 }  // namespace s21
