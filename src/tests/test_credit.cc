@@ -5,6 +5,7 @@
 
 #include "../model/model.h"
 #include "../protocol/protocol.h"
+#include "../model/creditCalculator.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2
@@ -88,10 +89,14 @@ TEST(Credit, T0CreditSimpleAnnuity) {
 
   expected.monthlyPayment_ = 14872.93;
 
-  s21::Protocol::CreditResult actual;
-  s21::Model::CalculateCredit(cp, actual);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_TRUE(actual.has_value());
+  if (!actual.has_value())
+    return;
 
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(expected, actual.value());
 }
 
 TEST(Credit, T0CreditSimpleDifferentiated) {

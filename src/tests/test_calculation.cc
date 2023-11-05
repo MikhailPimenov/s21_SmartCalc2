@@ -29,7 +29,7 @@ TEST(ExpressionComputation, T0Simple) {
 
 TEST(ExpressionComputation, T1Simple) {
   const std::string input_str("2.0/(3.0+2.0)*5.0");
-  s21::Model model;
+  
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -42,7 +42,7 @@ TEST(ExpressionComputation, T1Simple) {
 
 TEST(ExpressionComputation, T2SimpleBraces) {
   const std::string input_str("1+2+(3*4)+(5.1+6.8)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -55,7 +55,7 @@ TEST(ExpressionComputation, T2SimpleBraces) {
 
 TEST(ExpressionComputation, T3Simple) {
   const std::string input_str("10.0+10.0*10.0");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -68,7 +68,7 @@ TEST(ExpressionComputation, T3Simple) {
 
 TEST(ExpressionComputation, T4SimpleMod) {
   const std::string input_str("5.0mod3.0");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -81,7 +81,7 @@ TEST(ExpressionComputation, T4SimpleMod) {
 
 TEST(ExpressionComputation, T5SimpleBraces) {
   const std::string input_str("1.0/2.0*(2.0-1.0)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -94,7 +94,7 @@ TEST(ExpressionComputation, T5SimpleBraces) {
 
 TEST(ExpressionComputation, T6MoreBraces) {
   const std::string input_str("(1-2-(0-3)-4)-5-(0-6)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -107,7 +107,7 @@ TEST(ExpressionComputation, T6MoreBraces) {
 
 TEST(ExpressionComputation, T7MoreBraces) {
   const std::string input_str("(1+2)*((3-4)+1+(5-6+7))");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -120,7 +120,7 @@ TEST(ExpressionComputation, T7MoreBraces) {
 
 TEST(ExpressionComputation, T8MoreBraces) {
   const std::string input_str("sqrt(4)-1/2*sin(3^2-2)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -133,7 +133,7 @@ TEST(ExpressionComputation, T8MoreBraces) {
 
 TEST(ExpressionComputation, T1Pows) {
   const std::string input_str("2^3^2");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -147,7 +147,7 @@ TEST(ExpressionComputation, T1Pows) {
 
 TEST(ExpressionComputation, T4Simple) {
   const std::string input_str("-1+8");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -160,7 +160,7 @@ TEST(ExpressionComputation, T4Simple) {
 
 TEST(ExpressionComputation, T1Mod) {
   const std::string input_str("-5.0mod(-3.0)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -173,7 +173,7 @@ TEST(ExpressionComputation, T1Mod) {
 
 TEST(ExpressionComputation, T1LongEpression) {
   const std::string input_str("4+4*2/(1-5)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -186,7 +186,7 @@ TEST(ExpressionComputation, T1LongEpression) {
 
 TEST(ExpressionComputation, T2LongEpression) {
   const std::string input_str("4+4*2/1-5");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -199,7 +199,7 @@ TEST(ExpressionComputation, T2LongEpression) {
 
 TEST(ExpressionComputation, T3LongEpression) {
   const std::string input_str("4+4*(2/1-5)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -213,7 +213,7 @@ TEST(ExpressionComputation, T3LongEpression) {
 
 TEST(ExpressionComputation, T4LongEpression) {
   const std::string input_str("4+(4*2/1-5)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -227,7 +227,7 @@ TEST(ExpressionComputation, T4LongEpression) {
 
 TEST(ExpressionComputation, T5LongEpression) {
   const std::string input_str("4+4*(2/1)-5");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -240,7 +240,7 @@ TEST(ExpressionComputation, T5LongEpression) {
 
 TEST(ExpressionComputation, T6LongEpression) {
   const std::string input_str("4+(4*2/1)-5");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -253,7 +253,7 @@ TEST(ExpressionComputation, T6LongEpression) {
 
 TEST(ExpressionComputation, T7LongEpression) {
   const std::string input_str("(4+4*2/1)-5");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -266,7 +266,7 @@ TEST(ExpressionComputation, T7LongEpression) {
 
 TEST(ExpressionComputation, T8LongEpression) {
   const std::string input_str("4+(4*2)/1-5");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -279,7 +279,7 @@ TEST(ExpressionComputation, T8LongEpression) {
 
 TEST(ExpressionComputation, T9LongEpression) {
   const std::string input_str("(4+4*2)/1-5");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -292,7 +292,7 @@ TEST(ExpressionComputation, T9LongEpression) {
 
 TEST(ExpressionComputation, T10LongEpression) {
   const std::string input_str("8*(7+6*4)+3");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -305,7 +305,7 @@ TEST(ExpressionComputation, T10LongEpression) {
 
 TEST(ExpressionComputation, T11LongEpression) {
   const std::string input_str("2/(3+2)*5");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -318,7 +318,7 @@ TEST(ExpressionComputation, T11LongEpression) {
 
 TEST(ExpressionComputation, T12LongEpression) {
   const std::string input_str("2+9.3-8^3/4+56.2");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -331,7 +331,7 @@ TEST(ExpressionComputation, T12LongEpression) {
 
 TEST(ExpressionComputation, T13LongEpression) {
   const std::string input_str("2+9.3-8^3/(4+56.2)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -344,7 +344,7 @@ TEST(ExpressionComputation, T13LongEpression) {
 
 TEST(ExpressionComputation, T14LongEpression) {
   const std::string input_str("2^(3^2)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -357,7 +357,7 @@ TEST(ExpressionComputation, T14LongEpression) {
 
 TEST(ExpressionComputation, T15LongEpression) {
   const std::string input_str("(2^3)^2");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -370,7 +370,7 @@ TEST(ExpressionComputation, T15LongEpression) {
 
 TEST(ExpressionComputation, T16LongEpression) {
   const std::string input_str("cos(431.2*2^2/8)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -383,7 +383,7 @@ TEST(ExpressionComputation, T16LongEpression) {
 
 TEST(ExpressionComputation, T17LongEpression) {
   const std::string input_str("3*sin(4+5)");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -396,7 +396,7 @@ TEST(ExpressionComputation, T17LongEpression) {
 
 TEST(ExpressionComputation, T18LongEpression) {
   const std::string input_str("431.2*2^2/8");
-  s21::Model model;
+  
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -409,7 +409,6 @@ TEST(ExpressionComputation, T18LongEpression) {
 
 TEST(ExpressionComputation, T19LongEpression) {
   const std::string input_str("cos(sin(2+9*6^1.2-tan(1)))");
-  s21::Model model;
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -421,7 +420,6 @@ TEST(ExpressionComputation, T19LongEpression) {
 }
 TEST(ExpressionComputation, T20LongEpression) {
   const std::string input_str("sqrt(cos(sin(2+9*6^1.2-tan(1))))");
-  s21::Model model;
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -433,7 +431,6 @@ TEST(ExpressionComputation, T20LongEpression) {
 }
 TEST(ExpressionComputation, T21LongEpression) {
   const std::string input_str("sqrt(cos(sin(2+9*6^1.2-tan(1))))mod0.1");
-  s21::Model model;
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -446,7 +443,6 @@ TEST(ExpressionComputation, T21LongEpression) {
 
 TEST(ExpressionComputation, T22LongEpression) {
   const std::string input_str("sqrt(2^2)*5/(4-3mod2)*(4-sqrt(81))");
-  s21::Model model;
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -458,7 +454,6 @@ TEST(ExpressionComputation, T22LongEpression) {
 }
 TEST(ExpressionComputation, T23LongEpression) {
   const std::string input_str("cos(1/3)*sin(1.352^9/(4+3))");
-  s21::Model model;
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -471,7 +466,6 @@ TEST(ExpressionComputation, T23LongEpression) {
 
 TEST(ExpressionComputation, T24LongEpression) {
   const std::string input_str("(cos(1/3)*sin(1.352^9/(4+3))/76.56)*log(150)");
-  s21::Model model;
 
   double x_value = 0.0;
     const s21::Calculator calculator(input_str, x_value);
@@ -483,7 +477,6 @@ TEST(ExpressionComputation, T24LongEpression) {
 }
 TEST(ExpressionComputation, T25LongEpression) {
   const std::string input_str("2+(-(-(-(-1))))");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -495,7 +488,6 @@ TEST(ExpressionComputation, T25LongEpression) {
 }
 TEST(ExpressionComputation, T26LongEpression) {
   const std::string input_str("cos(6*3)/5");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -507,7 +499,6 @@ TEST(ExpressionComputation, T26LongEpression) {
 }
 TEST(ExpressionComputation, T1EpressionError) {
   const std::string input_str("12.6.9+8");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -517,7 +508,6 @@ TEST(ExpressionComputation, T1EpressionError) {
 
 TEST(ExpressionComputation, T2EpressionError) {
   const std::string input_str("(12+6");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -527,7 +517,6 @@ TEST(ExpressionComputation, T2EpressionError) {
 
 TEST(ExpressionComputation, T3EpressionError) {
   const std::string input_str("(12+6))8*3(");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -537,7 +526,6 @@ TEST(ExpressionComputation, T3EpressionError) {
 
 TEST(ExpressionComputation, T4ExpressionCos) {
   const std::string input_str("acos1");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -550,7 +538,6 @@ TEST(ExpressionComputation, T4ExpressionCos) {
 
 TEST(ExpressionComputation, T5ExpressionAcos) {
   const std::string input_str("acos0.5");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -563,7 +550,6 @@ TEST(ExpressionComputation, T5ExpressionAcos) {
 
 TEST(ExpressionComputation, T1ExpressionAtan) {
   const std::string input_str("atan1");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -577,7 +563,6 @@ TEST(ExpressionComputation, T1ExpressionAtan) {
 
 TEST(ExpressionComputation, T2ExpressionAtan) {
   const std::string input_str("atan15");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -590,7 +575,6 @@ TEST(ExpressionComputation, T2ExpressionAtan) {
 
 TEST(ExpressionComputation, T3ExpressionAsin) {
   const std::string input_str("asin1");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -603,7 +587,6 @@ TEST(ExpressionComputation, T3ExpressionAsin) {
 
 TEST(ExpressionComputation, T4ExpressionAsin) {
   const std::string input_str("asin0.5");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -616,7 +599,6 @@ TEST(ExpressionComputation, T4ExpressionAsin) {
 
 TEST(ExpressionComputation, T5ExpressionLen) {
   const std::string input_str("ln1");
-  s21::Model model;
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -629,7 +611,7 @@ TEST(ExpressionComputation, T5ExpressionLen) {
 
 TEST(ExpressionComputation, T6ExpressionLen) {
   const std::string input_str("ln15");
-  s21::Model model;
+  
 
   double x_value = 0.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -642,7 +624,6 @@ TEST(ExpressionComputation, T6ExpressionLen) {
 
 TEST(ExpressionComputation, T7ExpressionPow) {
   const std::string input_str("x^2+x*2");
-  s21::Model model;
 
   double x_value = 3.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -655,7 +636,6 @@ TEST(ExpressionComputation, T7ExpressionPow) {
 
 TEST(ExpressionComputation, T0IncorrectStringInput) {
   const std::string input_str("cos");
-  s21::Model model;
 
   double x_value = 3.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -665,7 +645,6 @@ TEST(ExpressionComputation, T0IncorrectStringInput) {
 
 TEST(ExpressionComputation, T1IncorrectStringInput) {
   const std::string input_str("1*cos");
-  s21::Model model;
 
   double x_value = 3.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -675,7 +654,7 @@ TEST(ExpressionComputation, T1IncorrectStringInput) {
 
 TEST(ExpressionComputation, T2IncorrectStringInput) {
   const std::string input_str("1*cos*3");
-  s21::Model model;
+  
 
   double x_value = 3.0;
   const s21::Calculator calculator(input_str, x_value);
@@ -685,7 +664,7 @@ TEST(ExpressionComputation, T2IncorrectStringInput) {
 
 TEST(ExpressionComputation, T3IncorrectStringInput) {
   const std::string input_str("1*cos*3-3"); // 1, *, cos, *, 3, -, 3
-  s21::Model model;
+  
 
   double x_value = 3.0;
   const s21::Calculator calculator(input_str, x_value);

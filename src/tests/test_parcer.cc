@@ -9,20 +9,23 @@
 
 namespace s21 {
 
-bool operator==(const Model::Token& left, const Model::Token& right) {
+namespace Model {
+
+
+bool operator==(const Token& left, const Token& right) {
     return left.type_ == right.type_ && left.precedence_ == right.precedence_ && std::abs(left.value_ - right.value_) < 1e-6;
 }
-bool operator!=(const Model::Token& left, const Model::Token& right) {
+bool operator!=(const Token& left, const Token& right) {
     return !(left == right);
 }
 
-std::ostream& operator<<(std::ostream& out, const Model::Token& object) {
+std::ostream& operator<<(std::ostream& out, const Token& object) {
   out << "Token(" << object.value_ << ", " << static_cast<int>(object.type_) << ", " << object.precedence_ << ')';
   return out;
 }
 
 
-bool operator==(std::stack<Model::Token> left, std::stack<Model::Token> right) {
+bool operator==(std::stack<Token> left, std::stack<Token> right) {
   if (left.size() != right.size())
     return false;
 
@@ -36,7 +39,7 @@ bool operator==(std::stack<Model::Token> left, std::stack<Model::Token> right) {
   return true;
 }
 
-std::ostream& operator<<(std::ostream& out, std::stack<Model::Token> object) {
+std::ostream& operator<<(std::ostream& out, std::stack<Token> object) {
   out << "Stack: " << object.size() << '\n';
 
   while (!object.empty()) {
@@ -46,6 +49,8 @@ std::ostream& operator<<(std::ostream& out, std::stack<Model::Token> object) {
 
   return out; 
 }
+
+} // namespace Model
 
 }  // namespace s21
 
@@ -58,7 +63,7 @@ TEST(Parcer, T0Simple) {
   std::vector<s21::Model::Token> expected;
   expected.emplace_back(1.0, s21::Model::Type::Number, 1);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -73,7 +78,7 @@ TEST(Parcer, T1Simple) {
   std::vector<s21::Model::Token> expected;
   expected.emplace_back(0.0, s21::Model::Type::Cos, 8);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -88,7 +93,7 @@ TEST(Parcer, T2Simple) {
   std::vector<s21::Model::Token> expected;
   expected.emplace_back(0.0, s21::Model::Type::Sqrt, 8);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -102,7 +107,7 @@ TEST(Parcer, T3Simple) {
   std::vector<s21::Model::Token> expected;
   expected.emplace_back(666.555, s21::Model::Type::Number, 1);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -118,7 +123,7 @@ TEST(Parcer, T4Simple) {
   expected.emplace_back(666.555,  s21::Model::Type::Number, 1);
   expected.emplace_back(0.0,      s21::Model::Type::Ln,     8);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -133,7 +138,7 @@ TEST(Parcer, T0Minus) {
   expected.emplace_back(0.0,      s21::Model::Type::Minus,  6);
   expected.emplace_back(666.555,  s21::Model::Type::Number, 1);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -150,7 +155,7 @@ TEST(Parcer, T1Minus) {
   expected.emplace_back(666.555,  s21::Model::Type::Number,       1);
   expected.emplace_back(0.0,      s21::Model::Type::CloseBracket, 0);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -172,7 +177,7 @@ TEST(Parcer, T2Minus) {
   expected.emplace_back(0.0,      s21::Model::Type::CloseBracket, 0);
   expected.emplace_back(0.0,      s21::Model::Type::CloseBracket, 0);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -196,7 +201,7 @@ TEST(Parcer, T3Minus) {
   expected.emplace_back(0.0,      s21::Model::Type::Mult,         8);
   expected.emplace_back(13.0,     s21::Model::Type::Number,       1);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -229,7 +234,7 @@ TEST(Parcer, T0Long) {
   expected.emplace_back(0.0,    s21::Model::Type::Minus,        6);
   expected.emplace_back(0.0,    s21::Model::Type::X,            1);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -290,7 +295,7 @@ TEST(Parcer, T1Long) {
   expected.emplace_back(0.0,      s21::Model::Type::Div,          8);
   expected.emplace_back(0.0,      s21::Model::Type::Tan,          8);
    
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -310,7 +315,7 @@ TEST(Parcer, T0IncorrectStringToParce) {
   const std::string input_str("cocksucker");
   std::vector<s21::Model::Token> expected;
   
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -321,7 +326,7 @@ TEST(Parcer, T1IncorrectStringToParce) {
   const std::string input_str("cos(13.99*x)+cocksucker");
   std::vector<s21::Model::Token> expected;
   
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
@@ -331,7 +336,7 @@ TEST(Parcer, T2IncorrectStringToParce) {
   const std::string input_str("cos((-666.5seqrt(55))))*13+14/88-x");
   std::vector<s21::Model::Token> expected;
   
-  s21::Model model;
+  
   s21::Parcer parcer(input_str);
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 

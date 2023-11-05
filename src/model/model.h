@@ -26,9 +26,12 @@ struct CreditResult;
  * Calculates credit
  * Calculates deposit
  */
-class Model {
+// class Model {
+
+namespace Model {
+
 //  private:
- public:
+//  public:
   /**
    * @brief Token type. Either number, or function, or bracket, or placeholder X
    *
@@ -77,7 +80,7 @@ class Model {
     bool isClosingBrace() const;
   };
 
- public:
+//  public:
   // static int Calculate(const std::string &input_str, double *result,
   //                      double x_value);
   // std::optional<double> Calculate(const std::string &input_str, double x_value);
@@ -90,7 +93,7 @@ class Model {
                             Protocol::GraphResult &gr);
 
 //  private:
-public:
+// public:
   // static std::optional<std::vector<Token>> parcer(const std::string& input);
   // static bool validate(const std::vector<Token>& tokens);
 
@@ -101,7 +104,7 @@ public:
   // static double unaryFnCalc(double number1, Type type);
   // static double binaryFnCalc(double number1, double number2, Type type);
   // static void flipStack(std::stack<Token> input, std::stack<Token> &output);
-};
+// };
 
 
 // calcRPN
@@ -115,6 +118,8 @@ public:
 //  validate
 //  transform to RPN
 //  calculate (x1,x2,x3,...) -> y1,y2,y3,...
+
+}  //  namespace Model
 
 }  //  namespace s21
 

@@ -3,22 +3,33 @@
 
 namespace s21 {
 
+namespace Model {
+
+CreditCalculator::InputChecker::InputChecker(CreditCalculator& owner) : owner_{owner} {}
+
+bool CreditCalculator::InputChecker::Run() const {
+  if (owner_.cp_.order_ == Protocol::CreditParameters::RepainmentOrder::Undefined)
+    return false;
+  if (owner_.cp_.creditSum_ < 10000.0) return false;
+  if (owner_.cp_.creditSum_ > 100000000.0) return false;
+  if (owner_.cp_.creditTerm_ < 1) return false;
+  if (owner_.cp_.creditTerm_ > 600) return false;
+  if (owner_.cp_.creditPercent_ < 0.01) return false;
+  if (owner_.cp_.creditPercent_ > 99.999999) return false;
+
+  return true;
+}
+
 CreditCalculator::CreditCalculator(const Protocol::CreditParameters &cp) : cp_{cp} {
 
 }
 
 bool CreditCalculator::Run() {
-  if (cp_.order_ == Protocol::CreditParameters::RepainmentOrder::Undefined)
+  InputChecker inputChecker(*this);
+  if (!inputChecker.Run())
     return false;
-  if (cp_.creditSum_ < 10000.0) return false;
-  if (cp_.creditSum_ > 100000000.0) return false;
-  if (cp_.creditTerm_ < 1) return false;
-  if (cp_.creditTerm_ > 600) return false;
-  if (cp_.creditPercent_ < 0.01) return false;
-  if (cp_.creditPercent_ > 99.999999) return false;
 
   static constexpr int months = 12;
-
 
   if (cp_.order_ == Protocol::CreditParameters::RepainmentOrder::Annuity) {
     const double creditPercent = cp_.creditPercent_ / 100.0 / months;
@@ -46,5 +57,11 @@ bool CreditCalculator::Run() {
   }
   return true;
 }
+
+std::optional<Protocol::CreditResult> CreditCalculator::Get() const {
+  return cr_;
+}
+
+}   // namespace Model
 
 }   // namespace s21
