@@ -1,6 +1,6 @@
 #include "validator.h"
 #include <iostream>
-
+#include <stack>
 
 namespace s21 {
 

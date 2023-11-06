@@ -19,6 +19,7 @@ HEADERS=model/model.h
 HEADERS+=model/calculator.h
 HEADERS+=model/creditCalculator.h
 HEADERS+=model/depositCalculator.h
+HEADERS+=model/token.h
 
 
 SOURCES=tests/tests_main.cc
@@ -28,7 +29,8 @@ SOURCES+=tests/test_credit.cc
 SOURCES+=tests/test_deposit.cc
 SOURCES+=tests/test_parcer.cc
 SOURCES+=tests/test_validator.cc
-SOURCES+=model/model.cc
+# SOURCES+=model/model.cc
+SOURCES+=model/token.cc
 SOURCES+=model/parcer.cc
 SOURCES+=model/calculatorRpn.cc
 SOURCES+=model/validator.cc
@@ -37,7 +39,7 @@ SOURCES+=model/shuntingYard.cc
 SOURCES+=model/flipStack.cc
 SOURCES+=model/calculator.cc
 SOURCES+=model/graphCalculator.cc
-SOURCES+=model/bonus_model.cc
+# SOURCES+=model/bonus_model.cc
 SOURCES+=model/creditCalculator.cc
 SOURCES+=model/depositCalculator.cc
 

@@ -111,7 +111,7 @@ bool DepositCalculator::Run() {
 
 std::optional<Protocol::DepositResult> DepositCalculator::Get() const {
     if (!success_)
-        return {};
+        return std::nullopt;
     return dr_;
 }
 

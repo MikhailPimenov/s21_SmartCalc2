@@ -2,7 +2,11 @@
 #define SRC_MODEL_PARCER_PARCER_H
 
 #include <optional>
-#include "model.h"
+#include <string>
+#include <vector>
+// #include "model.h"
+#include "token.h"
+
 
 namespace s21 {
 

@@ -7,6 +7,7 @@
 #include "../protocol/protocol.h"
 #include "../model/depositCalculator.h"
 
+
 #define EPS 1e-7
 #define EPS2 1e-2
 

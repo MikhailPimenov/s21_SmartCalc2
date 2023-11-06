@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "../model/model.h"
+#include "../model/token.h"
 
 namespace s21 {
 

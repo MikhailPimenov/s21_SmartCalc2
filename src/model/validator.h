@@ -1,8 +1,10 @@
 #ifndef SRC_MODEL_VALIDATOR_H
 #define SRC_MODEL_VALIDATOR_H
 
-#include "model.h"
+// #include "model.h"
 #include <vector>
+
+#include "token.h"
 
 namespace s21 {
 

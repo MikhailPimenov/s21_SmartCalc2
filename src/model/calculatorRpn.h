@@ -1,8 +1,10 @@
 #ifndef SRC_MODEL_CALCULATOR_RPN_H
 #define SRC_MODEL_CALCULATOR_RPN_H
 
-#include "model.h"
+// #include "model.h"
 #include <optional>
+#include <stack>
+#include "token.h"
 
 namespace s21 {
 

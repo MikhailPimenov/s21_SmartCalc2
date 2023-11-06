@@ -2,7 +2,9 @@
 #define SRC_MODEL_FLIPSTACK_H
 
 #include <optional>
-#include "model.h"
+#include <stack>
+// #include "model.h"
+#include "token.h"
 
 namespace s21 {
 

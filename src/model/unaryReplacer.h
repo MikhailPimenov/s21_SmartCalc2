@@ -2,7 +2,9 @@
 #define SRC_MODEL_UNARYREPLACER_H
 
 #include <optional>
-#include "model.h"
+#include <vector>
+// #include "model.h"
+#include "token.h"
 
 namespace s21 {
 

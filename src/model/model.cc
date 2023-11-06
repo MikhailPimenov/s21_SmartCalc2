@@ -23,44 +23,44 @@ namespace s21 {
 // }
 
 
-bool Model::Token::isUnaryLeftFunction() const {
-  return type_ == Type::Sum ||
-         type_ == Type::Minus;
-}
+// bool Model::Token::isUnaryLeftFunction() const {
+//   return type_ == Type::Sum ||
+//          type_ == Type::Minus;
+// }
 
-bool Model::Token::isOpeningBrace() const {
-  return type_ == Type::OpenBracket;
-}
+// bool Model::Token::isOpeningBrace() const {
+//   return type_ == Type::OpenBracket;
+// }
 
-bool Model::Token::isBinaryFunction() const {
-  return type_ == Type::Sum ||
-         type_ == Type::Minus ||
-         type_ == Type::Mult ||
-         type_ == Type::Div ||
-         type_ == Type::Mod ||
-         type_ == Type::Power;
-}
+// bool Model::Token::isBinaryFunction() const {
+//   return type_ == Type::Sum ||
+//          type_ == Type::Minus ||
+//          type_ == Type::Mult ||
+//          type_ == Type::Div ||
+//          type_ == Type::Mod ||
+//          type_ == Type::Power;
+// }
 
-bool Model::Token::isUnaryRightFunction() const {
-  return type_ == Type::Asin ||
-         type_ == Type::Acos ||
-         type_ == Type::Atan ||
-         type_ == Type::Sqrt ||
-         type_ == Type::Sin ||
-         type_ == Type::Cos ||
-         type_ == Type::Tan ||
-         type_ == Type::Log ||
-         type_ == Type::Ln;
-}
+// bool Model::Token::isUnaryRightFunction() const {
+//   return type_ == Type::Asin ||
+//          type_ == Type::Acos ||
+//          type_ == Type::Atan ||
+//          type_ == Type::Sqrt ||
+//          type_ == Type::Sin ||
+//          type_ == Type::Cos ||
+//          type_ == Type::Tan ||
+//          type_ == Type::Log ||
+//          type_ == Type::Ln;
+// }
 
-bool Model::Token::isOperand() const {
-  return type_ == Type::Number ||
-         type_ == Type::X;
-}
+// bool Model::Token::isOperand() const {
+//   return type_ == Type::Number ||
+//          type_ == Type::X;
+// }
 
-bool Model::Token::isClosingBrace() const {
-  return type_ == Type::CloseBracket;
-}
+// bool Model::Token::isClosingBrace() const {
+//   return type_ == Type::CloseBracket;
+// }
 
 
 
@@ -479,24 +479,24 @@ bool Model::Token::isClosingBrace() const {
 //   }
 // }
 
-int Model::CalculateGraph(const Protocol::GraphParameters &gp,
-                          Protocol::GraphResult &gr) {
-  static constexpr double x_range = 10000.0;
-  double x_step = abs(gp.x_max - gp.x_min) / x_range;
-  int ex_code = 0;
+// int Model::CalculateGraph(const Protocol::GraphParameters &gp,
+//                           Protocol::GraphResult &gr) {
+//   static constexpr double x_range = 10000.0;
+//   double x_step = abs(gp.x_max - gp.x_min) / x_range;
+//   int ex_code = 0;
 
-  gr.x.resize(x_range);
-  gr.y.resize(x_range);
-  for (int i = 0; i < x_range && ex_code == 0; ++i) {
-    gr.x[i] = gp.x_min + x_step * i;
-    // double result = 0.0;
-    // const std::optional<double> result = Calculate(gp.input_string, gr.x[i]);
-    const std::optional<double> result = std::nullopt;
-    if (!result.has_value())
-      return 1;
-    gr.y[i] = result.value();
-  }
-  return ex_code;
-}
+//   gr.x.resize(x_range);
+//   gr.y.resize(x_range);
+//   for (int i = 0; i < x_range && ex_code == 0; ++i) {
+//     gr.x[i] = gp.x_min + x_step * i;
+//     // double result = 0.0;
+//     // const std::optional<double> result = Calculate(gp.input_string, gr.x[i]);
+//     const std::optional<double> result = std::nullopt;
+//     if (!result.has_value())
+//       return 1;
+//     gr.y[i] = result.value();
+//   }
+//   return ex_code;
+// }
 
 }  //  namespace s21

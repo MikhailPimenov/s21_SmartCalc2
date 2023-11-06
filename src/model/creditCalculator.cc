@@ -26,8 +26,10 @@ CreditCalculator::CreditCalculator(const Protocol::CreditParameters &cp) : cp_{c
 
 bool CreditCalculator::Run() {
   InputChecker inputChecker(*this);
-  if (!inputChecker.Run())
-    return false;
+  if (!inputChecker.Run()) {
+    success_ = false;
+    return success_;
+  }
 
   static constexpr int months = 12;
 
@@ -55,10 +57,14 @@ bool CreditCalculator::Run() {
     cr_.monthlyPayment_ =
         monthlyLoan + cp_.creditSum_ * cp_.creditPercent_ / 100.0 / months;
   }
-  return true;
+
+  success_ = true;
+  return success_;
 }
 
 std::optional<Protocol::CreditResult> CreditCalculator::Get() const {
+  if (!success_)
+    return std::nullopt;
   return cr_;
 }
 

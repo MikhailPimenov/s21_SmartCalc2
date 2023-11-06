@@ -1,5 +1,5 @@
-#ifndef SRC_MODEL_CREDITCALCULATOR_H
-#define SRC_MODEL_CREDITCALCULATOR_H
+#ifndef SRC_MODEL_DEPOSITCALCULATOR_H
+#define SRC_MODEL_DEPOSITCALCULATOR_H
 
 #include <optional>
 #include "model.h"
@@ -34,4 +34,4 @@ public:
 
 }   // namespace s21
 
-#endif  //  SRC_MODEL_CREDITCALCULATOR_H
+#endif  //  SRC_MODEL_DEPOSITCALCULATOR_H

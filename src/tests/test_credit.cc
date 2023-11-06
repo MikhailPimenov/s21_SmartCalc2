@@ -175,10 +175,14 @@ TEST(Credit, T0CreditSimpleDifferentiated) {
 
   expected.monthlyPayment_ = expected.monthlyPaymentList_.at(0);
 
-  s21::Protocol::CreditResult actual;
-  s21::Model::CalculateCredit(cp, actual);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_TRUE(actual.has_value());
+  if (!actual.has_value())
+    return;
 
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(expected, actual.value());
 }
 
 TEST(Credit, T0CreditIncorrectInput) {
@@ -188,10 +192,11 @@ TEST(Credit, T0CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Protocol::CreditResult actual;
-  const bool status = s21::Model::CalculateCredit(cp, actual);
-
-  EXPECT_EQ(status, false);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  const bool status = creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_FALSE(status);
+  EXPECT_FALSE(actual.has_value());
 }
 
 TEST(Credit, T1CreditIncorrectInput) {
@@ -201,10 +206,11 @@ TEST(Credit, T1CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Protocol::CreditResult actual;
-  const bool status = s21::Model::CalculateCredit(cp, actual);
-
-  EXPECT_EQ(status, false);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  const bool status = creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_FALSE(status);
+  EXPECT_FALSE(actual.has_value());
 }
 
 TEST(Credit, T2CreditIncorrectInput) {
@@ -214,10 +220,11 @@ TEST(Credit, T2CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Protocol::CreditResult actual;
-  const bool status = s21::Model::CalculateCredit(cp, actual);
-
-  EXPECT_EQ(status, false);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  const bool status = creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_FALSE(status);
+  EXPECT_FALSE(actual.has_value());
 }
 
 TEST(Credit, T3CreditIncorrectInput) {
@@ -227,10 +234,11 @@ TEST(Credit, T3CreditIncorrectInput) {
   cp.creditPercent_ = -10.0;
   cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Protocol::CreditResult actual;
-  const bool status = s21::Model::CalculateCredit(cp, actual);
-
-  EXPECT_EQ(status, false);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  const bool status = creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_FALSE(status);
+  EXPECT_FALSE(actual.has_value());
 }
 
 TEST(Credit, T4CreditIncorrectInput) {
@@ -240,10 +248,11 @@ TEST(Credit, T4CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Undefined;
 
-  s21::Protocol::CreditResult actual;
-  const bool status = s21::Model::CalculateCredit(cp, actual);
-
-  EXPECT_EQ(status, false);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  const bool status = creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_FALSE(status);
+  EXPECT_FALSE(actual.has_value());
 }
 
 TEST(Credit, T5CreditIncorrectInput) {
@@ -253,10 +262,11 @@ TEST(Credit, T5CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Protocol::CreditResult actual;
-  const bool status = s21::Model::CalculateCredit(cp, actual);
-
-  EXPECT_EQ(status, false);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  const bool status = creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_FALSE(status);
+  EXPECT_FALSE(actual.has_value());
 }
 
 TEST(Credit, T6CreditIncorrectInput) {
@@ -266,10 +276,11 @@ TEST(Credit, T6CreditIncorrectInput) {
   cp.creditPercent_ = 10.0;
   cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Protocol::CreditResult actual;
-  const bool status = s21::Model::CalculateCredit(cp, actual);
-
-  EXPECT_EQ(status, false);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  const bool status = creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_FALSE(status);
+  EXPECT_FALSE(actual.has_value());
 }
 
 TEST(Credit, T7CreditIncorrectInput) {
@@ -279,10 +290,11 @@ TEST(Credit, T7CreditIncorrectInput) {
   cp.creditPercent_ = 999.0;
   cp.order_ = s21::Protocol::CreditParameters::RepainmentOrder::Annuity;
 
-  s21::Protocol::CreditResult actual;
-  const bool status = s21::Model::CalculateCredit(cp, actual);
-
-  EXPECT_EQ(status, false);
+  s21::Model::CreditCalculator creditCalculator(cp);
+  const bool status = creditCalculator.Run();
+  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  EXPECT_FALSE(status);
+  EXPECT_FALSE(actual.has_value());
 }
 
 }  // namespace
