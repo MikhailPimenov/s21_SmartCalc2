@@ -5,21 +5,22 @@
 #include "shuntingYard.h"
 #include "flipStack.h"
 #include "unaryReplacer.h"
-
+#include "../protocol/protocol.h"
+#include "graphCalculator.h"
 
 namespace s21 {
 
-Calculator::Calculator(const std::string& input, double x) : input_{input}, x_{x} {}
+Calculator::Calculator(const std::string& input) : input_{input} {}
 
-std::optional<double> Calculator::Run() const {
+bool Calculator::getRPN() {
   Parcer parcer(input_);
   std::optional<std::vector<Model::Token> > tokens = parcer.Run();
   if (!tokens.has_value())
-    return std::nullopt;
+    return false;
 
   Validator validator(tokens.value());
   if (!validator.Run())
-    return std::nullopt;
+    return false;
 
   UnaryReplacer unaryReplacer(tokens.value());
   const std::vector<Model::Token> tokensReplaced = unaryReplacer.Run();
@@ -34,9 +35,23 @@ std::optional<double> Calculator::Run() const {
   FlipStack flipStack(pn);
   std::stack<Model::Token> rpn = flipStack.Run();
 
-  CalculatorRpn calculator(rpn, x_);
+  return true;
+}
+
+
+std::optional<double> SingleCalculator::Run() {
+  if (!getRPN())
+    return std::nullopt;
+
+  CalculatorRpn calculator(rpn_, x_);
   return calculator.Run();
 }
 
+std::optional<Protocol::GraphResult> MultiCalculator::Run() {
+  if (!getRPN())
+    return std::nullopt;
+
+  GraphCalculator graphCalculator(rpn_, )
+}
 
 }

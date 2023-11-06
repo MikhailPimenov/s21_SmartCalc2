@@ -4,41 +4,37 @@
 #include <string>
 #include <vector>
 
+#include "../model/calculator.h"
+#include "../model/graphCalculator.h"
+
 namespace s21 {
 
+
+namespace Controller {
+
+class Calculator {
+private:
+  Model::Calculator model_;
+public:
+  Calculator(const std::string& input, double x);
+  std::optional<double> Run();
+
+}
+
 namespace Protocol {
+  struct GraphParameters;
+  struct GraphResult;
+}
 
-struct DepositParameters;
-struct DepositResult;
-struct GraphParameters;
-struct GraphResult;
-struct CreditParameters;
-struct CreditResult;
+class GraphCalculator {
+private:
+  Model::GraphCalculator model_;
+public:
+  GraphCalculator(const Protocol::GraphParameters& gp);
+  std::optional<Protocol::GraphResult> Run();
+}
 
-}  // namespace Protocol
-
-/**
- * @brief Mediator between view and model.
- * Transfers data from view to model
- * Transfers data from model to view
- * Makes view independent on model
- */
-class Controller {
- public:
- public:
-  Controller(class Model *model);
-
-  int Calculate(const std::string &input_str, double *result, double x_value);
-  bool CalculateDeposit(const Protocol::DepositParameters &dp,
-                        Protocol::DepositResult &dr);
-  int CalculateGraph(const Protocol::GraphParameters &gp,
-                     Protocol::GraphResult &gr);
-  bool CalculateCredit(const Protocol::CreditParameters &cp,
-                       Protocol::CreditResult &cr);
-
- private:
-  Model *model_;
-};
+}  //  namespace Controller
 
 }  //  namespace s21
 

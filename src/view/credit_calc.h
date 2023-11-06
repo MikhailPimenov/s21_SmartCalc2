@@ -17,8 +17,7 @@ class CreditWindow : public QDialog {
   Q_OBJECT
 
  public:
-  explicit CreditWindow(QWidget *parent = nullptr,
-                        class Controller *controller = nullptr);
+  explicit CreditWindow(QWidget *parent = nullptr);
   ~CreditWindow();
 
  private slots:
