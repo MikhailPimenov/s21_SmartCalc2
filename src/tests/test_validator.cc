@@ -3,7 +3,6 @@
 #include <iostream>
 #include <optional>
 
-#include "../model/model.h"
 #include "../model/parcer.h"
 #include "../model/validator.h"
 

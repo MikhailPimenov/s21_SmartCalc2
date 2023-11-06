@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <optional>
+#include <stack>
 
-#include "../model/model.h"
 #include "../model/parcer.h"
 
 

@@ -4,7 +4,6 @@
 #include <iostream>
 #include <optional>
 
-#include "../model/model.h"
 #include "../model/calculator.h"
 #include "../protocol/protocol.h"
 

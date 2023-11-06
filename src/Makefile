@@ -15,8 +15,7 @@ GCOVR_LFLAGS=--coverage
 
 GTEST_LFLAGS=-lgtest -lgtest_main
 
-HEADERS=model/model.h
-HEADERS+=model/calculator.h
+HEADERS=model/calculator.h
 HEADERS+=model/creditCalculator.h
 HEADERS+=model/depositCalculator.h
 HEADERS+=model/token.h

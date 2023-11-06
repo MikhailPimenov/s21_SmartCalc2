@@ -1,7 +1,6 @@
 #ifndef SRC_MODEL_GRAPH_CALCULATOR_H
 #define SRC_MODEL_GRAPH_CALCULATOR_H
 
-#include "model.h"
 #include "../protocol/protocol.h"
 #include <optional>
 

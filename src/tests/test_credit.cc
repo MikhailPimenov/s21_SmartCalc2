@@ -3,7 +3,6 @@
 #include <cmath>
 #include <iostream>
 
-#include "../model/model.h"
 #include "../protocol/protocol.h"
 #include "../model/creditCalculator.h"
 

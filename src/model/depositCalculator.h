@@ -2,7 +2,6 @@
 #define SRC_MODEL_DEPOSITCALCULATOR_H
 
 #include <optional>
-#include "model.h"
 #include "../protocol/protocol.h"
 
 namespace s21 {

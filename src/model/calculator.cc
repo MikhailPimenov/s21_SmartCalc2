@@ -6,7 +6,6 @@
 #include "flipStack.h"
 #include "unaryReplacer.h"
 
-#include "model.h"
 
 namespace s21 {
 

@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 
-#include "../model/model.h"
 #include "../protocol/protocol.h"
 #include "../model/graphCalculator.h"
 #include "../model/parcer.h"
