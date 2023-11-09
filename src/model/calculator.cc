@@ -10,6 +10,8 @@
 
 namespace s21 {
 
+namespace Model {
+
 Calculator::Calculator(const std::string& input) : input_{input} {}
 
 bool Calculator::getRPN() {
@@ -38,6 +40,9 @@ bool Calculator::getRPN() {
   return true;
 }
 
+SingleCalculator::SingleCalculator(const std::string& input, double x) : Calculator{input}, x_{x} {
+
+}
 
 std::optional<double> SingleCalculator::Run() {
   if (!getRPN())
@@ -47,11 +52,25 @@ std::optional<double> SingleCalculator::Run() {
   return calculator.Run();
 }
 
+
+MultiCalculator::MultiCalculator(const std::string& input, double min, double max, int steps)
+    : Calculator{input}, min_{min}, max_{max}, steps_{steps} 
+{
+}
+
+MultiCalculator::MultiCalculator(const Protocol::GraphParameters& gp)  
+    : MultiCalculator{gp.input_string, gp.x_min, gp.x_max, gp.steps}
+{
+}
+
 std::optional<Protocol::GraphResult> MultiCalculator::Run() {
   if (!getRPN())
     return std::nullopt;
 
-  GraphCalculator graphCalculator(rpn_, )
+  GraphCalculator graphCalculator(rpn_, min_, max_, steps_);
+  return graphCalculator.Run();
 }
 
-}
+}   //  namespace Model
+
+}   //  namespace s21

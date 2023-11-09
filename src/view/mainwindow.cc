@@ -12,8 +12,8 @@
 
 namespace s21 {
 
-MainWindow::MainWindow(QWidget *parent, Controller *controller)
-    : QMainWindow(parent), ui(new Ui::MainWindow), controller_(controller) {
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
   connect(ui->pushButton_0, SIGNAL(clicked()), this, SLOT(push_button()));
@@ -175,15 +175,17 @@ void MainWindow::push_button_operation_fn() {
 void MainWindow::on_pushButton_equal_clicked() {
   const int len = static_cast<int>(string_.size());
   if (len < 256) {
-    double result = 0;
     double x_value = ui->x_value->text().toDouble();
-    int ex_code =
-        controller_->Calculate(string_.toStdString(), &result, x_value);
+    // int ex_code =
+        // controller_->Calculate(string_.toStdString(), &result, x_value);
+    Controller::Calculator calculator(string_.toStdString(), x_value);
+    std::optional<double> result = calculator.Run();
+    
     string_.clear();
     ui->label->clear();
 
-    if (ex_code == 0) {
-      QString str_res = QString::number(result, 'g', 7);
+    if (result.has_value()) {
+      QString str_res = QString::number(result.value(), 'g', 7);
       ui->label->setText(str_res);
     } else {
       ui->label->setText("INCORRECT INPUT");
@@ -237,11 +239,13 @@ void MainWindow::on_pushButton_graph_clicked() {
 
   Protocol::GraphResult gr;
 
-  const int ex_code = controller_->CalculateGraph(gp, gr);
-  if (ex_code) return;
+  // const int ex_code = controller_->CalculateGraph(gp, gr);
+  Controller::GraphCalculator calculator(gp);
+  const std::optional<Protocol::GraphResult> result = calculator.Run();
+  if (!result.has_value()) return;
 
-  const QVector<double> x(gr.x.begin(), gr.x.end()),
-      y(gr.y.begin(), gr.y.end());
+  const QVector<double> x(result->x.begin(), result->x.end()),
+      y(result->y.begin(), result->y.end());
 
   ui->widget->addGraph();
   ui->widget->graph(0)->addData(x, y);
@@ -256,13 +260,13 @@ void MainWindow::on_pushButton_graph_clicked() {
 }
 
 void MainWindow::on_credit_calc_clicked() {
-  CreditWindow window(nullptr, controller_);
+  CreditWindow window(nullptr);
   window.setModal(true);
   window.exec();
 }
 
 void MainWindow::on_deposit_calc_clicked() {
-  DepositWindow window(nullptr, controller_);
+  DepositWindow window(nullptr);
   window.setModal(true);
   window.exec();
 }

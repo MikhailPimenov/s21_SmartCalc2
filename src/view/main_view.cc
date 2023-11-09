@@ -15,13 +15,9 @@ namespace s21 {
  * @return ** int error code. 0 if success, others if failed
  */
 int main_view(int argc, 
-              char *argv[], 
-              Controller::Calculator *calculator, 
-              Controller::GraphCalculator* graph, 
-              Controller::CreditCalculator* creditCalculator, 
-              Controller::DepositCalculator* depositCalculator) {
+              char *argv[]) {
   QApplication a(argc, argv);
-  MainWindow w(nullptr, calculator, graph, creditCalculator, depositCalculator);
+  MainWindow w;
   w.show();
   return a.exec();
 }

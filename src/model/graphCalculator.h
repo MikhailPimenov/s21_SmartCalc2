@@ -6,7 +6,10 @@
 
 namespace s21 {
 
+namespace Model {
+
 class GraphCalculator {
+    
 private:
     std::stack<Model::Token> rpn_;
     double minX_;
@@ -18,6 +21,8 @@ public:
     std::optional<Protocol::GraphResult> Run();
 };
 
-}   // namespace s21
+}   //  namespace Model
+
+}   //  namespace s21
 
 #endif  //  SRC_MODEL_GRAPH_CALCULATOR_H

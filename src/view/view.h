@@ -3,7 +3,7 @@
 
 namespace s21 {
 
-int main_view(int argc, char *argv[], class Controller *controller);
+int main_view(int argc, char *argv[]);
 
 }  // namespace s21
 

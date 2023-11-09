@@ -8,7 +8,7 @@
 
 namespace s21 {
 
-DepositWindow::DepositWindow(QWidget *parent, Controller *controller_)
+DepositWindow::DepositWindow(QWidget *parent)
     : QDialog(parent), ui(new Ui::deposit_calc) {
   ui->setupUi(this);
 }
@@ -58,29 +58,32 @@ void DepositWindow::on_pushButton_clicked() {
     dp.frequency_ = Protocol::DepositParameters::PaymentFrequency::Total;
   }
 
-  Protocol::DepositResult dr;
-  if (!controller_->CalculateDeposit(dp, dr)) {
+  // Protocol::DepositResult dr;
+  Controller::DepositCalculator calculator(dp);
+  calculator.Run();
+  const std::optional<Protocol::DepositResult> result = calculator.Get();
+  if (!result.has_value()) {
     ui->error_label->setText("INCORRECT INPUT");
     return;
   }
 
-  QString int_income = QString::number(dr.accruedTotal_, 'f', 2);
+  QString int_income = QString::number(result->accruedTotal_, 'f', 2);
   ui->interest_income->setText(int_income);
-  QString total_dep_sum = QString::number(dr.amountTotal_, 'f', 2);
+  QString total_dep_sum = QString::number(result->amountTotal_, 'f', 2);
   ui->total_deposit_sum->setText(total_dep_sum);
-  QString total_tax_sum = QString::number(dr.taxTotal_, 'f', 2);
+  QString total_tax_sum = QString::number(result->taxTotal_, 'f', 2);
   ui->tax_sum->setText(total_tax_sum);
 
   if (!ui->checkBox_add->isChecked()) return;
 
-  for (int i = 0; i < static_cast<signed>(dr.percentMonthly_.size()); ++i) {
+  for (int i = 0; i < static_cast<signed>(result->percentMonthly_.size()); ++i) {
     QTableWidgetItem *itm =
-        new QTableWidgetItem(QString::number(dr.percentMonthly_.at(i)));
+        new QTableWidgetItem(QString::number(result->percentMonthly_.at(i)));
     ui->tableWidget->setItem(i, 1, itm);
   }
-  for (int i = 0; i < static_cast<signed>(dr.accruedMonthly_.size()); ++i) {
+  for (int i = 0; i < static_cast<signed>(result->accruedMonthly_.size()); ++i) {
     QTableWidgetItem *itm =
-        new QTableWidgetItem(QString::number(dr.accruedMonthly_.at(i)));
+        new QTableWidgetItem(QString::number(result->accruedMonthly_.at(i)));
     ui->tableWidget->setItem(i, 2, itm);
   }
 }

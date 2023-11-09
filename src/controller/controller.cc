@@ -18,6 +18,18 @@ std::optional<double> Calculator::Run() {
 GraphCalculator::GraphCalculator(const Protocol::GraphParameters& gp) : model_{gp} {}
 
 
+CreditCalculator::CreditCalculator(const Protocol::CreditParameters& cp) : model_{cp} {
+
+}
+bool CreditCalculator::Run() {
+  return model_.Run();
+}
+std::optional<Protocol::CreditResult> CreditCalculator::Get() const {
+  return model_.Get();
+}
+
+
+
 } // namespace Controller
 
 

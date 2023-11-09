@@ -34,8 +34,9 @@ void CreditWindow::on_make_calc_clicked() {
     parameters.order_ = Protocol::CreditParameters::RepainmentOrder::Differentiated;
   }
 
-  Controller::Calculator calculator(parameters);
-  const std::optional<Protocol::CreditResult> cr = calculator.Run();
+  Controller::CreditCalculator calculator(parameters);
+  calculator.Run();
+  const std::optional<Protocol::CreditResult> result = calculator.Get();
   if (!result.has_value()) {
     ui->label_error->setText("Incorrect input");
     return;

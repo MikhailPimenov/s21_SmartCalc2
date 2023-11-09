@@ -1,6 +1,7 @@
 #ifndef SRC_PROTOCOL_PROTOCOL_H
 #define SRC_PROTOCOL_PROTOCOL_H
 
+#include <string>
 #include <stack>
 #include <vector>
 
@@ -177,7 +178,8 @@ namespace Protocol {
   struct GraphParameters {
     double x_max = 30.0;
     double x_min = -30.0;
-    std::stack<Model::Token> input_string;
+    int steps = 10000;
+    std::string input_string;
   };
   /**
    * @brief Parameters of calculated graph from model

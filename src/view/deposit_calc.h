@@ -17,8 +17,9 @@ class DepositWindow : public QDialog {
   Q_OBJECT
 
  public:
-  explicit DepositWindow(QWidget *parent = nullptr,
-                         class Controller *controller = nullptr);
+  // explicit DepositWindow(QWidget *parent = nullptr,
+  //                        class Controller *controller = nullptr);
+  explicit DepositWindow(QWidget *parent = nullptr);
   ~DepositWindow();
 
  private slots:
@@ -38,7 +39,7 @@ class DepositWindow : public QDialog {
 
  private:
   Ui::deposit_calc *ui;
-  Controller *controller_ = nullptr;
+  // Controller *controller_ = nullptr;
 };
 
 }  // namespace s21

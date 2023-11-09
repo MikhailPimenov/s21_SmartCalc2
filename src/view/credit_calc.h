@@ -30,7 +30,7 @@ class CreditWindow : public QDialog {
 
  private:
   Ui::credit_calc *ui;
-  Controller *controller_ = nullptr;
+  // Controller *controller_ = nullptr;
 };
 
 }  //  namespace s21

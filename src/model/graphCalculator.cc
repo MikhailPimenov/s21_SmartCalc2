@@ -4,6 +4,7 @@
 
 namespace s21 {
 
+namespace Model {
 
 GraphCalculator::GraphCalculator(std::stack<Model::Token> rpn, 
                                  double min /* = -30.0 */, 
@@ -31,5 +32,7 @@ std::optional<Protocol::GraphResult> GraphCalculator::Run() {
   }
   return std::optional<Protocol::GraphResult>(gr);
 }
+
+}   // namespace Model
 
 }   // namespace s21
