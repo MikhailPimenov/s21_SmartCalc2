@@ -176,8 +176,6 @@ void MainWindow::on_pushButton_equal_clicked() {
   const int len = static_cast<int>(string_.size());
   if (len < 256) {
     double x_value = ui->x_value->text().toDouble();
-    // int ex_code =
-        // controller_->Calculate(string_.toStdString(), &result, x_value);
     Controller::Calculator calculator(string_.toStdString(), x_value);
     std::optional<double> result = calculator.Run();
     
@@ -236,10 +234,10 @@ void MainWindow::on_pushButton_graph_clicked() {
   gp.input_string = string_.toStdString();
   const double y_max = ui->input_ymax->text().toDouble();
   const double y_min = ui->input_ymin->text().toDouble();
+  gp.steps = 10000;
 
   Protocol::GraphResult gr;
 
-  // const int ex_code = controller_->CalculateGraph(gp, gr);
   Controller::GraphCalculator calculator(gp);
   const std::optional<Protocol::GraphResult> result = calculator.Run();
   if (!result.has_value()) return;
@@ -249,6 +247,8 @@ void MainWindow::on_pushButton_graph_clicked() {
 
   ui->widget->addGraph();
   ui->widget->graph(0)->addData(x, y);
+  ui->widget->graph(0)->setLineStyle(QCPGraph::lsNone);
+  ui->widget->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 1));
 
   ui->widget->xAxis->setLabel("x");
   ui->widget->yAxis->setLabel("y");
