@@ -35,7 +35,7 @@ bool Calculator::getRPN() {
   std::stack<Model::Token> pn = shuntingYard.Run();
 
   FlipStack flipStack(pn);
-  std::stack<Model::Token> rpn = flipStack.Run();
+  rpn_ = flipStack.Run();
 
   return true;
 }
