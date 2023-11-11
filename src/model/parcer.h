@@ -20,7 +20,7 @@ public:
 
 
 private:
-    std::pair<double, int> number(int index) const;
+    std::pair<double, std::size_t> number(std::size_t index) const;
 
 };
 

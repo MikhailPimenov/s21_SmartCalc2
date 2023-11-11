@@ -17,7 +17,7 @@ std::vector<Model::Token> UnaryReplacer::Run() const {
     result.emplace_back( 0.0, Model::Type::Mult,          8);
   }
 
-  for (int i = 1; i < input_.size(); ++i) {
+  for (std::size_t i = 1; i < input_.size(); ++i) {
     if (input_[i].type_ == Model::Type::Sum && input_[i - 1].isOpeningBrace())
       continue;
 

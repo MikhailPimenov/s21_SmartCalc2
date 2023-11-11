@@ -68,8 +68,9 @@ TEST(Parcer, T0Simple) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 
@@ -83,8 +84,9 @@ TEST(Parcer, T1Simple) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 
@@ -98,8 +100,9 @@ TEST(Parcer, T2Simple) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 TEST(Parcer, T3Simple) {
@@ -112,8 +115,9 @@ TEST(Parcer, T3Simple) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 TEST(Parcer, T4Simple) {
@@ -128,8 +132,9 @@ TEST(Parcer, T4Simple) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 TEST(Parcer, T0Minus) {
@@ -143,8 +148,9 @@ TEST(Parcer, T0Minus) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 TEST(Parcer, T1Minus) {
@@ -160,8 +166,9 @@ TEST(Parcer, T1Minus) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 TEST(Parcer, T2Minus) {
@@ -182,8 +189,9 @@ TEST(Parcer, T2Minus) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 TEST(Parcer, T3Minus) {
@@ -206,8 +214,9 @@ TEST(Parcer, T3Minus) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 TEST(Parcer, T0Long) {
@@ -239,8 +248,9 @@ TEST(Parcer, T0Long) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 
@@ -300,8 +310,9 @@ TEST(Parcer, T1Long) {
 const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 
   EXPECT_EQ(actual.has_value(), true);
-  if (actual.has_value())
+  if (actual.has_value()) {
     EXPECT_EQ(expected, actual.value());
+  }
 }
 
 

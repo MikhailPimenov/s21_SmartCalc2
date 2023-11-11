@@ -91,7 +91,7 @@ TEST(Graph, T0Simple) {
     expected.y[i] = expected.x[i];
   }
 
-  s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
   EXPECT_TRUE(actual.has_value());
@@ -140,7 +140,7 @@ TEST(Graph, T1Simple) {
     expected.y[i] = 2.0 * expected.x[i];
   }
 
-  s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
   EXPECT_TRUE(actual.has_value());
@@ -189,7 +189,7 @@ TEST(Graph, T2Simple) {
     expected.y[i] = 2.0 * expected.x[i] + 1.0;
   }
 
-  s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
   EXPECT_TRUE(actual.has_value());
@@ -238,7 +238,7 @@ TEST(Graph, T3Simple) {
     expected.y[i] = -1.0 * expected.x[i];
   }
 
-  s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
 
@@ -289,7 +289,7 @@ TEST(Graph, T0Complex) {
                     std::sin(4.0 - expected.x[i]) * expected.x[i];
   }
 
-  s21::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
   EXPECT_TRUE(actual.has_value());

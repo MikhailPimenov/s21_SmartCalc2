@@ -12,7 +12,7 @@ std::optional<std::vector<Model::Token> > Parcer::Run() const {
   std::vector<Model::Token> result;
   result.reserve(input_.size());
   
-  for(int i = 0; i < input_.size(); i++) {
+  for(std::size_t i = 0; i < input_.size(); i++) {
     const char s = input_[i];
 
     if (s == '(') {
@@ -78,25 +78,20 @@ std::optional<std::vector<Model::Token> > Parcer::Run() const {
 }
 
 
-std::pair<double, int> Parcer::number(int index) const {
+std::pair<double, std::size_t> Parcer::number(std::size_t index) const {
   if (input_[index] == '.')
     return std::make_pair(0.0, index);
 
   std::istringstream iss(input_);
   iss.seekg(index);
   double result = 0.0;
-  int i1 = iss.tellg();
   iss >> result;
-  int i2 = iss.tellg();
-  bool fail = iss.fail();
-  bool eof = iss.eof();
 
   if (iss.eof())
     index = static_cast<int>(input_.size());
   else if (!iss.fail())
     index = static_cast<int>(iss.tellg());
 
-    
   return std::make_pair(result, index);
  }
 

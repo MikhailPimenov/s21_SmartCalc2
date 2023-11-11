@@ -49,7 +49,7 @@ bool Validator::validateBinary() const {
   if (input_.front().isBinaryFunction() && !input_.front().isUnaryLeftFunction())
     return false;
 
-  for (int i = 1; i < input_.size() - 1; ++i) {
+  for (std::size_t i = 1; i < input_.size() - 1; ++i) {
     if (!input_[i].isBinaryFunction() || input_[i].isUnaryLeftFunction())
       continue;
     if (!input_[i - 1].isOperand() && !input_[i - 1].isClosingBrace())
@@ -66,7 +66,7 @@ bool Validator::validateBinary() const {
 }
 
 bool Validator::validateUnary() const {
-  for (int i = 1; i < input_.size(); ++i)
+  for (std::size_t i = 1; i < input_.size(); ++i)
     if (input_[i].isUnaryLeftFunction() && input_[i - 1].isUnaryLeftFunction())
       return false;
 
