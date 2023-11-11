@@ -75,6 +75,9 @@ bool Validator::validateUnary() const {
 
 
 bool Validator::Run() const {
+  if (input_.empty())
+    return false;
+
   if (!validateBinary())
     return false;
 
