@@ -32,26 +32,6 @@ protected:
     bool getRPN();
 };
 
-class SingleCalculator : public Calculator {
-private:
-    double x_;
-public:
-    explicit SingleCalculator(const std::string& input, double x);
-    std::optional<double> Run();
-};
-
-class MultiCalculator : public Calculator {
-private:
-    double min_;
-    double max_;
-    int steps_;
-public:
-    explicit MultiCalculator(const std::string& input, double min, double max, int steps);
-    explicit MultiCalculator(const Protocol::GraphParameters& gp);
-
-    std::optional<Protocol::GraphResult> Run();
-};
-
 }   // namespace Model
 
 }   // namespace s21

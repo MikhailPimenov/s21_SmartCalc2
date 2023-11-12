@@ -6,12 +6,6 @@ namespace s21 {
 
 Validator::Validator(const std::vector<Model::Token>& input) : input_{input} {}
 
-
-
-
-
-
-
 bool Validator::validateBraces() const {
   bool isPreviousOpen = false;
   for (const Model::Token& token : input_) {
@@ -26,7 +20,6 @@ bool Validator::validateBraces() const {
     }
   }
   std::stack<Model::Token> stack;
-
 
   for (const Model::Token& token : input_) {
     if (!token.isOpeningBrace() && !token.isClosingBrace())
@@ -73,7 +66,6 @@ bool Validator::validateUnary() const {
   return true;
 }
 
-
 bool Validator::Run() const {
   if (input_.empty())
     return false;
@@ -89,6 +81,5 @@ bool Validator::Run() const {
 
   return true;  
 }
-
 
 }   // namespace s21

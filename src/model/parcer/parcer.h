@@ -4,9 +4,8 @@
 #include <optional>
 #include <string>
 #include <vector>
-// #include "model.h"
-#include "token.h"
 
+#include "token.h"
 
 namespace s21 {
 
@@ -17,7 +16,6 @@ private:
 public:
     Parcer(const std::string& input);
     std::optional<std::vector<Model::Token> > Run() const;
-
 
 private:
     std::pair<double, std::size_t> number(std::size_t index) const;
