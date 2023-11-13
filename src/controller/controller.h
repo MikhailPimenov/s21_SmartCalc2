@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "../model/calculator/calculator.h"
+#include "../model/calculator/singleCalculator.h"
+#include "../model/calculator/multiCalculator.h"
 #include "../model/graph/graphCalculator.h"
 #include "../model/credit/creditCalculator.h"
 #include "../model/deposit/depositCalculator.h"
@@ -22,8 +24,7 @@ namespace Controller {
 
 class Calculator {
 private:
- Model::Calculator model_;
-  // Model::SingleCalculator model_;    //????????????
+  Model::SingleCalculator model_;
 public:
   Calculator(const std::string& input, double x);
   std::optional<double> Run();
@@ -33,8 +34,7 @@ public:
 
 class GraphCalculator {
 private:
-  Model::GraphCalculator model_;
-  // Model::MultiCalculator model_;    //????????????
+  Model::MultiCalculator model_;
 public:
   GraphCalculator(const Protocol::GraphParameters& gp);
   std::optional<Protocol::GraphResult> Run();
