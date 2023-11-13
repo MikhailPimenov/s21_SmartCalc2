@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 
-#include "../model/calculator.h"
-#include "../model/graphCalculator.h"
-#include "../model/creditCalculator.h"
-#include "../model/depositCalculator.h"
+#include "../model/calculator/calculator.h"
+#include "../model/graph/graphCalculator.h"
+#include "../model/credit/creditCalculator.h"
+#include "../model/deposit/depositCalculator.h"
 
 namespace s21 {
 
@@ -22,7 +22,8 @@ namespace Controller {
 
 class Calculator {
 private:
-  Model::SingleCalculator model_;
+ Model::Calculator model_;
+  // Model::SingleCalculator model_;    //????????????
 public:
   Calculator(const std::string& input, double x);
   std::optional<double> Run();
@@ -32,7 +33,8 @@ public:
 
 class GraphCalculator {
 private:
-  Model::MultiCalculator model_;
+  Model::GraphCalculator model_;
+  // Model::MultiCalculator model_;    //????????????
 public:
   GraphCalculator(const Protocol::GraphParameters& gp);
   std::optional<Protocol::GraphResult> Run();

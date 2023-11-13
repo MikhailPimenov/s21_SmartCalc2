@@ -5,7 +5,7 @@
 #include <stack>
 #include <vector>
 
-#include "../model/token.h"
+#include "../model/parcer/token.h"
 
 namespace s21 {
 
