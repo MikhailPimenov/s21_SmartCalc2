@@ -26,9 +26,9 @@ include_directories(${PROJECT_SOURCE_DIR}/view)
 link_directories(${PROJECT_SOURCE_DIR}/view)
 add_subdirectory(${PROJECT_SOURCE_DIR}/view)
 
-# include_directories(${PROJECT_SOURCE_DIR}/controller)
-# link_directories(${PROJECT_SOURCE_DIR}/controller)
-# add_subdirectory(${PROJECT_SOURCE_DIR}/controller)
+include_directories(${PROJECT_SOURCE_DIR}/controller)
+link_directories(${PROJECT_SOURCE_DIR}/controller)
+add_subdirectory(${PROJECT_SOURCE_DIR}/controller)
 
 include_directories(${PROJECT_SOURCE_DIR}/model/calculator)
 link_directories(${PROJECT_SOURCE_DIR}/model/calculator)
@@ -85,6 +85,7 @@ target_link_libraries(SmartCalc_2_0 PUBLIC graph_target)
 target_link_libraries(SmartCalc_2_0 PUBLIC parcer_target)
 target_link_libraries(SmartCalc_2_0 PUBLIC rpn_target)
 target_link_libraries(SmartCalc_2_0 PUBLIC view_target)
+target_link_libraries(SmartCalc_2_0 PUBLIC controller_target)
 
 
 set_target_properties(SmartCalc_2_0 PROPERTIES

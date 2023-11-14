@@ -1,15 +1,15 @@
 set(MODEL_SOURCES
-    calculator.cc
-    calculatorRpn.cc
-    creditCalculator.cc
-    depositCalculator.cc
-    flipStack.cc
-    graphCalculator.cc
-    parcer.cc
-    shuntingYard.cc
-    token.cc
-    unaryReplacer.cc
-    validator.cc
+    # calculator.cc
+    # calculatorRpn.cc
+    # creditCalculator.cc
+    # depositCalculator.cc
+    # flipStack.cc
+    # graphCalculator.cc
+    # parcer.cc
+    # shuntingYard.cc
+    # token.cc
+    # unaryReplacer.cc
+    # validator.cc
 )
 add_library(model_target ${MODEL_SOURCES})
 
