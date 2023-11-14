@@ -1,5 +1,5 @@
 #include "singleCalculator.h"
-#include "../calculatorRpn.h"
+#include "../rpn/calculatorRpn.h"
 
 namespace s21 {
 

@@ -4,7 +4,7 @@
 #include <optional>
 #include <stack>
 // #include "model.h"
-#include "token.h"
+#include "../parcer/token.h"
 
 namespace s21 {
 

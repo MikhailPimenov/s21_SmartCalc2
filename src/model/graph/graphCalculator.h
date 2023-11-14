@@ -1,7 +1,7 @@
 #ifndef SRC_MODEL_GRAPH_CALCULATOR_H
 #define SRC_MODEL_GRAPH_CALCULATOR_H
 
-#include "../protocol/protocol.h"
+#include "../../protocol/protocol.h"
 #include <optional>
 
 namespace s21 {

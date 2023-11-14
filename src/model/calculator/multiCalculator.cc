@@ -1,6 +1,6 @@
 #include "multiCalculator.h"
-#include "../protocol/protocol.h"
-#include "../graphCalculator.h"
+#include "../../protocol/protocol.h"
+#include "../graph/graphCalculator.h"
 
 namespace s21 {
 

@@ -1,12 +1,12 @@
 #include "calculator.h"
-#include "calculatorRpn.h"
-#include "parcer.h"
-#include "validator.h"
-#include "shuntingYard.h"
-#include "flipStack.h"
-#include "unaryReplacer.h"
-#include "../protocol/protocol.h"
-#include "graphCalculator.h"
+#include "../rpn/calculatorRpn.h"
+#include "../parcer/parcer.h"
+#include "../parcer/validator.h"
+#include "../rpn/shuntingYard.h"
+#include "../rpn/flipStack.h"
+#include "../parcer/unaryReplacer.h"
+#include "../../protocol/protocol.h"
+#include "../graph/graphCalculator.h"
 
 namespace s21 {
 

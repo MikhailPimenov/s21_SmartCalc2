@@ -18,17 +18,41 @@ set(PROJECT_SOURCES
 )
 add_compile_options(-g)
 
-include_directories(${PROJECT_SOURCE_DIR}/model)
-link_directories(${PROJECT_SOURCE_DIR}/model)
-add_subdirectory(${PROJECT_SOURCE_DIR}/model)
+# include_directories(${PROJECT_SOURCE_DIR}/model)
+# link_directories(${PROJECT_SOURCE_DIR}/model)
+# add_subdirectory(${PROJECT_SOURCE_DIR}/model)
 
 include_directories(${PROJECT_SOURCE_DIR}/view)
 link_directories(${PROJECT_SOURCE_DIR}/view)
 add_subdirectory(${PROJECT_SOURCE_DIR}/view)
 
-include_directories(${PROJECT_SOURCE_DIR}/controller)
-link_directories(${PROJECT_SOURCE_DIR}/controller)
-add_subdirectory(${PROJECT_SOURCE_DIR}/controller)
+# include_directories(${PROJECT_SOURCE_DIR}/controller)
+# link_directories(${PROJECT_SOURCE_DIR}/controller)
+# add_subdirectory(${PROJECT_SOURCE_DIR}/controller)
+
+include_directories(${PROJECT_SOURCE_DIR}/model/calculator)
+link_directories(${PROJECT_SOURCE_DIR}/model/calculator)
+add_subdirectory(${PROJECT_SOURCE_DIR}/model/calculator)
+
+include_directories(${PROJECT_SOURCE_DIR}/model/credit)
+link_directories(${PROJECT_SOURCE_DIR}/model/credit)
+add_subdirectory(${PROJECT_SOURCE_DIR}/model/credit)
+
+include_directories(${PROJECT_SOURCE_DIR}/model/deposit)
+link_directories(${PROJECT_SOURCE_DIR}/model/deposit)
+add_subdirectory(${PROJECT_SOURCE_DIR}/model/deposit)
+
+include_directories(${PROJECT_SOURCE_DIR}/model/graph)
+link_directories(${PROJECT_SOURCE_DIR}/model/graph)
+add_subdirectory(${PROJECT_SOURCE_DIR}/model/graph)
+
+include_directories(${PROJECT_SOURCE_DIR}/model/parcer)
+link_directories(${PROJECT_SOURCE_DIR}/model/parcer)
+add_subdirectory(${PROJECT_SOURCE_DIR}/model/parcer)
+
+include_directories(${PROJECT_SOURCE_DIR}/model/rpn)
+link_directories(${PROJECT_SOURCE_DIR}/model/rpn)
+add_subdirectory(${PROJECT_SOURCE_DIR}/model/rpn)
 
 # TODO: do it in CMakeLists.txt for view but not here
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -54,9 +78,13 @@ ${PROJECT_SOURCES}
 endif()
 endif()
 # add_executable(SmartCalc_2_0 ${PROJECT_SOURCES})
-target_link_libraries(SmartCalc_2_0 PUBLIC controller_target)
+target_link_libraries(SmartCalc_2_0 PUBLIC calculator_target)
+target_link_libraries(SmartCalc_2_0 PUBLIC credit_target)
+target_link_libraries(SmartCalc_2_0 PUBLIC deposit_target)
+target_link_libraries(SmartCalc_2_0 PUBLIC graph_target)
+target_link_libraries(SmartCalc_2_0 PUBLIC parcer_target)
+target_link_libraries(SmartCalc_2_0 PUBLIC rpn_target)
 target_link_libraries(SmartCalc_2_0 PUBLIC view_target)
-target_link_libraries(SmartCalc_2_0 PUBLIC model_target)
 
 
 set_target_properties(SmartCalc_2_0 PROPERTIES

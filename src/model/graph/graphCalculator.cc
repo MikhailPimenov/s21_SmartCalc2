@@ -1,5 +1,5 @@
 #include "graphCalculator.h"
-#include "calculatorRpn.h"
+#include "../rpn/calculatorRpn.h"
 #include <cmath>
 
 namespace s21 {
