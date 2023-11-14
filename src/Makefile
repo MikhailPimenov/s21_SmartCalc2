@@ -15,10 +15,33 @@ GCOVR_LFLAGS=--coverage
 
 GTEST_LFLAGS=-lgtest -lgtest_main
 
-HEADERS=model/calculator.h
-HEADERS+=model/creditCalculator.h
-HEADERS+=model/depositCalculator.h
-HEADERS+=model/token.h
+HEADERS=model/calculator/calculator.h
+HEADERS+=model/calculator/multiCalculator.h
+HEADERS+=model/calculator/singleCalculator.h
+
+HEADERS=model/credit/creditcalculator.h
+HEADERS+=model/deposit/depositCalculator.h
+HEADERS+=model/graph/graphCalculator.h
+HEADERS+=model/parcer/token.h
+HEADERS+=model/parcer/parcer.h
+HEADERS+=model/parcer/unaryReplacer.h
+HEADERS+=model/parcer/validator.h
+
+HEADERS+=model/rpn/calculatorRpn.h
+HEADERS+=model/rpn/flipStack.h
+HEADERS+=model/rpn/shuntingYard.h
+
+
+HEADERS+=controller/controller.h
+
+HEADERS+=protocol/protocol.h
+
+HEADERS+=view/credit_calc.h
+HEADERS+=view/deposit_calc.h
+HEADERS+=view/mainwindow.h
+HEADERS+=view/qcustomplot.h
+HEADERS+=view/view.h
+
 
 
 SOURCES=tests/tests_main.cc
@@ -28,17 +51,32 @@ SOURCES+=tests/test_credit.cc
 SOURCES+=tests/test_deposit.cc
 SOURCES+=tests/test_parcer.cc
 SOURCES+=tests/test_validator.cc
-SOURCES+=model/token.cc
-SOURCES+=model/parcer.cc
-SOURCES+=model/calculatorRpn.cc
-SOURCES+=model/validator.cc
-SOURCES+=model/unaryReplacer.cc
-SOURCES+=model/shuntingYard.cc
-SOURCES+=model/flipStack.cc
-SOURCES+=model/calculator.cc
-SOURCES+=model/graphCalculator.cc
-SOURCES+=model/creditCalculator.cc
-SOURCES+=model/depositCalculator.cc
+
+SOURCES+=controller/controller.cc
+SOURCES+=model/calculator/calculator.cc
+SOURCES+=model/calculator/multiCalculator.cc
+SOURCES+=model/calculator/singleCalculator.cc
+
+SOURCES+=model/credit/creditCalculator.cc
+
+SOURCES+=model/deposit/depositCalculator.cc
+
+SOURCES+=model/graph/graphCalculator.cc
+
+SOURCES+=model/parcer/parcer.cc
+SOURCES+=model/parcer/token.cc
+SOURCES+=model/parcer/unaryReplacer.cc
+SOURCES+=model/parcer/validator.cc
+
+SOURCES+=model/rpn/calculatorRpn.cc
+SOURCES+=model/rpn/flipStack.cc
+SOURCES+=model/rpn/shuntingYard.cc
+
+SOURCES+=view/credit_calc.cc
+SOURCES+=view/deposit_calc.cc
+SOURCES+=view/main_view.cc
+SOURCES+=view/mainwindow.cc
+SOURCES+=view/qcustomplot.cc
 
 REPORT_DIRECTORY=report
 
