@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "../protocol/protocol.h"
-#include "../model/depositCalculator.h"
+#include "../model/deposit/depositCalculator.h"
 
 
 #define EPS 1e-7

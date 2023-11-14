@@ -5,12 +5,12 @@
 #include <string>
 
 #include "../protocol/protocol.h"
-#include "../model/graphCalculator.h"
-#include "../model/parcer.h"
-#include "../model/validator.h"
-#include "../model/unaryReplacer.h"
-#include "../model/shuntingYard.h"
-#include "../model/flipStack.h"
+#include "../model/graph/graphCalculator.h"
+#include "../model/parcer/parcer.h"
+#include "../model/parcer/validator.h"
+#include "../model/parcer/unaryReplacer.h"
+#include "../model/rpn/shuntingYard.h"
+#include "../model/rpn/flipStack.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2

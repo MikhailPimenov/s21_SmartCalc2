@@ -4,7 +4,7 @@
 #include <optional>
 #include <stack>
 
-#include "../model/parcer.h"
+#include "../model/parcer/parcer.h"
 
 
 namespace s21 {

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <optional>
 
-#include "../model/calculator.h"
+#include "../model/calculator/singleCalculator.h"
 #include "../protocol/protocol.h"
 
 #define EPS 1e-7

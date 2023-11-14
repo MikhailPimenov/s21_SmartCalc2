@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "../protocol/protocol.h"
-#include "../model/creditCalculator.h"
+#include "../model/credit/creditCalculator.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2

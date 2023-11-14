@@ -3,8 +3,8 @@
 #include <iostream>
 #include <optional>
 
-#include "../model/parcer.h"
-#include "../model/validator.h"
+#include "../model/parcer/parcer.h"
+#include "../model/parcer/validator.h"
 
 namespace {
 

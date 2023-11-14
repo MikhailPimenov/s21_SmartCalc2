@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-Wall -Werror -Wextra
-CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g 
+CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g
 #-Werror
 CCOV=-fprofile-arcs -ftest-coverage
 COVFLAGS=$(shell pkg-config --cflags --libs gcovr)
@@ -19,7 +19,7 @@ HEADERS=model/calculator/calculator.h
 HEADERS+=model/calculator/multiCalculator.h
 HEADERS+=model/calculator/singleCalculator.h
 
-HEADERS=model/credit/creditcalculator.h
+HEADERS+=model/credit/creditCalculator.h
 HEADERS+=model/deposit/depositCalculator.h
 HEADERS+=model/graph/graphCalculator.h
 HEADERS+=model/parcer/token.h
@@ -35,13 +35,6 @@ HEADERS+=model/rpn/shuntingYard.h
 HEADERS+=controller/controller.h
 
 HEADERS+=protocol/protocol.h
-
-HEADERS+=view/credit_calc.h
-HEADERS+=view/deposit_calc.h
-HEADERS+=view/mainwindow.h
-HEADERS+=view/qcustomplot.h
-HEADERS+=view/view.h
-
 
 
 SOURCES=tests/tests_main.cc
@@ -71,12 +64,6 @@ SOURCES+=model/parcer/validator.cc
 SOURCES+=model/rpn/calculatorRpn.cc
 SOURCES+=model/rpn/flipStack.cc
 SOURCES+=model/rpn/shuntingYard.cc
-
-SOURCES+=view/credit_calc.cc
-SOURCES+=view/deposit_calc.cc
-SOURCES+=view/main_view.cc
-SOURCES+=view/mainwindow.cc
-SOURCES+=view/qcustomplot.cc
 
 REPORT_DIRECTORY=report
 
@@ -242,7 +229,13 @@ style_webkit:
 clean:
 	rm -rf *.o *.a *.css index.html *.gcno *.gcda *.out *.info test report *.dSYM *.gcov build *.gch SmartCalc_dist SmartCalc_arch.tar.gz tests/*.exe
 	rm -rf *.gcda *.gcno tests/*.o tests/*.gcda tests/*.gcno
-	rm -rf *.gcda *.gcno model/*.o model/*.gcda model/*.gcno
+	rm -rf *.gcda *.gcno model/calculator/*.o model/calculator/*.gcda model/calculator/*.gcno
+	rm -rf *.gcda *.gcno model/credit/*.o model/credit/*.gcda model/credit/*.gcno
+	rm -rf *.gcda *.gcno model/deposit/*.o model/deposit/*.gcda model/deposit/*.gcno
+	rm -rf *.gcda *.gcno model/graph/*.o model/graph/*.gcda model/graph/*.gcno
+	rm -rf *.gcda *.gcno model/parcer/*.o model/parcer/*.gcda model/parcer/*.gcno
+	rm -rf *.gcda *.gcno model/rpn/*.o model/rpn/*.gcda model/rpn/*.gcno
+	rm -rf *.gcda *.gcno controller/*.o controller/*.gcda controller/*.gcno
 	rm -rf html
 	rm -rf latex
 	rm -rf report
