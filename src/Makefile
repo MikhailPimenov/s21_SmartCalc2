@@ -1,9 +1,9 @@
 CC=g++
 CFLAGS=-Wall -Werror -Wextra
-CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g -Werror
+CFLAGS=-Wall -std=c++17 -Wextra -pedantic -g -Werror -fsanitize=address
 CCOV=-fprofile-arcs -ftest-coverage
 COVFLAGS=$(shell pkg-config --cflags --libs gcovr)
-LDFLAGS=-lgcov
+LDFLAGS=-lgcov 
 TFLAGS=$(shell pkg-config --libs check)
 
 
@@ -12,7 +12,8 @@ GCOVR_CFLAGS=--coverage
 GCOVR_LFLAGS=-lgcov
 GCOVR_LFLAGS=--coverage
 
-GTEST_LFLAGS=-lgtest -lgtest_main
+GTEST_LFLAGS=-lgtest -lgtest_main 
+SANITIZER_LFLAGS=-fsanitize=address
 
 HEADERS=model/calculator/calculator.h
 HEADERS+=model/calculator/multiCalculator.h
@@ -100,7 +101,7 @@ run_tests: tests/tests_main.exe
 
 
 tests/tests_main.exe: $(BINARIES)
-		$(CC) -o $@ $^ $(GTEST_LFLAGS) $(GCOVR_LFLAGS) -g
+		$(CC) -o $@ $^ $(GTEST_LFLAGS) $(GCOVR_LFLAGS) $(SANITIZER_LFLAGS) -g
 
 
 EXCLUDE_FROM_COVERAGE=--exclude-lines-by-pattern '.*assert.*' --exclude-throw-branches
