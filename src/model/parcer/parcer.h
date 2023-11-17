@@ -17,8 +17,8 @@ public:
     Parcer(const std::string& input);
     std::optional<std::vector<Model::Token> > Run() const;
 
-private:
-    std::pair<double, std::size_t> number(std::size_t index) const;
+// private:
+//     std::pair<double, std::size_t> number(std::size_t index) const;
 
 };
 
