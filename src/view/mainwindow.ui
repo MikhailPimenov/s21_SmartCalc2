@@ -194,12 +194,25 @@
      <rect>
       <x>370</x>
       <y>190</y>
-      <width>95</width>
+      <width>45</width>
       <height>45</height>
      </rect>
     </property>
     <property name="text">
      <string>=</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_exp">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>190</y>
+      <width>45</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>exp</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_clean">
