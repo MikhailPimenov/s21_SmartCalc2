@@ -193,6 +193,27 @@ void MainWindow::on_pushButton_equal_clicked() {
   }
 }
 
+void MainWindow::on_pushButton_exp_clicked() {
+  const int len = static_cast<int>(string_.size());
+  if (len < 256) {
+    double x_value = ui->x_value->text().toDouble();
+    Controller::Calculator calculator(string_.toStdString(), x_value);
+    std::optional<double> result = calculator.Run();
+    
+    string_.clear();
+    ui->label->clear();
+
+    if (result.has_value()) {
+      QString str_res = QString::number(result.value(), 'g', 7);
+      ui->label->setText(str_res);
+    } else {
+      ui->label->setText("INCORRECT INPUT");
+    }
+  } else {
+    ui->label->setText("Too long string");
+  }
+}
+
 void MainWindow::on_pushButton_all_clean_clicked() {
   string_.clear();
   ui->label->clear();

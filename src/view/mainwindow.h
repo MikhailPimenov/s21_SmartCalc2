@@ -87,6 +87,13 @@ class MainWindow : public QMainWindow {
   void on_pushButton_equal_clicked();
 
   /**
+   * @brief Adds 'e' as EXP to input string for numbers in scientific notation
+   *
+   * @return ** void
+   */
+  void on_pushButton_exp_clicked();
+
+  /**
    * @brief Removes last symbol in input line
    *
    * @return ** void
