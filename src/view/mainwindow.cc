@@ -74,7 +74,7 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::push_button() {
   QPushButton *button = reinterpret_cast<QPushButton *>(sender());
-  if (string_.isEmpty() == 0) {
+  if (!string_.isEmpty()) {
     if (string_.back() != ')' || string_.back() != 'x') {
       string_ = (ui->label->text() + button->text());
     }
@@ -86,7 +86,7 @@ void MainWindow::push_button() {
 
 void MainWindow::push_dot_button() {
   QPushButton *button = reinterpret_cast<QPushButton *>(sender());
-  if (string_.isEmpty() == 0) {
+  if (!string_.isEmpty()) {
     if (string_.back() >= '0' && string_.back() <= '9') {
       string_ = (ui->label->text() + button->text());
     }
@@ -96,7 +96,7 @@ void MainWindow::push_dot_button() {
 
 void MainWindow::push_x_button() {
   QPushButton *button = reinterpret_cast<QPushButton *>(sender());
-  if (string_.isEmpty() == 0) {
+  if (!string_.isEmpty()) {
     if (string_.back() == ')' || string_.back() == 'x' ||
         (string_.back() >= '0' && string_.back() <= '9') || string_ == '.') {
     } else {
@@ -110,7 +110,7 @@ void MainWindow::push_x_button() {
 
 void MainWindow::push_button_operation() {
   QPushButton *button = reinterpret_cast<QPushButton *>(sender());
-  if (string_.isEmpty() == 0) {
+  if (!string_.isEmpty()) {
     if ((string_.back() >= '0' && string_.back() <= '9') ||
         string_.back() == ')' || string_.back() == 'x') {
       string_ = (ui->label->text() + button->text());
@@ -121,10 +121,10 @@ void MainWindow::push_button_operation() {
 
 void MainWindow::push_button_operation_un() {
   QPushButton *button = reinterpret_cast<QPushButton *>(sender());
-  if (string_.isEmpty() == 0) {
+  if (!string_.isEmpty()) {
     if ((string_.back() >= '0' && string_.back() <= '9') ||
         string_.back() == ')' || string_.back() == '(' ||
-        string_.back() == 'x') {
+        string_.back() == 'x' || string_.back() == 'e') {
       string_ = (ui->label->text() + button->text());
     }
   } else {
@@ -135,7 +135,7 @@ void MainWindow::push_button_operation_un() {
 
 void MainWindow::push_button_close_bracket() {
   QPushButton *button = reinterpret_cast<QPushButton *>(sender());
-  if (string_.isEmpty() == 0) {
+  if (!string_.isEmpty()) {
     if ((string_.back() >= '0' && string_.back() <= '9') ||
         string_.back() == ')' || string_.back() == 'x') {
       string_ = (ui->label->text() + button->text());
@@ -146,7 +146,7 @@ void MainWindow::push_button_close_bracket() {
 
 void MainWindow::push_button_open_bracket() {
   QPushButton *button = reinterpret_cast<QPushButton *>(sender());
-  if (string_.isEmpty() == 0) {
+  if (!string_.isEmpty()) {
     if (!(string_.back() >= '0' && string_.back() <= '9' ||
           string_.back() == '.' || string_.back() == 'x')) {
       string_ = (ui->label->text() + button->text());
@@ -159,7 +159,7 @@ void MainWindow::push_button_open_bracket() {
 
 void MainWindow::push_button_operation_fn() {
   QPushButton *button = reinterpret_cast<QPushButton *>(sender());
-  if (string_.isEmpty() == 0) {
+  if (!string_.isEmpty()) {
     if (string_.back() == '+' || string_.back() == '-' ||
         string_.back() == '(' || string_.back() == '*' ||
         string_.back() == '/' || string_.back() == 'd' ||
@@ -175,7 +175,7 @@ void MainWindow::push_button_operation_fn() {
 void MainWindow::on_pushButton_equal_clicked() {
   const int len = static_cast<int>(string_.size());
   if (len < 256) {
-    double x_value = ui->x_value->text().toDouble();
+    const double x_value = ui->x_value->text().toDouble();
     Controller::Calculator calculator(string_.toStdString(), x_value);
     std::optional<double> result = calculator.Run();
     
@@ -194,24 +194,15 @@ void MainWindow::on_pushButton_equal_clicked() {
 }
 
 void MainWindow::on_pushButton_exp_clicked() {
-  const int len = static_cast<int>(string_.size());
-  if (len < 256) {
-    double x_value = ui->x_value->text().toDouble();
-    Controller::Calculator calculator(string_.toStdString(), x_value);
-    std::optional<double> result = calculator.Run();
-    
-    string_.clear();
-    ui->label->clear();
-
-    if (result.has_value()) {
-      QString str_res = QString::number(result.value(), 'g', 7);
-      ui->label->setText(str_res);
-    } else {
-      ui->label->setText("INCORRECT INPUT");
+  QPushButton *button = reinterpret_cast<QPushButton *>(sender());
+  if (!string_.isEmpty()) {
+    if (('0' <= string_.back() && string_.back() <= '9') || string_.back() == '.') {
+      string_ = (ui->label->text() + "e");
     }
   } else {
-    ui->label->setText("Too long string");
+    string_ = (ui->label->text() + "e");
   }
+  ui->label->setText(string_);
 }
 
 void MainWindow::on_pushButton_all_clean_clicked() {
@@ -221,7 +212,7 @@ void MainWindow::on_pushButton_all_clean_clicked() {
 }
 
 void MainWindow::on_pushButton_clean_clicked() {
-  if (string_.isEmpty() == 0) {
+  if (!string_.isEmpty()) {
     if (string_.back() == 'd' || string_.back() == 'g') {
       string_.chop(3);
     } else if (string_.back() == 't') {
@@ -233,10 +224,10 @@ void MainWindow::on_pushButton_clean_clicked() {
       }
     } else if (string_.back() == 'n') {
       string_.chop(2);
-      if (string_.isEmpty() == 0 &&
+      if (!string_.isEmpty() &&
           (string_.back() == 's' || string_.back() == 't')) {
         string_.chop(1);
-        if (string_.isEmpty() == 0 && string_.back() == 'a') {
+        if (!string_.isEmpty() && string_.back() == 'a') {
           string_.chop(1);
         }
       }

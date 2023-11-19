@@ -219,6 +219,31 @@ const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
   }
 }
 
+TEST(Parcer, T0Exp) {
+  const std::string input_str("(-666.555e-8))))))*13e3");
+  std::vector<s21::Model::Token> expected;
+  expected.emplace_back(0.0,          s21::Model::Type::OpenBracket,  0);
+  expected.emplace_back(0.0,          s21::Model::Type::Minus,        6);
+  expected.emplace_back(666.555e-8,   s21::Model::Type::Number,       1);
+  expected.emplace_back(0.0,          s21::Model::Type::CloseBracket, 0);
+  expected.emplace_back(0.0,          s21::Model::Type::CloseBracket, 0);
+  expected.emplace_back(0.0,          s21::Model::Type::CloseBracket, 0);
+  expected.emplace_back(0.0,          s21::Model::Type::CloseBracket, 0);
+  expected.emplace_back(0.0,          s21::Model::Type::CloseBracket, 0);
+  expected.emplace_back(0.0,          s21::Model::Type::CloseBracket, 0);
+  expected.emplace_back(0.0,          s21::Model::Type::Mult,         8);
+  expected.emplace_back(13.0e3,       s21::Model::Type::Number,       1);
+   
+  
+  s21::Parcer parcer(input_str);
+const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
+
+  EXPECT_EQ(actual.has_value(), true);
+  if (actual.has_value()) {
+    EXPECT_EQ(expected, actual.value());
+  }
+}
+
 TEST(Parcer, T0Long) {
   const std::string input_str("cos((-666.5sqrt(55))))*13+14/88-x");
   std::vector<s21::Model::Token> expected;
