@@ -5,8 +5,6 @@
 #include <vector>
 
 #include "../model/calculator/calculator.h"
-#include "../model/calculator/singleCalculator.h"
-#include "../model/calculator/multiCalculator.h"
 #include "../model/graph/graphCalculator.h"
 #include "../model/credit/creditCalculator.h"
 #include "../model/deposit/depositCalculator.h"
@@ -24,17 +22,15 @@ namespace Controller {
 
 class Calculator {
 private:
-  Model::SingleCalculator model_;
+  Model::Calculator model_;
 public:
   Calculator(const std::string& input, double x);
   std::optional<double> Run();
-
 };
-
 
 class GraphCalculator {
 private:
-  Model::MultiCalculator model_;
+  Model::GraphCalculator model_;
 public:
   GraphCalculator(const Protocol::GraphParameters& gp);
   std::optional<Protocol::GraphResult> Run();
@@ -47,7 +43,6 @@ public:
   CreditCalculator(const Protocol::CreditParameters& cp);
   bool Run();
   std::optional<Protocol::CreditResult> Get() const;
-
 };
 
 class DepositCalculator {
@@ -57,7 +52,6 @@ public:
   DepositCalculator(const Protocol::DepositParameters& cp);
   bool Run();
   std::optional<Protocol::DepositResult> Get() const;
-
 };
 
 }  //  namespace Controller

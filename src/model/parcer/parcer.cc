@@ -6,6 +6,8 @@
 
 namespace s21 {
 
+namespace {
+
 class ParcerBase {
 public:
 public:
@@ -138,8 +140,8 @@ public:
   bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
 };
 bool ParcerCos::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
+                    const std::string& string,
+                    std::size_t& s) const {
   if (0 != string.compare(s, 3, "cos"))
     return false;
 
@@ -296,8 +298,7 @@ bool ParcerNumber::Run(std::vector<Model::Token>& tokens,
                          std::size_t& s) const {
   if (const auto& [n, shifted_s] = number(string, s); shifted_s > s) {
     tokens.push_back(Model::Token(n, Model::Type::Number, 1));
-    // s = (shifted_s - 1);
-    s = (shifted_s);  // or  s = (shifted_s - 1) ???
+    s = (shifted_s);
     return true; 
   }
   return false;
@@ -319,49 +320,80 @@ std::pair<double, std::size_t> ParcerNumber::number(const std::string& string, s
   return std::make_pair(result, s);
 }
 
-// static initParcers() {
-  static ParcerOpenBracket                 p1;
-  static ParcerCloseBracket                p2;
-  static ParcerSum                         p3;
-  static ParcerMinus                       p4;
-  static ParcerDivision                    p5;
-  static ParcerMultiplication              p6;
-  static ParcerPower                       p7;
-  static ParcerPlaceholderX                p8;
-  static ParcerCos                         p9;
-  static ParcerSin                        p10;
-  static ParcerMod                        p11;
-  static ParcerTan                        p12;
-  static ParcerAcos                       p13;
-  static ParcerAsin                       p14;
-  static ParcerAtan                       p15;
-  static ParcerSquareRoot                 p16;
-  static ParcerLn                         p17;
-  static ParcerLog                        p18; 
-  static ParcerNumber                     p19;
-// }
+// singleton
+class ParcerChain {
+private:
+  std::array<ParcerBase*, 19> _parcers;
+public:
+  static const ParcerChain& Get();
 
-static std::array<ParcerBase*, 19> s_parcers {
-  &p1,
-  &p2,
-  &p3,
-  &p4,
-  &p5,
-  &p6,
-  &p7,
-  &p8,
-  &p9,
-  &p10,
-  &p11,
-  &p12,
-  &p13,
-  &p14,
-  &p15,
-  &p16,
-  &p17,
-  &p18,
-  &p19,
+  std::size_t Size() const;
+  const ParcerBase* operator[](std::size_t index) const;
+
+private:
+  ParcerChain();
+  ParcerChain(const ParcerChain&) = delete;
+  ParcerChain(ParcerChain&&) = delete;
+
+  ParcerChain& operator=(const ParcerChain&) = delete;
+  ParcerChain& operator=(ParcerChain&&) = delete;
 };
+
+const ParcerChain& ParcerChain::Get() {
+  static ParcerChain instance;
+  return instance;
+}
+
+std::size_t ParcerChain::Size() const {
+  return _parcers.size();
+}
+const ParcerBase* ParcerChain::operator[](std::size_t index) const {
+  return _parcers[index];
+}
+
+ParcerChain::ParcerChain() {
+  static ParcerOpenBracket      p0;
+  static ParcerCloseBracket     p1;
+  static ParcerSum              p2;
+  static ParcerMinus            p3;
+  static ParcerDivision         p4;
+  static ParcerMultiplication   p5;
+  static ParcerPower            p6;
+  static ParcerPlaceholderX     p7;
+  static ParcerCos              p8;
+  static ParcerSin              p9;
+  static ParcerMod             p10;
+  static ParcerTan             p11;
+  static ParcerAcos            p12;
+  static ParcerAsin            p13;
+  static ParcerAtan            p14;
+  static ParcerSquareRoot      p15;
+  static ParcerLn              p16;
+  static ParcerLog             p17;
+  static ParcerNumber          p18;
+
+  _parcers[0]  =  &p0;
+  _parcers[1]  =  &p1;
+  _parcers[2]  =  &p2;
+  _parcers[3]  =  &p3;
+  _parcers[4]  =  &p4;
+  _parcers[5]  =  &p5;
+  _parcers[6]  =  &p6;
+  _parcers[7]  =  &p7;
+  _parcers[8]  =  &p8;
+  _parcers[9]  =  &p9;
+  _parcers[10] = &p10;
+  _parcers[11] = &p11;
+  _parcers[12] = &p12;
+  _parcers[13] = &p13;
+  _parcers[14] = &p14;
+  _parcers[15] = &p15;
+  _parcers[16] = &p16;
+  _parcers[17] = &p17;
+  _parcers[18] = &p18;
+}
+
+} // namespace
 
 Parcer::Parcer(const std::string& input) : input_{input} {}
 
@@ -370,93 +402,20 @@ std::optional<std::vector<Model::Token> > Parcer::Run() const {
   result.reserve(input_.size());
   
   std::size_t s = 0;
-  while (s < input_.size()) { // iterating through symbols
+  while (s < input_.size()) {                                         // iterating through symbols
 
-    bool found = false;
-    for (std::size_t p = 0; p < s_parcers.size(); ++p) { // iterating through parcers
-      if (s_parcers[p]->Run(result, input_, s)) {
-        found = true;
+    bool recognised = false;
+    for (std::size_t p = 0; p < ParcerChain::Get().Size(); ++p) {     // iterating through parcers
+      if (ParcerChain::Get()[p]->Run(result, input_, s)) {
+        recognised = true;
         break;
       }
     }
-    if (!found)
+    if (!recognised)
       return std::nullopt;
   }
 
-  //
-  // for(std::size_t i = 0; i < input_.size(); i++) {
-  //   const char s = input_[i];
-  //   if (s == '(') {
-  //     result.push_back(Model::Token(0.0, Model::Type::OpenBracket, 0));
-  //   } else if(s == ')') {
-  //     result.push_back(Model::Token(0.0, Model::Type::CloseBracket, 0));
-  //   } else if (s == '+') {
-  //     result.push_back(Model::Token(0.0, Model::Type::Sum, 6));
-  //   } else if (s == '-') {
-  //     result.push_back(Model::Token(0.0, Model::Type::Minus, 6));
-  //   } else if (s == '/') {
-  //     result.push_back(Model::Token(0.0, Model::Type::Div, 8));
-  //   } else if (s == '*') {
-  //     result.push_back(Model::Token(0.0, Model::Type::Mult, 8));
-  //   } else if (s == '^') {
-  //     result.push_back(Model::Token(0.0, Model::Type::Power, 9));
-  //   } else if (s == 'x') {
-  //     result.push_back(Model::Token(0.0, Model::Type::X, 1));
-  //   } else if (input_.compare(i, 3, "cos") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Cos, 8));
-  //     i += 2;
-  //   } else if (input_.compare(i, 3, "sin") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Sin, 8));
-  //     i += 2;
-  //   } else if (input_.compare(i, 3, "mod") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Mod, 8));
-  //     i += 2;
-  //   } else if (input_.compare(i, 3, "tan") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Tan, 8));
-  //     i += 2;
-  //   } else if (input_.compare(i, 4, "acos") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Acos, 8));
-  //     i += 3;
-  //   } else if (input_.compare(i, 4, "asin") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Asin, 8));
-  //     i += 3;
-  //   } else if (input_.compare(i, 4, "atan") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Atan, 8));
-  //     i += 3;
-  //   } else if (input_.compare(i, 4, "sqrt") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Sqrt, 8));
-  //     i += 3;
-  //   } else if (input_.compare(i, 2, "ln") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Ln, 8));
-  //     i += 1;
-  //   } else if (input_.compare(i, 3, "log") == 0) {
-  //     result.push_back(Model::Token(0.0, Model::Type::Log, 8));
-  //     i += 2;
-  //   } else if (const auto& [n, index] = number(i); index > i) {
-  //     result.push_back(Model::Token(n, Model::Type::Number, 1));
-  //     i = (index - 1);
-  //   } else {
-  //     return std::nullopt;
-  //   }
-  // } 
   return std::optional<std::vector<Model::Token>>(result);  
 }
-
-// std::pair<double, std::size_t> Parcer::number(std::size_t index) const {
-//   if (input_[index] == '.')
-//     return std::make_pair(0.0, index);
-
-//   std::istringstream iss(input_);
-//   iss.seekg(index);
-//   double result = 0.0;
-//   iss >> result;
-
-//   if (iss.eof())
-//     index = static_cast<int>(input_.size());
-//   else if (!iss.fail())
-//     index = static_cast<int>(iss.tellg());
-
-//   return std::make_pair(result, index);
-// }
 
 }   // namespace s21

@@ -53,30 +53,6 @@ namespace {
 
 TEST(Graph, T0Simple) {
   const std::string input_string = "x";
-  s21::Parcer parcer(input_string);
-  const auto parced = parcer.Run();
-  EXPECT_TRUE(parced.has_value());
-  if (!parced.has_value())
-    return;
-  
-  s21::Validator validator(parced.value());
-  const bool isValid = validator.Run();
-  EXPECT_TRUE(isValid);
-  if (!isValid)
-    return;
-
-  s21::UnaryReplacer unaryReplacer(parced.value());
-  const auto replaced = unaryReplacer.Run();
-
-  std::stack<s21::Model::Token> head;
-  for (auto it = replaced.crbegin(); it != replaced.crend(); ++it)
-    head.push(*it);
-
-  s21::ShuntingYard shuntingYard(head);
-  std::stack<s21::Model::Token> pn = shuntingYard.Run();
-
-  s21::FlipStack flipStack(pn);
-  std::stack<s21::Model::Token> rpn = flipStack.Run();
 
   const double x_max = 30.0;
   const double x_min = -30.0;
@@ -91,7 +67,7 @@ TEST(Graph, T0Simple) {
     expected.y[i] = expected.x[i];
   }
 
-  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
   EXPECT_TRUE(actual.has_value());
@@ -102,31 +78,7 @@ TEST(Graph, T0Simple) {
 
 TEST(Graph, T1Simple) {
   const std::string input_string = "2*x";
-  s21::Parcer parcer(input_string);
-  const auto parced = parcer.Run();
-  EXPECT_TRUE(parced.has_value());
-  if (!parced.has_value())
-    return;
   
-  s21::Validator validator(parced.value());
-  const bool isValid = validator.Run();
-  EXPECT_TRUE(isValid);
-  if (!isValid)
-    return;
-
-  s21::UnaryReplacer unaryReplacer(parced.value());
-  const auto replaced = unaryReplacer.Run();
-
-  std::stack<s21::Model::Token> head;
-  for (auto it = replaced.crbegin(); it != replaced.crend(); ++it)
-    head.push(*it);
-
-  s21::ShuntingYard shuntingYard(head);
-  std::stack<s21::Model::Token> pn = shuntingYard.Run();
-
-  s21::FlipStack flipStack(pn);
-  std::stack<s21::Model::Token> rpn = flipStack.Run();
-
   const double x_max = 30.0;
   const double x_min = -30.0;
   static constexpr int x_range = 10000;
@@ -140,7 +92,7 @@ TEST(Graph, T1Simple) {
     expected.y[i] = 2.0 * expected.x[i];
   }
 
-  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
   EXPECT_TRUE(actual.has_value());
@@ -151,31 +103,7 @@ TEST(Graph, T1Simple) {
 
 TEST(Graph, T2Simple) {
   const std::string input_string = "2*x+1";
-  s21::Parcer parcer(input_string);
-  const auto parced = parcer.Run();
-  EXPECT_TRUE(parced.has_value());
-  if (!parced.has_value())
-    return;
   
-  s21::Validator validator(parced.value());
-  const bool isValid = validator.Run();
-  EXPECT_TRUE(isValid);
-  if (!isValid)
-    return;
-
-  s21::UnaryReplacer unaryReplacer(parced.value());
-  const auto replaced = unaryReplacer.Run();
-
-  std::stack<s21::Model::Token> head;
-  for (auto it = replaced.crbegin(); it != replaced.crend(); ++it)
-    head.push(*it);
-
-  s21::ShuntingYard shuntingYard(head);
-  std::stack<s21::Model::Token> pn = shuntingYard.Run();
-
-  s21::FlipStack flipStack(pn);
-  std::stack<s21::Model::Token> rpn = flipStack.Run();
-
   const double x_max = 30.0;
   const double x_min = -30.0;
   static constexpr int x_range = 10000;
@@ -189,7 +117,7 @@ TEST(Graph, T2Simple) {
     expected.y[i] = 2.0 * expected.x[i] + 1.0;
   }
 
-  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
   EXPECT_TRUE(actual.has_value());
@@ -200,31 +128,7 @@ TEST(Graph, T2Simple) {
 
 TEST(Graph, T3Simple) {
   const std::string input_string = "-x";
-  s21::Parcer parcer(input_string);
-  const auto parced = parcer.Run();
-  EXPECT_TRUE(parced.has_value());
-  if (!parced.has_value())
-    return;
   
-  s21::Validator validator(parced.value());
-  const bool isValid = validator.Run();
-  EXPECT_TRUE(isValid);
-  if (!isValid)
-    return;
-
-  s21::UnaryReplacer unaryReplacer(parced.value());
-  const auto replaced = unaryReplacer.Run();
-
-  std::stack<s21::Model::Token> head;
-  for (auto it = replaced.crbegin(); it != replaced.crend(); ++it)
-    head.push(*it);
-
-  s21::ShuntingYard shuntingYard(head);
-  std::stack<s21::Model::Token> pn = shuntingYard.Run();
-
-  s21::FlipStack flipStack(pn);
-  std::stack<s21::Model::Token> rpn = flipStack.Run();
-
   const double x_max = 30.0;
   const double x_min = -30.0;
   static constexpr int x_range = 10000;
@@ -238,7 +142,7 @@ TEST(Graph, T3Simple) {
     expected.y[i] = -1.0 * expected.x[i];
   }
 
-  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
 
@@ -250,31 +154,7 @@ TEST(Graph, T3Simple) {
 
 TEST(Graph, T0Complex) {
   const std::string input_string = "2*(x+1)*sin(4-x)*x";
-  s21::Parcer parcer(input_string);
-  const auto parced = parcer.Run();
-  EXPECT_TRUE(parced.has_value());
-  if (!parced.has_value())
-    return;
-  
-  s21::Validator validator(parced.value());
-  const bool isValid = validator.Run();
-  EXPECT_TRUE(isValid);
-  if (!isValid)
-    return;
-
-  s21::UnaryReplacer unaryReplacer(parced.value());
-  const auto replaced = unaryReplacer.Run();
-
-  std::stack<s21::Model::Token> head;
-  for (auto it = replaced.crbegin(); it != replaced.crend(); ++it)
-    head.push(*it);
-
-  s21::ShuntingYard shuntingYard(head);
-  std::stack<s21::Model::Token> pn = shuntingYard.Run();
-
-  s21::FlipStack flipStack(pn);
-  std::stack<s21::Model::Token> rpn = flipStack.Run();
-
+ 
   const double x_max = 30.0;
   const double x_min = -30.0;
   static constexpr int x_range = 10000;
@@ -289,7 +169,7 @@ TEST(Graph, T0Complex) {
                     std::sin(4.0 - expected.x[i]) * expected.x[i];
   }
 
-  s21::Model::GraphCalculator graphCalculator(rpn, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
   
   EXPECT_TRUE(actual.has_value());

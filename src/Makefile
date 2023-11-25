@@ -16,21 +16,23 @@ GTEST_LFLAGS=-lgtest -lgtest_main
 SANITIZER_LFLAGS=-fsanitize=address
 
 HEADERS=model/calculator/calculator.h
-HEADERS+=model/calculator/multiCalculator.h
-HEADERS+=model/calculator/singleCalculator.h
+HEADERS+=model/calculator/expressionToTokens.h
 
 HEADERS+=model/credit/creditCalculator.h
+
 HEADERS+=model/deposit/depositCalculator.h
+
 HEADERS+=model/graph/graphCalculator.h
-HEADERS+=model/parcer/token.h
+
 HEADERS+=model/parcer/parcer.h
+HEADERS+=model/parcer/token.h
 HEADERS+=model/parcer/unaryReplacer.h
 HEADERS+=model/parcer/validator.h
 
 HEADERS+=model/rpn/calculatorRpn.h
 HEADERS+=model/rpn/flipStack.h
 HEADERS+=model/rpn/shuntingYard.h
-
+HEADERS+=model/rpn/multiCalculatorRpn.h
 
 HEADERS+=controller/controller.h
 
@@ -46,9 +48,9 @@ SOURCES+=tests/test_parcer.cc
 SOURCES+=tests/test_validator.cc
 
 SOURCES+=controller/controller.cc
+
 SOURCES+=model/calculator/calculator.cc
-SOURCES+=model/calculator/multiCalculator.cc
-SOURCES+=model/calculator/singleCalculator.cc
+SOURCES+=model/calculator/expressionToTokens.cc
 
 SOURCES+=model/credit/creditCalculator.cc
 
@@ -63,6 +65,7 @@ SOURCES+=model/parcer/validator.cc
 
 SOURCES+=model/rpn/calculatorRpn.cc
 SOURCES+=model/rpn/flipStack.cc
+SOURCES+=model/rpn/multiCalculatorRpn.cc
 SOURCES+=model/rpn/shuntingYard.cc
 
 REPORT_DIRECTORY=report
