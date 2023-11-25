@@ -1,6 +1,7 @@
 set(RPN_SOURCES
     calculatorRpn.cc
     flipStack.cc
+    multiCalculatorRpn.cc
     shuntingYard.cc
 )
 add_library(rpn_target ${RPN_SOURCES})

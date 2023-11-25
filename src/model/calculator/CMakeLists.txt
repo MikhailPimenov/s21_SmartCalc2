@@ -1,7 +1,6 @@
 set(CALCULATOR_SOURCES
     calculator.cc
-    multiCalculator.cc
-    singleCalculator.cc
+    expressionToTokens.cc
 )
 add_library(calculator_target ${CALCULATOR_SOURCES})
 
