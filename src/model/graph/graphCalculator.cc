@@ -17,7 +17,7 @@ GraphCalculator::GraphCalculator(const Protocol::GraphParameters& gp)
 }
 
 std::optional<Protocol::GraphResult> GraphCalculator::Run() {
-  if (ett_.Run())
+  if (!ett_.Run())
     return std::nullopt;
 
   MultiCalculatorRpn multiCalculatorRpn(ett_.Get(), min_, max_, steps_);
