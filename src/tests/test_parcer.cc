@@ -6,6 +6,7 @@
 
 #include "../model/parcer/parcer.h"
 
+// GCOVR_EXCL_START
 
 namespace s21 {
 
@@ -380,3 +381,5 @@ const std::optional<std::vector<s21::Model::Token>> actual = parcer.Run();
 }
 
 } // namespace
+
+// GCOVR_EXCL_STOP

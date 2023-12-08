@@ -6,6 +6,8 @@
 #include "../model/parcer/parcer.h"
 #include "../model/parcer/validator.h"
 
+// GCOVR_EXCL_START
+
 namespace {
 
 TEST(Validator, T0Simple) {
@@ -563,13 +565,6 @@ const bool actual = validator.Run();
   EXPECT_EQ(expected, actual);
 }
 
-// --+5     false
-// +5       true
-// -5       true
-// -(-(+5)) true
-
-// 5-5      true
-// )-5      true
-// (-5)     true
-
 } // namespace
+
+// GCOVR_EXCL_STOP

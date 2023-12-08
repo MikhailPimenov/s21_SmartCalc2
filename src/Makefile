@@ -107,7 +107,7 @@ tests/tests_main.exe: $(BINARIES)
 		$(CC) -o $@ $^ $(GTEST_LFLAGS) $(GCOVR_LFLAGS) $(SANITIZER_LFLAGS) -g
 
 
-EXCLUDE_FROM_COVERAGE=--exclude-lines-by-pattern '.*assert.*' --exclude-throw-branches
+EXCLUDE_FROM_COVERAGE=--exclude-lines-by-pattern '.*assert.*' --exclude-throw-branches --exclude-unreachable-branches
 
 gcov_report: run_tests
 		mkdir -p $(REPORT_DIRECTORY)

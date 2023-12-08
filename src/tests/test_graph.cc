@@ -152,6 +152,34 @@ TEST(Graph, T3Simple) {
   EXPECT_EQ(expected, actual.value());
 }
 
+TEST(Graph, T4Simple) {
+  s21::Protocol::GraphParameters gp;
+  gp.input_string = "-x";
+  
+  gp.x_max = 30.0;
+  gp.x_min = -30.0;
+  static constexpr int x_range = 10000;
+  gp.steps = 10000;
+  const double x_step = abs(gp.x_max - gp.x_min) / static_cast<double>(x_range);
+
+  s21::Protocol::GraphResult expected;
+  expected.x.resize(x_range);
+  expected.y.resize(x_range);
+  for (int i = 0; i < x_range; ++i) {
+    expected.x[i] = gp.x_min + x_step * static_cast<double>(i);
+    expected.y[i] = -1.0 * expected.x[i];
+  }
+
+  s21::Model::GraphCalculator graphCalculator(gp);
+  std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
+  
+
+  EXPECT_TRUE(actual.has_value());
+  if (!actual.has_value())
+    return;
+  EXPECT_EQ(expected, actual.value());
+}
+
 TEST(Graph, T0Complex) {
   const std::string input_string = "2*(x+1)*sin(4-x)*x";
  
