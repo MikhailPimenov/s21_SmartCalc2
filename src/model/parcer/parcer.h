@@ -19,7 +19,7 @@ namespace s21 {
 
 class Parcer {
 private:
-    const std::string& input_;
+    const std::string input_;
 
 public:
     Parcer(const std::string& input);

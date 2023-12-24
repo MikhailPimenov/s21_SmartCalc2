@@ -33,9 +33,6 @@ private:
     bool validateBraces() const;
 
 
-public:
-
-
 };  // class Validator
 
 }   // namespace s21
