@@ -5,18 +5,18 @@
 #include <vector>
 
 #include "../model/calculator/calculator.h"
-#include "../model/graph/graphCalculator.h"
 #include "../model/credit/creditCalculator.h"
 #include "../model/deposit/depositCalculator.h"
+#include "../model/graph/graphCalculator.h"
 
 namespace s21 {
 
 namespace Protocol {
-  struct GraphParameters;
-  struct GraphResult;
-  struct CreditParameters;
-  struct CreditResult;
-}
+struct GraphParameters;
+struct GraphResult;
+struct CreditParameters;
+struct CreditResult;
+}  // namespace Protocol
 
 namespace Controller {
 
@@ -28,9 +28,10 @@ namespace Controller {
  */
 
 class Calculator {
-private:
+ private:
   Model::Calculator model_;
-public:
+
+ public:
   Calculator(const std::string& input, double x);
   std::optional<double> Run();
 };
@@ -42,9 +43,10 @@ public:
  */
 
 class GraphCalculator {
-private:
+ private:
   Model::GraphCalculator model_;
-public:
+
+ public:
   GraphCalculator(const Protocol::GraphParameters& gp);
   std::optional<Protocol::GraphResult> Run();
 };
@@ -52,15 +54,16 @@ public:
 /**
  * @brief Calculates a credit
  *
- * Shows calculated result of monthly payment, 
+ * Shows calculated result of monthly payment,
  * overpayment on credit, total payment
- * 
+ *
  */
 
 class CreditCalculator {
-private:
+ private:
   Model::CreditCalculator model_;
-public:
+
+ public:
   CreditCalculator(const Protocol::CreditParameters& cp);
   bool Run();
   std::optional<Protocol::CreditResult> Get() const;
@@ -69,15 +72,16 @@ public:
 /**
  * @brief Provide a special mode
  *
- * Shows calculated result of accrued interest, tax amount, 
+ * Shows calculated result of accrued interest, tax amount,
  * deposit amount by the end of the term
- * 
+ *
  */
 
 class DepositCalculator {
-private:
+ private:
   Model::DepositCalculator model_;
-public:
+
+ public:
   DepositCalculator(const Protocol::DepositParameters& cp);
   bool Run();
   std::optional<Protocol::DepositResult> Get() const;

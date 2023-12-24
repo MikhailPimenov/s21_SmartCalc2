@@ -31,7 +31,8 @@ void CreditWindow::on_make_calc_clicked() {
   if (ui->radioButton->isChecked()) {
     parameters.order_ = Protocol::CreditParameters::RepainmentOrder::Annuity;
   } else if (ui->radioButton_2->isChecked()) {
-    parameters.order_ = Protocol::CreditParameters::RepainmentOrder::Differentiated;
+    parameters.order_ =
+        Protocol::CreditParameters::RepainmentOrder::Differentiated;
   }
 
   Controller::CreditCalculator calculator(parameters);
@@ -53,8 +54,8 @@ void CreditWindow::on_make_calc_clicked() {
   ui->tableWidget->setColumnCount(1);
 
   for (int i = 0; i < parameters.creditTerm_; i++) {
-    QTableWidgetItem *itm =
-        new QTableWidgetItem(QString::number(result->monthlyPaymentList_.at(i)));
+    QTableWidgetItem *itm = new QTableWidgetItem(
+        QString::number(result->monthlyPaymentList_.at(i)));
     ui->tableWidget->setItem(i, 0, itm);
   }
 }

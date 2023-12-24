@@ -178,7 +178,7 @@ void MainWindow::on_pushButton_equal_clicked() {
     const double x_value = ui->x_value->text().toDouble();
     Controller::Calculator calculator(string_.toStdString(), x_value);
     std::optional<double> result = calculator.Run();
-    
+
     string_.clear();
     ui->label->clear();
 
@@ -196,7 +196,8 @@ void MainWindow::on_pushButton_equal_clicked() {
 void MainWindow::on_pushButton_exp_clicked() {
   QPushButton *button = reinterpret_cast<QPushButton *>(sender());
   if (!string_.isEmpty()) {
-    if (('0' <= string_.back() && string_.back() <= '9') || string_.back() == '.') {
+    if (('0' <= string_.back() && string_.back() <= '9') ||
+        string_.back() == '.') {
       string_ = (ui->label->text() + "e");
     }
   } else {
@@ -260,7 +261,8 @@ void MainWindow::on_pushButton_graph_clicked() {
   ui->widget->addGraph();
   ui->widget->graph(0)->addData(x, y);
   ui->widget->graph(0)->setLineStyle(QCPGraph::lsNone);
-  ui->widget->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 1));
+  ui->widget->graph(0)->setScatterStyle(
+      QCPScatterStyle(QCPScatterStyle::ssDisc, 1));
 
   ui->widget->xAxis->setLabel("x");
   ui->widget->yAxis->setLabel("y");

@@ -4,13 +4,13 @@
 #include <iostream>
 #include <string>
 
-#include "../protocol/protocol.h"
 #include "../model/graph/graphCalculator.h"
 #include "../model/parcer/parcer.h"
-#include "../model/parcer/validator.h"
 #include "../model/parcer/unaryReplacer.h"
-#include "../model/rpn/shuntingYard.h"
+#include "../model/parcer/validator.h"
 #include "../model/rpn/flipStack.h"
+#include "../model/rpn/shuntingYard.h"
+#include "../protocol/protocol.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2
@@ -67,18 +67,18 @@ TEST(Graph, T0Simple) {
     expected.y[i] = expected.x[i];
   }
 
-  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max,
+                                              x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
-  
+
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
+  if (!actual.has_value()) return;
   EXPECT_EQ(expected, actual.value());
 }
 
 TEST(Graph, T1Simple) {
   const std::string input_string = "2*x";
-  
+
   const double x_max = 30.0;
   const double x_min = -30.0;
   static constexpr int x_range = 10000;
@@ -92,18 +92,18 @@ TEST(Graph, T1Simple) {
     expected.y[i] = 2.0 * expected.x[i];
   }
 
-  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max,
+                                              x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
-  
+
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
+  if (!actual.has_value()) return;
   EXPECT_EQ(expected, actual.value());
 }
 
 TEST(Graph, T2Simple) {
   const std::string input_string = "2*x+1";
-  
+
   const double x_max = 30.0;
   const double x_min = -30.0;
   static constexpr int x_range = 10000;
@@ -117,18 +117,18 @@ TEST(Graph, T2Simple) {
     expected.y[i] = 2.0 * expected.x[i] + 1.0;
   }
 
-  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max,
+                                              x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
-  
+
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
+  if (!actual.has_value()) return;
   EXPECT_EQ(expected, actual.value());
 }
 
 TEST(Graph, T3Simple) {
   const std::string input_string = "-x";
-  
+
   const double x_max = 30.0;
   const double x_min = -30.0;
   static constexpr int x_range = 10000;
@@ -142,20 +142,19 @@ TEST(Graph, T3Simple) {
     expected.y[i] = -1.0 * expected.x[i];
   }
 
-  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max,
+                                              x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
-  
 
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
+  if (!actual.has_value()) return;
   EXPECT_EQ(expected, actual.value());
 }
 
 TEST(Graph, T4Simple) {
   s21::Protocol::GraphParameters gp;
   gp.input_string = "-x";
-  
+
   gp.x_max = 30.0;
   gp.x_min = -30.0;
   static constexpr int x_range = 10000;
@@ -172,17 +171,15 @@ TEST(Graph, T4Simple) {
 
   s21::Model::GraphCalculator graphCalculator(gp);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
-  
 
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
+  if (!actual.has_value()) return;
   EXPECT_EQ(expected, actual.value());
 }
 
 TEST(Graph, T0Complex) {
   const std::string input_string = "2*(x+1)*sin(4-x)*x";
- 
+
   const double x_max = 30.0;
   const double x_min = -30.0;
   static constexpr int x_range = 10000;
@@ -197,12 +194,12 @@ TEST(Graph, T0Complex) {
                     std::sin(4.0 - expected.x[i]) * expected.x[i];
   }
 
-  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max, x_range);
+  s21::Model::GraphCalculator graphCalculator(input_string, x_min, x_max,
+                                              x_range);
   std::optional<s21::Protocol::GraphResult> actual = graphCalculator.Run();
-  
+
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
+  if (!actual.has_value()) return;
   EXPECT_EQ(expected, actual.value());
 }
 

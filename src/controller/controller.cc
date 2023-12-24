@@ -17,27 +17,21 @@ namespace Controller {
  * @return false if failed (incorrect input)
  */
 
-Calculator::Calculator(const std::string& input, double x) : model_{input, x} {
-
-}
-std::optional<double> Calculator::Run() {
-  return model_.Run();
-}
-
+Calculator::Calculator(const std::string& input, double x) : model_{input, x} {}
+std::optional<double> Calculator::Run() { return model_.Run(); }
 
 /**
  * @brief Shows Graph
  * Plots a graph of a function
- * 
+ *
  * @param gp Input parameters
  * @param gr Calculated result
  * @return true if success
  * @return false if failed (incorrect input)
  */
 
-GraphCalculator::GraphCalculator(const Protocol::GraphParameters& gp) : model_{gp} {
-
-}
+GraphCalculator::GraphCalculator(const Protocol::GraphParameters& gp)
+    : model_{gp} {}
 std::optional<Protocol::GraphResult> GraphCalculator::Run() {
   return model_.Run();
 }
@@ -51,12 +45,9 @@ std::optional<Protocol::GraphResult> GraphCalculator::Run() {
  * @return false if failed (incorrect input)
  */
 
-CreditCalculator::CreditCalculator(const Protocol::CreditParameters& cp) : model_{cp} {
-
-}
-bool CreditCalculator::Run() {
-  return model_.Run();
-}
+CreditCalculator::CreditCalculator(const Protocol::CreditParameters& cp)
+    : model_{cp} {}
+bool CreditCalculator::Run() { return model_.Run(); }
 std::optional<Protocol::CreditResult> CreditCalculator::Get() const {
   return model_.Get();
 }
@@ -70,19 +61,16 @@ std::optional<Protocol::CreditResult> CreditCalculator::Get() const {
  * @return false if failed (incorrect input)
  */
 
-DepositCalculator::DepositCalculator(const Protocol::DepositParameters& cp) : model_{cp} {
+DepositCalculator::DepositCalculator(const Protocol::DepositParameters& cp)
+    : model_{cp} {}
 
-}
-
-bool DepositCalculator::Run() {
-  return model_.Run();
-}
+bool DepositCalculator::Run() { return model_.Run(); }
 
 std::optional<Protocol::DepositResult> DepositCalculator::Get() const {
   return model_.Get();
 }
 
-} // namespace Controller
+}  // namespace Controller
 
 }  // namespace s21
 

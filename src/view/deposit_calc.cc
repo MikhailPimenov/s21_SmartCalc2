@@ -76,12 +76,14 @@ void DepositWindow::on_pushButton_clicked() {
 
   if (!ui->checkBox_add->isChecked()) return;
 
-  for (int i = 0; i < static_cast<signed>(result->percentMonthly_.size()); ++i) {
+  for (int i = 0; i < static_cast<signed>(result->percentMonthly_.size());
+       ++i) {
     QTableWidgetItem *itm =
         new QTableWidgetItem(QString::number(result->percentMonthly_.at(i)));
     ui->tableWidget->setItem(i, 1, itm);
   }
-  for (int i = 0; i < static_cast<signed>(result->accruedMonthly_.size()); ++i) {
+  for (int i = 0; i < static_cast<signed>(result->accruedMonthly_.size());
+       ++i) {
     QTableWidgetItem *itm =
         new QTableWidgetItem(QString::number(result->accruedMonthly_.at(i)));
     ui->tableWidget->setItem(i, 2, itm);

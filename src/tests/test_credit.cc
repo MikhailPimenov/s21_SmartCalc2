@@ -3,8 +3,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "../protocol/protocol.h"
 #include "../model/credit/creditCalculator.h"
+#include "../protocol/protocol.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2
@@ -90,10 +90,10 @@ TEST(Credit, T0CreditSimpleAnnuity) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
+  if (!actual.has_value()) return;
 
   EXPECT_EQ(expected, actual.value());
 }
@@ -176,10 +176,10 @@ TEST(Credit, T0CreditSimpleDifferentiated) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
+  if (!actual.has_value()) return;
 
   EXPECT_EQ(expected, actual.value());
 }
@@ -193,7 +193,8 @@ TEST(Credit, T0CreditIncorrectInput) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   const bool status = creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_FALSE(status);
   EXPECT_FALSE(actual.has_value());
 }
@@ -207,7 +208,8 @@ TEST(Credit, T1CreditIncorrectInput) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   const bool status = creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_FALSE(status);
   EXPECT_FALSE(actual.has_value());
 }
@@ -221,7 +223,8 @@ TEST(Credit, T2CreditIncorrectInput) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   const bool status = creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_FALSE(status);
   EXPECT_FALSE(actual.has_value());
 }
@@ -235,7 +238,8 @@ TEST(Credit, T3CreditIncorrectInput) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   const bool status = creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_FALSE(status);
   EXPECT_FALSE(actual.has_value());
 }
@@ -249,7 +253,8 @@ TEST(Credit, T4CreditIncorrectInput) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   const bool status = creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_FALSE(status);
   EXPECT_FALSE(actual.has_value());
 }
@@ -263,7 +268,8 @@ TEST(Credit, T5CreditIncorrectInput) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   const bool status = creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_FALSE(status);
   EXPECT_FALSE(actual.has_value());
 }
@@ -277,7 +283,8 @@ TEST(Credit, T6CreditIncorrectInput) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   const bool status = creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_FALSE(status);
   EXPECT_FALSE(actual.has_value());
 }
@@ -291,7 +298,8 @@ TEST(Credit, T7CreditIncorrectInput) {
 
   s21::Model::CreditCalculator creditCalculator(cp);
   const bool status = creditCalculator.Run();
-  const std::optional<s21::Protocol::CreditResult> actual = creditCalculator.Get();
+  const std::optional<s21::Protocol::CreditResult> actual =
+      creditCalculator.Get();
   EXPECT_FALSE(status);
   EXPECT_FALSE(actual.has_value());
 }

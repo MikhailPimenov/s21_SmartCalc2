@@ -3,9 +3,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "../protocol/protocol.h"
 #include "../model/deposit/depositCalculator.h"
-
+#include "../protocol/protocol.h"
 
 #define EPS 1e-7
 #define EPS2 1e-2
@@ -99,7 +98,6 @@ std::ostream &operator<<(std::ostream &out, const Protocol::DepositResult &dr) {
 }  // namespace s21
 
 namespace {
-
 
 TEST(Deposit, T0DepositCapitalization) {
   s21::Protocol::DepositParameters dp;
@@ -242,14 +240,13 @@ TEST(Deposit, T0DepositCapitalization) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_TRUE(success);
-  if (!success)
-    return;
+  if (!success) return;
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
-  
+  if (!actual.has_value()) return;
+
   EXPECT_EQ(expected, actual.value());
 }
 
@@ -298,14 +295,13 @@ TEST(Deposit, T0Deposit) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_TRUE(success);
-  if (!success)
-    return;
+  if (!success) return;
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
-  
+  if (!actual.has_value()) return;
+
   EXPECT_EQ(expected, actual.value());
 }
 
@@ -354,14 +350,13 @@ TEST(Deposit, T1Deposit) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_TRUE(success);
-  if (!success)
-    return;
+  if (!success) return;
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
-  
+  if (!actual.has_value()) return;
+
   EXPECT_EQ(expected, actual.value());
 }
 
@@ -411,14 +406,13 @@ TEST(Deposit, T2Deposit) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_TRUE(success);
-  if (!success)
-    return;
+  if (!success) return;
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
-  
+  if (!actual.has_value()) return;
+
   EXPECT_EQ(expected, actual.value());
 }
 
@@ -566,14 +560,13 @@ TEST(Deposit, T0DepositCapitalizationAddition) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_TRUE(success);
-  if (!success)
-    return;
+  if (!success) return;
   EXPECT_TRUE(actual.has_value());
-  if (!actual.has_value())
-    return;
-  
+  if (!actual.has_value()) return;
+
   EXPECT_EQ(expected, actual.value());
 }
 
@@ -588,7 +581,8 @@ TEST(Deposit, T0DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
@@ -604,7 +598,8 @@ TEST(Deposit, T1DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
@@ -620,7 +615,8 @@ TEST(Deposit, T2DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
@@ -636,7 +632,8 @@ TEST(Deposit, T3DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
@@ -652,7 +649,8 @@ TEST(Deposit, T4DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
@@ -668,7 +666,8 @@ TEST(Deposit, T5DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
@@ -684,7 +683,8 @@ TEST(Deposit, T6DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
@@ -701,7 +701,8 @@ TEST(Deposit, T7DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
@@ -718,7 +719,8 @@ TEST(Deposit, T8DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
@@ -737,7 +739,8 @@ TEST(Deposit, T9DepositIncorrectInput) {
 
   s21::Model::DepositCalculator depositCalculator(dp);
   const bool success = depositCalculator.Run();
-  const std::optional<s21::Protocol::DepositResult> actual = depositCalculator.Get();
+  const std::optional<s21::Protocol::DepositResult> actual =
+      depositCalculator.Get();
   EXPECT_FALSE(success);
   EXPECT_FALSE(actual.has_value());
 }
