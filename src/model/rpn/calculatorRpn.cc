@@ -1,9 +1,11 @@
 #include "calculatorRpn.h"
+
 #include <cmath>
 
 namespace s21 {
 
-CalculatorRpn::CalculatorRpn(std::stack<Model::Token> rpn, double x /* = 0.0 */) : rpn_{rpn}, x_{x} {}
+CalculatorRpn::CalculatorRpn(std::stack<Model::Token> rpn, double x /* = 0.0 */)
+    : rpn_{rpn}, x_{x} {}
 
 std::optional<double> CalculatorRpn::Run() {
   double result = 0.0;
@@ -16,12 +18,11 @@ std::optional<double> CalculatorRpn::Run() {
       rpn_.top().value_ = x_;
       stack.push(rpn_.top());
       rpn_.pop();
-    } else if (rpn_.top().type_ >= Model::Type::Sum && rpn_.top().type_ <= Model::Type::Mod &&
-               !stack.empty()) {
+    } else if (rpn_.top().type_ >= Model::Type::Sum &&
+               rpn_.top().type_ <= Model::Type::Mod && !stack.empty()) {
       double number2 = stack.top().value_;
       stack.pop();
-      if (stack.empty())
-        return std::nullopt;
+      if (stack.empty()) return std::nullopt;
       result = binaryFnCalc(stack.top().value_, number2, rpn_.top().type_);
       stack.pop();
       rpn_.pop();
@@ -52,7 +53,8 @@ double CalculatorRpn::unaryFnCalc(double number1, Model::Type type) {
   return result;
 }
 
-double CalculatorRpn::binaryFnCalc(double number1, double number2, Model::Type type) {
+double CalculatorRpn::binaryFnCalc(double number1, double number2,
+                                   Model::Type type) {
   double result = 0;
   if (type == Model::Type::Sum) result = number1 + number2;
   if (type == Model::Type::Minus) result = number1 - number2;
@@ -63,4 +65,4 @@ double CalculatorRpn::binaryFnCalc(double number1, double number2, Model::Type t
   return result;
 }
 
-}   // namespace s21
+}  // namespace s21

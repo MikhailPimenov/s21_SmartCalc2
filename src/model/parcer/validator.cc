@@ -1,9 +1,9 @@
 #include "validator.h"
+
 #include <iostream>
 #include <stack>
 
 namespace s21 {
-
 
 /**
  * @brief Validator
@@ -20,10 +20,8 @@ bool Validator::validateBraces() const {
   for (const Model::Token& token : input_) {
     if (token.isOpeningBrace()) {
       isPreviousOpen = true;
-    }
-    else if (token.isClosingBrace()) {
-      if (isPreviousOpen)
-        return false;
+    } else if (token.isClosingBrace()) {
+      if (isPreviousOpen) return false;
     } else if (token.isOperand()) {
       isPreviousOpen = false;
     }
@@ -31,11 +29,9 @@ bool Validator::validateBraces() const {
   std::stack<Model::Token> stack;
 
   for (const Model::Token& token : input_) {
-    if (!token.isOpeningBrace() && !token.isClosingBrace())
-      continue;
+    if (!token.isOpeningBrace() && !token.isClosingBrace()) continue;
 
-    if (token.isOpeningBrace())
-      stack.push(token);
+    if (token.isOpeningBrace()) stack.push(token);
     if (token.isClosingBrace()) {
       if (stack.empty())
         return false;
@@ -44,7 +40,7 @@ bool Validator::validateBraces() const {
     }
   }
 
-  return stack.empty(); 
+  return stack.empty();
 }
 
 /**
@@ -56,7 +52,8 @@ bool Validator::validateBraces() const {
  */
 
 bool Validator::validateBinary() const {
-  if (input_.front().isBinaryFunction() && !input_.front().isUnaryLeftFunction())
+  if (input_.front().isBinaryFunction() &&
+      !input_.front().isUnaryLeftFunction())
     return false;
 
   for (std::size_t i = 1; i < input_.size() - 1; ++i) {
@@ -64,13 +61,12 @@ bool Validator::validateBinary() const {
       continue;
     if (!input_[i - 1].isOperand() && !input_[i - 1].isClosingBrace())
       return false;
-    if (!input_[i + 1].isOperand() && !input_[i + 1].isOpeningBrace() && !input_[i + 1].isUnaryRightFunction())
+    if (!input_[i + 1].isOperand() && !input_[i + 1].isOpeningBrace() &&
+        !input_[i + 1].isUnaryRightFunction())
       return false;
   }
-  if (input_.back().isBinaryFunction())
-    return false;
-  if (input_.back().isUnaryRightFunction())
-    return false;
+  if (input_.back().isBinaryFunction()) return false;
+  if (input_.back().isUnaryRightFunction()) return false;
 
   return true;
 }
@@ -92,19 +88,15 @@ bool Validator::validateUnary() const {
 }
 
 bool Validator::Run() const {
-  if (input_.empty())
-    return false;
+  if (input_.empty()) return false;
 
-  if (!validateBinary())
-    return false;
+  if (!validateBinary()) return false;
 
-  if (!validateBraces())
-    return false;
+  if (!validateBraces()) return false;
 
-  if (!validateUnary())
-    return false;
+  if (!validateUnary()) return false;
 
-  return true;  
+  return true;
 }
 
-}   // namespace s21
+}  // namespace s21

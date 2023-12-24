@@ -1,26 +1,25 @@
 #include "expressionToTokens.h"
 // #include "../rpn/calculatorRpn.h"
 #include "../parcer/parcer.h"
-#include "../parcer/validator.h"
-#include "../rpn/shuntingYard.h"
-#include "../rpn/flipStack.h"
 #include "../parcer/unaryReplacer.h"
+#include "../parcer/validator.h"
+#include "../rpn/flipStack.h"
+#include "../rpn/shuntingYard.h"
 
 namespace s21 {
 
 namespace Model {
 
-ExpressionToTokens::ExpressionToTokens(const std::string& input) : input_{input} {}
+ExpressionToTokens::ExpressionToTokens(const std::string& input)
+    : input_{input} {}
 
 bool ExpressionToTokens::Run() {
   Parcer parcer(input_);
   std::optional<std::vector<Model::Token> > tokens = parcer.Run();
-  if (!tokens.has_value())
-    return false;
+  if (!tokens.has_value()) return false;
 
   Validator validator(tokens.value());
-  if (!validator.Run())
-    return false;
+  if (!validator.Run()) return false;
 
   UnaryReplacer unaryReplacer(tokens.value());
   const std::vector<Model::Token> tokensReplaced = unaryReplacer.Run();
@@ -38,10 +37,8 @@ bool ExpressionToTokens::Run() {
   return true;
 }
 
-std::stack<Model::Token>& ExpressionToTokens::Get() {
-  return rpn_;
-}
+std::stack<Model::Token>& ExpressionToTokens::Get() { return rpn_; }
 
-}   //  namespace Model
+}  //  namespace Model
 
-}   //  namespace s21
+}  //  namespace s21

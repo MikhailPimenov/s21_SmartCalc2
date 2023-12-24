@@ -1,13 +1,13 @@
 #include "depositCalculator.h"
+
 #include <array>
 
 namespace s21 {
 
 namespace Model {
 
-DepositCalculator::InputChecker::InputChecker(DepositCalculator& owner) : owner_{owner} {
-
-}
+DepositCalculator::InputChecker::InputChecker(DepositCalculator& owner)
+    : owner_{owner} {}
 
 bool DepositCalculator::InputChecker::Run() const {
   if (owner_.dp_.capitalization_ ==
@@ -27,19 +27,17 @@ bool DepositCalculator::InputChecker::Run() const {
   return true;
 }
 
-
-DepositCalculator::DepositCalculator(const Protocol::DepositParameters &dp) : dp_{dp} {
-
-}
+DepositCalculator::DepositCalculator(const Protocol::DepositParameters& dp)
+    : dp_{dp} {}
 
 bool DepositCalculator::Run() {
-    InputChecker inputChecker(*this);
-    if (!inputChecker.Run()) {
-        success_ = false;
-        return success_;
-    }
+  InputChecker inputChecker(*this);
+  if (!inputChecker.Run()) {
+    success_ = false;
+    return success_;
+  }
 
-    static constexpr std::array<int, 12> daysPerMonth{
+  static constexpr std::array<int, 12> daysPerMonth{
       31,  // jan
       28,  // feb
       31,  // mar
@@ -56,7 +54,6 @@ bool DepositCalculator::Run() {
   static constexpr int months = 12;
   static constexpr int days = 365;
 
-
   double sum = dp_.amount_;
   dr_.amountTotal_ = dp_.amount_;
   dr_.taxTotal_ = 0.0;
@@ -69,13 +66,11 @@ bool DepositCalculator::Run() {
   }
 
   const bool monthlyChanges =
-      static_cast<int>(dp_.depositOrWithdrawal_.size()) ==
-      dp_.period_;
+      static_cast<int>(dp_.depositOrWithdrawal_.size()) == dp_.period_;
 
   for (int i = 0; i < dp_.period_; ++i) {
     const int daysDelta = daysPerMonth[i % months];
-    const double deltaInterest =
-        sum / 100.0 * dp_.interest_ / days * daysDelta;
+    const double deltaInterest = sum / 100.0 * dp_.interest_ / days * daysDelta;
     const double deltaTax = deltaInterest / 100.0 * dp_.tax_;
     const double deltaSum = deltaInterest - deltaTax;
 
@@ -83,17 +78,15 @@ bool DepositCalculator::Run() {
 
     if (dp_.capitalization_ ==
             Protocol::DepositParameters::Capitalization::Monthly &&
-        dp_.frequency_ ==
-            Protocol::DepositParameters::PaymentFrequency::Total)
+        dp_.frequency_ == Protocol::DepositParameters::PaymentFrequency::Total)
       sum += deltaSum;
 
-    if (monthlyChanges)
-      dr_.amountTotal_ += dp_.depositOrWithdrawal_[i];
+    if (monthlyChanges) dr_.amountTotal_ += dp_.depositOrWithdrawal_[i];
 
     if (dr_.amountTotal_ < 0.0) {
-        success_ = false;
-        return success_;
-    } 
+      success_ = false;
+      return success_;
+    }
 
     dr_.amountTotal_ += deltaSum;
 
@@ -110,11 +103,10 @@ bool DepositCalculator::Run() {
 }
 
 std::optional<Protocol::DepositResult> DepositCalculator::Get() const {
-    if (!success_)
-        return std::nullopt;
-    return dr_;
+  if (!success_) return std::nullopt;
+  return dr_;
 }
 
-}   // namespace Model
+}  // namespace Model
 
-}   // namespace s21
+}  // namespace s21

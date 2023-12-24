@@ -11,20 +11,20 @@ namespace s21 {
 /**
  * @brief Flip Stack
  *
- * Flips std::stack 
- * 
+ * Flips std::stack
+ *
  * @param input Input parameters
  */
 
 class FlipStack {
-private:
-    std::stack<Model::Token>& input_;
+ private:
+  std::stack<Model::Token>& input_;
 
-public:
-    FlipStack(std::stack<Model::Token> &input);
-    std::stack<Model::Token> Run();
+ public:
+  FlipStack(std::stack<Model::Token>& input);
+  std::stack<Model::Token> Run();
 };
 
-}   // namespace s21
+}  // namespace s21
 
 #endif  //  SRC_MODEL_FLIPSTACK_H

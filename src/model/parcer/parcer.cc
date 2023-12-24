@@ -1,29 +1,30 @@
 #include "parcer.h"
-#include <iostream>
-#include <iomanip>
-#include <sstream>
+
 #include <array>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 
 namespace s21 {
 
 namespace {
 
 class ParcerBase {
-public:
-public:
-  virtual bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const = 0;
+ public:
+ public:
+  virtual bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+                   std::size_t& s) const = 0;
   virtual ~ParcerBase() {}
 };
 //================================================================================================================
 class ParcerOpenBracket : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerOpenBracket::Run(std::vector<Model::Token>& tokens, 
-                            const std::string& string,
-                            std::size_t& s) const {
-  if (string[s] != '(')
-    return false;
+bool ParcerOpenBracket::Run(std::vector<Model::Token>& tokens,
+                            const std::string& string, std::size_t& s) const {
+  if (string[s] != '(') return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::OpenBracket, 0));
   ++s;
@@ -31,14 +32,13 @@ bool ParcerOpenBracket::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerCloseBracket : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerCloseBracket::Run(std::vector<Model::Token>& tokens, 
-                            const std::string& string,
-                            std::size_t& s) const {
-  if (string[s] != ')')
-    return false;
+bool ParcerCloseBracket::Run(std::vector<Model::Token>& tokens,
+                             const std::string& string, std::size_t& s) const {
+  if (string[s] != ')') return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::CloseBracket, 0));
   ++s;
@@ -46,14 +46,13 @@ bool ParcerCloseBracket::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerSum : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerSum::Run(std::vector<Model::Token>& tokens, 
-                    const std::string& string,
-                    std::size_t& s) const {
-  if (string[s] != '+')
-    return false;
+bool ParcerSum::Run(std::vector<Model::Token>& tokens,
+                    const std::string& string, std::size_t& s) const {
+  if (string[s] != '+') return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Sum, 6));
   ++s;
@@ -61,14 +60,13 @@ bool ParcerSum::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerMinus : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerMinus::Run(std::vector<Model::Token>& tokens, 
-                      const std::string& string,
-                      std::size_t& s) const {
-  if (string[s] != '-')
-    return false;
+bool ParcerMinus::Run(std::vector<Model::Token>& tokens,
+                      const std::string& string, std::size_t& s) const {
+  if (string[s] != '-') return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Minus, 6));
   ++s;
@@ -76,14 +74,13 @@ bool ParcerMinus::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerDivision : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerDivision::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (string[s] != '/')
-    return false;
+bool ParcerDivision::Run(std::vector<Model::Token>& tokens,
+                         const std::string& string, std::size_t& s) const {
+  if (string[s] != '/') return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Div, 8));
   ++s;
@@ -91,14 +88,14 @@ bool ParcerDivision::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerMultiplication : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerMultiplication::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (string[s] != '*')
-    return false;
+bool ParcerMultiplication::Run(std::vector<Model::Token>& tokens,
+                               const std::string& string,
+                               std::size_t& s) const {
+  if (string[s] != '*') return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Mult, 8));
   ++s;
@@ -106,14 +103,13 @@ bool ParcerMultiplication::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerPower : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerPower::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (string[s] != '^')
-    return false;
+bool ParcerPower::Run(std::vector<Model::Token>& tokens,
+                      const std::string& string, std::size_t& s) const {
+  if (string[s] != '^') return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Power, 9));
   ++s;
@@ -121,14 +117,13 @@ bool ParcerPower::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerPlaceholderX : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerPlaceholderX::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (string[s] != 'x')
-    return false;
+bool ParcerPlaceholderX::Run(std::vector<Model::Token>& tokens,
+                             const std::string& string, std::size_t& s) const {
+  if (string[s] != 'x') return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::X, 1));
   ++s;
@@ -136,14 +131,13 @@ bool ParcerPlaceholderX::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerCos : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerCos::Run(std::vector<Model::Token>& tokens, 
-                    const std::string& string,
-                    std::size_t& s) const {
-  if (0 != string.compare(s, 3, "cos"))
-    return false;
+bool ParcerCos::Run(std::vector<Model::Token>& tokens,
+                    const std::string& string, std::size_t& s) const {
+  if (0 != string.compare(s, 3, "cos")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Cos, 8));
   s += 3;
@@ -151,14 +145,13 @@ bool ParcerCos::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerSin : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerSin::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (0 != string.compare(s, 3, "sin"))
-    return false;
+bool ParcerSin::Run(std::vector<Model::Token>& tokens,
+                    const std::string& string, std::size_t& s) const {
+  if (0 != string.compare(s, 3, "sin")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Sin, 8));
   s += 3;
@@ -166,14 +159,13 @@ bool ParcerSin::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerMod : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerMod::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (0 != string.compare(s, 3, "mod"))
-    return false;
+bool ParcerMod::Run(std::vector<Model::Token>& tokens,
+                    const std::string& string, std::size_t& s) const {
+  if (0 != string.compare(s, 3, "mod")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Mod, 8));
   s += 3;
@@ -181,14 +173,13 @@ bool ParcerMod::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerTan : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerTan::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (0 != string.compare(s, 3, "tan"))
-    return false;
+bool ParcerTan::Run(std::vector<Model::Token>& tokens,
+                    const std::string& string, std::size_t& s) const {
+  if (0 != string.compare(s, 3, "tan")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Tan, 8));
   s += 3;
@@ -196,116 +187,111 @@ bool ParcerTan::Run(std::vector<Model::Token>& tokens,
 }
 //================================================================================================================
 class ParcerAcos : public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerAcos::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (0 != string.compare(s, 4, "acos"))
-    return false;
+bool ParcerAcos::Run(std::vector<Model::Token>& tokens,
+                     const std::string& string, std::size_t& s) const {
+  if (0 != string.compare(s, 4, "acos")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Acos, 8));
   s += 4;
   return true;
 }
 //================================================================================================================
-class ParcerAsin: public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+class ParcerAsin : public ParcerBase {
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerAsin::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (0 != string.compare(s, 4, "asin"))
-    return false;
+bool ParcerAsin::Run(std::vector<Model::Token>& tokens,
+                     const std::string& string, std::size_t& s) const {
+  if (0 != string.compare(s, 4, "asin")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Asin, 8));
   s += 4;
   return true;
 }
 //================================================================================================================
-class ParcerAtan: public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+class ParcerAtan : public ParcerBase {
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerAtan::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (0 != string.compare(s, 4, "atan"))
-    return false;
+bool ParcerAtan::Run(std::vector<Model::Token>& tokens,
+                     const std::string& string, std::size_t& s) const {
+  if (0 != string.compare(s, 4, "atan")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Atan, 8));
   s += 4;
   return true;
 }
 //================================================================================================================
-class ParcerSquareRoot: public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+class ParcerSquareRoot : public ParcerBase {
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerSquareRoot::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (0 != string.compare(s, 4, "sqrt"))
-    return false;
+bool ParcerSquareRoot::Run(std::vector<Model::Token>& tokens,
+                           const std::string& string, std::size_t& s) const {
+  if (0 != string.compare(s, 4, "sqrt")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Sqrt, 8));
   s += 4;
   return true;
 }
 //================================================================================================================
-class ParcerLn: public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+class ParcerLn : public ParcerBase {
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerLn::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (0 != string.compare(s, 2, "ln"))
-    return false;
+bool ParcerLn::Run(std::vector<Model::Token>& tokens, const std::string& string,
+                   std::size_t& s) const {
+  if (0 != string.compare(s, 2, "ln")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Ln, 8));
   s += 2;
   return true;
 }
 //================================================================================================================
-class ParcerLog: public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+class ParcerLog : public ParcerBase {
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 };
-bool ParcerLog::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
-  if (0 != string.compare(s, 3, "log"))
-    return false;
+bool ParcerLog::Run(std::vector<Model::Token>& tokens,
+                    const std::string& string, std::size_t& s) const {
+  if (0 != string.compare(s, 3, "log")) return false;
 
   tokens.push_back(Model::Token(0.0, Model::Type::Log, 8));
   s += 3;
   return true;
 }
 //================================================================================================================
-class ParcerNumber: public ParcerBase {
-public:
-  bool Run(std::vector<Model::Token>& tokens, const std::string& string, std::size_t& s) const override;
+class ParcerNumber : public ParcerBase {
+ public:
+  bool Run(std::vector<Model::Token>& tokens, const std::string& string,
+           std::size_t& s) const override;
 
-private:
-  std::pair<double, std::size_t> number(const std::string& string, std::size_t s) const;
+ private:
+  std::pair<double, std::size_t> number(const std::string& string,
+                                        std::size_t s) const;
 };
 
-bool ParcerNumber::Run(std::vector<Model::Token>& tokens, 
-                         const std::string& string,
-                         std::size_t& s) const {
+bool ParcerNumber::Run(std::vector<Model::Token>& tokens,
+                       const std::string& string, std::size_t& s) const {
   if (const auto& [n, shifted_s] = number(string, s); shifted_s > s) {
     tokens.push_back(Model::Token(n, Model::Type::Number, 1));
     s = (shifted_s);
-    return true; 
+    return true;
   }
   return false;
 }
-std::pair<double, std::size_t> ParcerNumber::number(const std::string& string, std::size_t s) const {
-  if (string[s] == '.')
-    return std::make_pair(0.0, s);
+std::pair<double, std::size_t> ParcerNumber::number(const std::string& string,
+                                                    std::size_t s) const {
+  if (string[s] == '.') return std::make_pair(0.0, s);
 
   std::istringstream iss(string);
   iss.seekg(s);
@@ -322,15 +308,16 @@ std::pair<double, std::size_t> ParcerNumber::number(const std::string& string, s
 
 // singleton
 class ParcerChain {
-private:
+ private:
   std::array<ParcerBase*, 19> _parcers;
-public:
+
+ public:
   static const ParcerChain& Get();
 
   std::size_t Size() const;
   const ParcerBase* operator[](std::size_t index) const;
 
-private:
+ private:
   ParcerChain();
   ParcerChain(const ParcerChain&) = delete;
   ParcerChain(ParcerChain&&) = delete;
@@ -344,44 +331,42 @@ const ParcerChain& ParcerChain::Get() {
   return instance;
 }
 
-std::size_t ParcerChain::Size() const {
-  return _parcers.size();
-}
+std::size_t ParcerChain::Size() const { return _parcers.size(); }
 const ParcerBase* ParcerChain::operator[](std::size_t index) const {
   return _parcers[index];
 }
 
 ParcerChain::ParcerChain() {
-  static ParcerOpenBracket      p0;
-  static ParcerCloseBracket     p1;
-  static ParcerSum              p2;
-  static ParcerMinus            p3;
-  static ParcerDivision         p4;
-  static ParcerMultiplication   p5;
-  static ParcerPower            p6;
-  static ParcerPlaceholderX     p7;
-  static ParcerCos              p8;
-  static ParcerSin              p9;
-  static ParcerMod             p10;
-  static ParcerTan             p11;
-  static ParcerAcos            p12;
-  static ParcerAsin            p13;
-  static ParcerAtan            p14;
-  static ParcerSquareRoot      p15;
-  static ParcerLn              p16;
-  static ParcerLog             p17;
-  static ParcerNumber          p18;
+  static ParcerOpenBracket p0;
+  static ParcerCloseBracket p1;
+  static ParcerSum p2;
+  static ParcerMinus p3;
+  static ParcerDivision p4;
+  static ParcerMultiplication p5;
+  static ParcerPower p6;
+  static ParcerPlaceholderX p7;
+  static ParcerCos p8;
+  static ParcerSin p9;
+  static ParcerMod p10;
+  static ParcerTan p11;
+  static ParcerAcos p12;
+  static ParcerAsin p13;
+  static ParcerAtan p14;
+  static ParcerSquareRoot p15;
+  static ParcerLn p16;
+  static ParcerLog p17;
+  static ParcerNumber p18;
 
-  _parcers[0]  =  &p0;
-  _parcers[1]  =  &p1;
-  _parcers[2]  =  &p2;
-  _parcers[3]  =  &p3;
-  _parcers[4]  =  &p4;
-  _parcers[5]  =  &p5;
-  _parcers[6]  =  &p6;
-  _parcers[7]  =  &p7;
-  _parcers[8]  =  &p8;
-  _parcers[9]  =  &p9;
+  _parcers[0] = &p0;
+  _parcers[1] = &p1;
+  _parcers[2] = &p2;
+  _parcers[3] = &p3;
+  _parcers[4] = &p4;
+  _parcers[5] = &p5;
+  _parcers[6] = &p6;
+  _parcers[7] = &p7;
+  _parcers[8] = &p8;
+  _parcers[9] = &p9;
   _parcers[10] = &p10;
   _parcers[11] = &p11;
   _parcers[12] = &p12;
@@ -393,29 +378,29 @@ ParcerChain::ParcerChain() {
   _parcers[18] = &p18;
 }
 
-} // namespace
+}  // namespace
 
 Parcer::Parcer(const std::string& input) : input_{input} {}
 
-std::optional<std::vector<Model::Token> > Parcer::Run() const {
+std::optional<std::vector<Model::Token>> Parcer::Run() const {
   std::vector<Model::Token> result;
   result.reserve(input_.size());
-  
+
   std::size_t s = 0;
-  while (s < input_.size()) {                                         // iterating through symbols
+  while (s < input_.size()) {  // iterating through symbols
 
     bool recognised = false;
-    for (std::size_t p = 0; p < ParcerChain::Get().Size(); ++p) {     // iterating through parcers
+    for (std::size_t p = 0; p < ParcerChain::Get().Size();
+         ++p) {  // iterating through parcers
       if (ParcerChain::Get()[p]->Run(result, input_, s)) {
         recognised = true;
         break;
       }
     }
-    if (!recognised)
-      return std::nullopt;
+    if (!recognised) return std::nullopt;
   }
 
-  return std::optional<std::vector<Model::Token>>(result);  
+  return std::optional<std::vector<Model::Token>>(result);
 }
 
-}   // namespace s21
+}  // namespace s21

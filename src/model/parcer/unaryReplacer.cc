@@ -2,7 +2,8 @@
 
 namespace s21 {
 
-UnaryReplacer::UnaryReplacer(const std::vector<Model::Token>& input) : input_{input} {}
+UnaryReplacer::UnaryReplacer(const std::vector<Model::Token>& input)
+    : input_{input} {}
 
 std::vector<Model::Token> UnaryReplacer::Run() const {
   std::vector<Model::Token> result;
@@ -11,21 +12,22 @@ std::vector<Model::Token> UnaryReplacer::Run() const {
   if (!input_.front().isUnaryLeftFunction()) {
     result.push_back(input_.front());
   } else if (input_.front().type_ == Model::Type::Minus) {
-    result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
-    result.emplace_back(-1.0, Model::Type::Number,        1);
-    result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
-    result.emplace_back( 0.0, Model::Type::Mult,          8);
+    result.emplace_back(0.0, Model::Type::OpenBracket, 0);
+    result.emplace_back(-1.0, Model::Type::Number, 1);
+    result.emplace_back(0.0, Model::Type::CloseBracket, 0);
+    result.emplace_back(0.0, Model::Type::Mult, 8);
   }
 
   for (std::size_t i = 1; i < input_.size(); ++i) {
     if (input_[i].type_ == Model::Type::Sum && input_[i - 1].isOpeningBrace())
       continue;
 
-    if (input_[i].type_ == Model::Type::Minus && input_[i - 1].isOpeningBrace()) {
-      result.emplace_back( 0.0, Model::Type::OpenBracket,   0);
-      result.emplace_back(-1.0, Model::Type::Number,        1);
-      result.emplace_back( 0.0, Model::Type::CloseBracket,  0);
-      result.emplace_back( 0.0, Model::Type::Mult,          8);
+    if (input_[i].type_ == Model::Type::Minus &&
+        input_[i - 1].isOpeningBrace()) {
+      result.emplace_back(0.0, Model::Type::OpenBracket, 0);
+      result.emplace_back(-1.0, Model::Type::Number, 1);
+      result.emplace_back(0.0, Model::Type::CloseBracket, 0);
+      result.emplace_back(0.0, Model::Type::Mult, 8);
       continue;
     }
     result.push_back(input_[i]);
@@ -34,4 +36,4 @@ std::vector<Model::Token> UnaryReplacer::Run() const {
   return result;
 }
 
-}   // namespace s21
+}  // namespace s21

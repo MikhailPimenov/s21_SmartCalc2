@@ -1,14 +1,17 @@
 #include "creditCalculator.h"
+
 #include <cmath>
 
 namespace s21 {
 
 namespace Model {
 
-CreditCalculator::InputChecker::InputChecker(CreditCalculator& owner) : owner_{owner} {}
+CreditCalculator::InputChecker::InputChecker(CreditCalculator& owner)
+    : owner_{owner} {}
 
 bool CreditCalculator::InputChecker::Run() const {
-  if (owner_.cp_.order_ == Protocol::CreditParameters::RepainmentOrder::Undefined)
+  if (owner_.cp_.order_ ==
+      Protocol::CreditParameters::RepainmentOrder::Undefined)
     return false;
   if (owner_.cp_.creditSum_ < 10000.0) return false;
   if (owner_.cp_.creditSum_ > 100000000.0) return false;
@@ -20,9 +23,8 @@ bool CreditCalculator::InputChecker::Run() const {
   return true;
 }
 
-CreditCalculator::CreditCalculator(const Protocol::CreditParameters &cp) : cp_{cp} {
-
-}
+CreditCalculator::CreditCalculator(const Protocol::CreditParameters& cp)
+    : cp_{cp} {}
 
 bool CreditCalculator::Run() {
   InputChecker inputChecker(*this);
@@ -36,8 +38,8 @@ bool CreditCalculator::Run() {
   if (cp_.order_ == Protocol::CreditParameters::RepainmentOrder::Annuity) {
     const double creditPercent = cp_.creditPercent_ / 100.0 / months;
     cr_.monthlyPayment_ = cp_.creditSum_ * creditPercent *
-                         std::pow(1. + creditPercent, cp_.creditTerm_) /
-                         (std::pow(1. + creditPercent, cp_.creditTerm_) - 1.);
+                          std::pow(1. + creditPercent, cp_.creditTerm_) /
+                          (std::pow(1. + creditPercent, cp_.creditTerm_) - 1.);
     for (int i = 0; i < cp_.creditTerm_; i++)
       cr_.monthlyPaymentList_.push_back(cr_.monthlyPayment_);
     cr_.totalSum_ = cr_.monthlyPayment_ * cp_.creditTerm_;
@@ -49,7 +51,8 @@ bool CreditCalculator::Run() {
     cr_.totalSum_ = 0.0;
     for (int i = 0; i < cp_.creditTerm_; i++) {
       const double delta = monthlyLoan + (cp_.creditSum_ - monthlyLoan * i) *
-                                             cp_.creditPercent_ / 100.0 / months;
+                                             cp_.creditPercent_ / 100.0 /
+                                             months;
       cr_.totalSum_ += delta;
       cr_.monthlyPaymentList_.push_back(delta);
     }
@@ -63,11 +66,10 @@ bool CreditCalculator::Run() {
 }
 
 std::optional<Protocol::CreditResult> CreditCalculator::Get() const {
-  if (!success_)
-    return std::nullopt;
+  if (!success_) return std::nullopt;
   return cr_;
 }
 
-}   // namespace Model
+}  // namespace Model
 
-}   // namespace s21
+}  // namespace s21

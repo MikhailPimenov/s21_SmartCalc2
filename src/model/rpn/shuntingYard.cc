@@ -8,7 +8,8 @@ std::stack<Model::Token> ShuntingYard::Run() {
   std::stack<Model::Token> stack;
   std::stack<Model::Token> output;
   while (!input_.empty()) {
-    if (input_.top().type_ == Model::Type::Number || input_.top().type_ == Model::Type::X) {
+    if (input_.top().type_ == Model::Type::Number ||
+        input_.top().type_ == Model::Type::X) {
       output.push(input_.top());
       input_.pop();
     } else if (input_.top().type_ == Model::Type::OpenBracket) {
@@ -58,4 +59,4 @@ std::stack<Model::Token> ShuntingYard::Run() {
   return output;
 }
 
-}   // namespace s21
+}  // namespace s21

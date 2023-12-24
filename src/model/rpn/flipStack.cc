@@ -13,5 +13,4 @@ std::stack<Model::Token> FlipStack::Run() {
   return output;
 }
 
-
-}   // namespace s21
+}  // namespace s21

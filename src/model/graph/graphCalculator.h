@@ -9,9 +9,9 @@
 namespace s21 {
 
 namespace Protocol {
-    struct GraphParameters;
-    struct GraphResult;
-}
+struct GraphParameters;
+struct GraphResult;
+}  // namespace Protocol
 
 namespace Model {
 
@@ -23,21 +23,22 @@ namespace Model {
  */
 
 class GraphCalculator {
-private:
-    ExpressionToTokens ett_;
-    double min_;
-    double max_;
-    int steps_;
+ private:
+  ExpressionToTokens ett_;
+  double min_;
+  double max_;
+  int steps_;
 
-public:
-    explicit GraphCalculator(const std::string& input, double min, double max, int steps);
-    explicit GraphCalculator(const Protocol::GraphParameters& gp);
+ public:
+  explicit GraphCalculator(const std::string& input, double min, double max,
+                           int steps);
+  explicit GraphCalculator(const Protocol::GraphParameters& gp);
 
-    std::optional<Protocol::GraphResult> Run();
+  std::optional<Protocol::GraphResult> Run();
 };
 
-}   // namespace Model
+}  // namespace Model
 
-}   // namespace s21
+}  // namespace s21
 
 #endif  //  SRC_MODEL_MULTICALCULATOR_H
