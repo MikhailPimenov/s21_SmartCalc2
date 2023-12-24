@@ -1,7 +1,6 @@
 #ifndef SRC_MODEL_CALCULATOR_RPN_H
 #define SRC_MODEL_CALCULATOR_RPN_H
 
-// #include "model.h"
 #include <optional>
 #include <stack>
 #include "../parcer/token.h"
@@ -11,7 +10,7 @@ namespace s21 {
 /**
  * @brief Calculator Rpn
  *
- * Defins a type in std::stack operator, bracket or operand
+ * Defines a type in std::stack operator, bracket or operand
  * Converts a string into tokens and adds tockens into std::vector
  * 
  * @param parameters Input parameters
