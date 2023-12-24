@@ -8,6 +8,15 @@
 
 namespace s21 {
 
+/**
+ * @brief Validator
+ *
+ * Defins if token is a number, or a bracket or an operand 
+ * Adds tokens into std::stack
+ * 
+ * @param input_ Input parameters
+ */
+
 class Validator {
 private:
     const std::vector<Model::Token>& input_;

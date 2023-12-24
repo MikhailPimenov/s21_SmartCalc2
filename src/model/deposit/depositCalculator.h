@@ -8,6 +8,15 @@ namespace s21 {
 
 namespace Model {
 
+/**
+ * @brief Calculates deposit
+ *
+ * @param parameters Input parameters
+ * @param result Calculated result
+ * @return true if success
+ * @return false if failed (incorrect input)
+ */
+
 class DepositCalculator {
 private:
     Protocol::DepositParameters dp_;

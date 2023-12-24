@@ -15,6 +15,14 @@ namespace Protocol {
 
 namespace Model {
 
+/**
+ * @brief Plot a graph
+ *
+ * Calculates graph from model
+ * Using dots with steps to show a praph
+ * Can scale two axes: x and y
+ */
+
 class GraphCalculator {
 private:
     ExpressionToTokens ett_;

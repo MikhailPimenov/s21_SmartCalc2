@@ -8,6 +8,14 @@
 
 namespace s21 {
 
+/**
+ * @brief Unary Replacer
+ *
+ * Defins the sign of a number in brackets 
+ * 
+ * @param input_ Input parameters
+ */
+
 class UnaryReplacer {
 private:
     const std::vector<Model::Token>& input_;

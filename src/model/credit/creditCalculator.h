@@ -8,6 +8,14 @@ namespace s21 {
 
 namespace Model {
 
+/**
+ * @brief Calculates credit
+ *
+ * @param cp Input parameters
+ * @param cr Calculated result
+ * @param bool true if success, false if incorrent input
+ */
+
 class CreditCalculator {
 private:
     Protocol::CreditParameters cp_;

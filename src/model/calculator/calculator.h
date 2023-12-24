@@ -10,6 +10,12 @@ namespace s21 {
 
 namespace Model {
 
+/**
+ * @brief 
+ * Calculates expression using reversed polish notation
+ * Convert input string to tokens
+ */
+
 class Calculator {
 private:
     ExpressionToTokens ett_;

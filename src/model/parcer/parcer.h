@@ -9,6 +9,14 @@
 
 namespace s21 {
 
+/**
+ * @brief Parcer
+ *
+ * Converts a string into tokens and adds tockens into std::vector
+ * 
+ * @param parameters Input parameters
+ */
+
 class Parcer {
 private:
     const std::string& input_;

@@ -4,6 +4,15 @@
 
 namespace s21 {
 
+
+/**
+ * @brief Validator
+ *
+ * @param input Input parameters
+ * @return std::stack filled with simple tokens
+ * @return empty std::stack if inappropriate string
+ */
+
 Validator::Validator(const std::vector<Model::Token>& input) : input_{input} {}
 
 bool Validator::validateBraces() const {
@@ -38,6 +47,14 @@ bool Validator::validateBraces() const {
   return stack.empty(); 
 }
 
+/**
+ * @brief Valide Binary
+ *
+ * Defins if Input parameters are correct to use
+ * @return true if all binary operators have operands
+ * @return false is an inappropriate input
+ */
+
 bool Validator::validateBinary() const {
   if (input_.front().isBinaryFunction() && !input_.front().isUnaryLeftFunction())
     return false;
@@ -57,6 +74,14 @@ bool Validator::validateBinary() const {
 
   return true;
 }
+
+/**
+ * @brief Valide Unary
+ *
+ * Defins if Input parameters contains one operand and a number
+ * @return true if unary operator has an operand
+ * @return false is an inappropriate input
+ */
 
 bool Validator::validateUnary() const {
   for (std::size_t i = 1; i < input_.size(); ++i)

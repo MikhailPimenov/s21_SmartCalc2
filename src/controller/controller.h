@@ -20,6 +20,13 @@ namespace Protocol {
 
 namespace Controller {
 
+/**
+ * @brief Mediator between view and model.
+ * Transfers data from view to model
+ * Transfers data from model to view
+ * Makes view independent on model
+ */
+
 class Calculator {
 private:
   Model::Calculator model_;
@@ -27,6 +34,12 @@ public:
   Calculator(const std::string& input, double x);
   std::optional<double> Run();
 };
+
+/**
+ * @brief Plots a Graph
+ * Plots a graph of a function
+ * Drawing by dots to provide more accurate result
+ */
 
 class GraphCalculator {
 private:
@@ -36,6 +49,14 @@ public:
   std::optional<Protocol::GraphResult> Run();
 };
 
+/**
+ * @brief Calculates a credit
+ *
+ * Shows calculated result of monthly payment, 
+ * overpayment on credit, total payment
+ * 
+ */
+
 class CreditCalculator {
 private:
   Model::CreditCalculator model_;
@@ -44,6 +65,14 @@ public:
   bool Run();
   std::optional<Protocol::CreditResult> Get() const;
 };
+
+/**
+ * @brief Provide a special mode
+ *
+ * Shows calculated result of accrued interest, tax amount, 
+ * deposit amount by the end of the term
+ * 
+ */
 
 class DepositCalculator {
 private:

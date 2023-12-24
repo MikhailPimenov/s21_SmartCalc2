@@ -16,7 +16,7 @@ namespace s21 {
 namespace Protocol {
 
 static constexpr double tolerance = 1e-3;
-static constexpr double tolerance2 = 1e-2;
+// static constexpr double tolerance2 = 1e-2;
 
 bool operator==(const Protocol::CreditResult &left,
                 const Protocol::CreditResult &right) {

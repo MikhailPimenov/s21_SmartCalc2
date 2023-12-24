@@ -8,6 +8,14 @@
 
 namespace s21 {
 
+/**
+ * @brief Flip Stack
+ *
+ * Flips std::stack 
+ * 
+ * @param input Input parameters
+ */
+
 class FlipStack {
 private:
     std::stack<Model::Token>& input_;

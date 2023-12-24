@@ -8,6 +8,15 @@
 
 namespace s21 {
 
+/**
+ * @brief Calculator Rpn
+ *
+ * Defins a type in std::stack operator, bracket or operand
+ * Converts a string into tokens and adds tockens into std::vector
+ * 
+ * @param parameters Input parameters
+ */
+
 class CalculatorRpn {
 private:
     std::stack<Model::Token> rpn_;
